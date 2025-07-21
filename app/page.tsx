@@ -1,103 +1,216 @@
-import Image from "next/image";
+import React from 'react';
+import Link from 'next/link';
+import { TrendingUp, Shield, Users, BarChart3, ArrowRight, Play } from 'lucide-react';
 
-export default function Home() {
+function App() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="min-h-screen bg-white pt-24">
+      {/* Navigation */}
+      <nav className="fixed left-1/2 top-6 -translate-x-1/2 w-[95vw] max-w-5xl z-50 backdrop-blur-lg shadow-xl px-8 py-3 rounded-full border bg-transparent transition-all">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <div className="w-8 h-8 bg-gradient-to-br from-[#ffb400] to-[#ff8c00] rounded-lg flex items-center justify-center">
+              <TrendingUp className="w-5 h-5 text-white" />
+            </div>
+            <span className="text-xl font-bold text-white">InvestPro</span>
+          </div>
+          <div className="hidden md:flex items-center space-x-8">
+            <a href="#" className="text-white transition-colors">Mutual Funds</a>
+            <a href="#" className="text-white transition-colors">SIP Calculator</a>
+            <a href="#" className="text-white transition-colors">Portfolio</a>
+            <a href="#" className="text-white transition-colors">About</a>
+          </div>
+          <div className="flex items-center space-x-4">
+            <Link href="/login" className="px-4 py-2 rounded-lg font-medium bg-white/80 text-[#ff8c00] border-2 border-[#ffb400] hover:bg-[#ffb400] hover:text-white transition-colors shadow-md">Login</Link>
+            <Link href="/signup" className="px-4 py-2 rounded-lg font-medium bg-gradient-to-br from-[#ffb400] to-[#ff8c00] text-white shadow-lg border-2 border-[#ffb400] hover:from-[#ff8c00] hover:to-[#ffb400] transition-colors">Sign Up</Link>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </nav>
+
+      {/* Hero Section */}
+      <section className=" bg-transparent relative overflow-hidden">
+        {/* Background Image */}
+        <div 
+          className="absolute inset-0 opacity-100"
+          style={{
+            backgroundImage: 'url(/hero-bg.png)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat'
+          }}
+        ></div>
+        {/* Dark overlay for readability */}
+        <div className="absolute inset-0 bg-black/60" />
+        
+        {/* Overlay for better text readability (replaced with dark overlay above) */}
+        
+        <div className="relative max-w-7xl mx-auto px-6 py-16 lg:py-24 z-10">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left Column - Content */}
+            <div className="space-y-8">
+              {/* Trust Indicators */}
+              <div className="flex items-center space-x-6">
+                <div className="flex items-center space-x-2">
+                  <Shield className="w-5 h-5 text-[#ffb400]" />
+                  <span className="text-sm text-gray-600 font-medium">AMFI Registered</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Users className="w-5 h-5 text-[#ffb400]" />
+                  <span className="text-sm text-gray-600 font-medium">10L+ Investors</span>
+                </div>
+              </div>
+
+              {/* Main Headline */}
+              <div className="space-y-4">
+                <h1 className="text-4xl lg:text-6xl font-bold text-white leading-tight drop-shadow-md">
+                  Invest in Mutual Funds with{' '}
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ffb400] to-[#ff8c00] drop-shadow-md">
+                    Confidence
+                  </span>
+                </h1>
+                <p className="text-lg lg:text-xl text-gray-600 font-medium leading-relaxed max-w-lg">
+                  Trusted AMFI-registered platform for secure SIP & Lumpsum investments.
+                </p>
+              </div>
+
+              {/* Key Benefits */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="bg-white/80 backdrop-blur-md rounded-xl p-4 border border-gray-100">
+                  <div className="text-2xl font-bold text-[#1B1B1B]">₹100</div>
+                  <div className="text-sm text-gray-700">Minimum SIP</div>
+                </div>
+                <div className="bg-white/80 backdrop-blur-md rounded-xl p-4 border border-gray-100">
+                  <div className="text-2xl font-bold text-[#1B1B1B]">0%</div>
+                  <div className="text-sm text-gray-700">Commission</div>
+                </div>
+                <div className="bg-white/80 backdrop-blur-md rounded-xl p-4 border border-gray-100">
+                  <div className="text-2xl font-bold text-[#1B1B1B]">24/7</div>
+                  <div className="text-sm text-gray-700">Support</div>
+                </div>
+              </div>
+
+              {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4">
+                <button className="group bg-[#ffb400] hover:bg-[#ff8c00] text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2">
+                  <span>Start Investing</span>
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </button>
+                <button className="group bg-white hover:bg-gray-50 text-[#1B1B1B] px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 border-2 border-gray-200 hover:border-[#ffb400] flex items-center justify-center space-x-2">
+                  <Play className="w-5 h-5" />
+                  <span>Explore Mutual Funds</span>
+                </button>
+              </div>
+
+              {/* Social Proof */}
+              <div className="flex items-center space-x-4 pt-4">
+                <div className="flex -space-x-2">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 border-2 border-white"></div>
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-green-600 border-2 border-white"></div>
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 border-2 border-white"></div>
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-pink-400 to-pink-600 border-2 border-white"></div>
+                </div>
+                <div>
+                  <div className="text-sm font-semibold text-[#1B1B1B]">Join 10,00,000+ investors</div>
+                  <div className="text-xs text-gray-500">who trust us with their investments</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column - Illustration */}
+            <div className="relative">
+              {/* Spotlight Effect Behind Card */}
+              <div className="absolute top-1/2 left-1/2 w-72 h-72 bg-white/20 rounded-full filter blur-3xl transform -translate-x-1/2 -translate-y-1/2 z-0 pointer-events-none" />
+              {/* Enhanced Portfolio Card */}
+              <div className="bg-transparent rounded-3xl shadow-2xl border border-white/30 p-8 md:p-10 relative z-10 overflow-hidden ring-1 ring-black/10">
+                {/* Decorative Gradient Ring */}
+                <div className="absolute -top-8 -right-8 w-32 h-32 bg-gradient-to-br from-[#ffb400]/40 to-[#ff8c00]/40 rounded-full blur-2xl z-0" />
+                <div className="relative z-10 space-y-8">
+                  {/* Header */}
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-xl font-bold text-white tracking-tight flex items-center gap-2">
+                      <BarChart3 className="w-6 h-6 text-[#ffb400]" /> Portfolio Overview
+                    </h3>
+                    <div className="flex items-center space-x-2 text-green-400 bg-green-900/20 px-3 py-1 rounded-full text-sm font-semibold">
+                      <TrendingUp className="w-4 h-4" />
+                      +12.5%
+                    </div>
+                  </div>
+
+                  {/* Portfolio Value */}
+                  <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-2">
+                    <div>
+                      <div className="text-4xl font-extrabold text-white tracking-tight">₹2,45,680</div>
+                      <div className="text-sm text-gray-200/80">Current Value</div>
+                    </div>
+                    <div className="flex flex-col items-end">
+                      <span className="text-xs text-gray-300">Last updated: <span className="font-semibold text-white">just now</span></span>
+                    </div>
+                  </div>
+
+                  {/* Chart Representation */}
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-200">Equity Funds</span>
+                      <span className="text-sm font-semibold text-white">65%</span>
+                    </div>
+                    <div className="w-full bg-white/20 rounded-full h-2">
+                      <div className="bg-gradient-to-r from-[#ffb400] to-[#ff8c00] h-2 rounded-full" style={{width: '65%'}}></div>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-200">Debt Funds</span>
+                      <span className="text-sm font-semibold text-white">25%</span>
+                    </div>
+                    <div className="w-full bg-white/20 rounded-full h-2">
+                      <div className="bg-gradient-to-r from-blue-400 to-blue-600 h-2 rounded-full" style={{width: '25%'}}></div>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-200">Hybrid Funds</span>
+                      <span className="text-sm font-semibold text-white">10%</span>
+                    </div>
+                    <div className="w-full bg-white/20 rounded-full h-2">
+                      <div className="bg-gradient-to-r from-green-400 to-green-600 h-2 rounded-full" style={{width: '10%'}}></div>
+                    </div>
+                  </div>
+
+                  {/* Recent Activity */}
+                  <div className="space-y-3 pt-4 border-t border-white/20">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-8 h-8 bg-green-400/20 rounded-full flex items-center justify-center">
+                          <TrendingUp className="w-4 h-4 text-green-300" />
+                        </div>
+                        <div>
+                          <div className="text-sm font-semibold text-white">SIP Investment</div>
+                          <div className="text-xs text-gray-200/80">HDFC Top 100 Fund</div>
+                        </div>
+                      </div>
+                      <div className="text-sm font-semibold text-white">₹5,000</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Floating Elements */}
+              <div className="absolute -top-4 -right-4 bg-gradient-to-br from-[#ffb400] to-[#ff8c00] rounded-xl p-4 shadow-lg">
+                <BarChart3 className="w-6 h-6 text-white" />
+              </div>
+              
+              <div className="absolute -bottom-4 -left-4 bg-white rounded-xl p-4 shadow-lg border border-gray-100">
+                <div className="flex items-center space-x-2">
+                  <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                  <span className="text-xs font-medium text-[#1B1B1B]">Live Market</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Background Decorative Elements */}
+        <div className="absolute top-20 left-10 w-20 h-20 bg-gradient-to-br from-[#ffb400]/10 to-[#ff8c00]/10 rounded-full blur-xl"></div>
+        <div className="absolute bottom-20 right-10 w-32 h-32 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-full blur-xl"></div>
+      </section>
     </div>
   );
 }
+
+export default App;
