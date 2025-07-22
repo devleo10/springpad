@@ -1,5 +1,6 @@
 import { ArrowRight, BarChart3, Shield, TrendingUp, Users } from "lucide-react";
 import React from "react";
+import DemoMutualFunds from "./DemoMutualFunds";
 
 const HomePage = () => {
   return (
@@ -48,30 +49,53 @@ const HomePage = () => {
               {/* Main Headline */}
               <div className="space-y-4">
                 <h1 className="text-4xl lg:text-6xl font-bold text-white leading-tight drop-shadow-md">
-                  Invest in Mutual Funds with{" "}
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ffb400] to-[#ff8c00] drop-shadow-md">
-                    Confidence
-                  </span>
+                  Smarter Mutual Fund Management
                 </h1>
-                <p className="text-lg lg:text-xl text-gray-600 font-medium leading-relaxed max-w-lg">
-                  Trusted AMFI-registered platform for secure SIP & Lumpsum
-                  investments.
+                <p className="text-lg lg:text-xl text-gray-300 font-medium leading-relaxed max-w-xl">
+                  Expert guidance, transparent insights, and a seamless experience to help you grow your wealth with confidence.
                 </p>
               </div>
 
               {/* Key Benefits */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div className="bg-white/80 backdrop-blur-md rounded-xl p-4 border border-gray-100">
-                  <div className="text-2xl font-bold text-[#1B1B1B]">₹100</div>
-                  <div className="text-sm text-gray-700">Minimum SIP</div>
+                <div className="group bg-transparent backdrop-blur-lg border border-white/20 rounded-xl p-4 relative overflow-hidden cursor-pointer transition-all hover:scale-105 hover:shadow-2xl hover:border-white/50 duration-500">
+                  {/* Animated Background Gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#ffb400] to-[#ff8c00] rounded-xl opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
+                  {/* Shimmer Effect */}
+                  <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 ease-out" />
+                  {/* Content */}
+                  <div className="relative z-10">
+                    <div className="text-2xl font-bold text-white group-hover:scale-110 transition-transform duration-300">₹100</div>
+                    <div className="text-sm text-white/80 group-hover:text-white transition-colors duration-300">Minimum SIP</div>
+                  </div>
+                  {/* Corner Highlight */}
+                  <div className="absolute top-0 right-0 w-0 h-0 border-l-[15px] border-l-transparent border-t-[15px] border-t-white/20 group-hover:border-t-white/40 transition-colors duration-300" />
                 </div>
-                <div className="bg-white/80 backdrop-blur-md rounded-xl p-4 border border-gray-100">
-                  <div className="text-2xl font-bold text-[#1B1B1B]">0%</div>
-                  <div className="text-sm text-gray-700">Commission</div>
+                <div className="group bg-transparent backdrop-blur-lg border border-white/20 rounded-xl p-4 relative overflow-hidden cursor-pointer transition-all hover:scale-105 hover:shadow-2xl hover:border-white/50 duration-500">
+                  {/* Animated Background Gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-blue-600 rounded-xl opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
+                  {/* Shimmer Effect */}
+                  <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 ease-out" />
+                  {/* Content */}
+                  <div className="relative z-10">
+                    <div className="text-2xl font-bold text-white group-hover:scale-110 transition-transform duration-300">0%</div>
+                    <div className="text-sm text-white/80 group-hover:text-white transition-colors duration-300">Commission</div>
+                  </div>
+                  {/* Corner Highlight */}
+                  <div className="absolute top-0 right-0 w-0 h-0 border-l-[15px] border-l-transparent border-t-[15px] border-t-white/20 group-hover:border-t-white/40 transition-colors duration-300" />
                 </div>
-                <div className="bg-white/80 backdrop-blur-md rounded-xl p-4 border border-gray-100">
-                  <div className="text-2xl font-bold text-[#1B1B1B]">24/7</div>
-                  <div className="text-sm text-gray-700">Support</div>
+                <div className="group bg-transparent backdrop-blur-lg border border-white/20 rounded-xl p-4 relative overflow-hidden cursor-pointer transition-all hover:scale-105 hover:shadow-2xl hover:border-white/50 duration-500">
+                  {/* Animated Background Gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-green-400 to-green-600 rounded-xl opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
+                  {/* Shimmer Effect */}
+                  <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 ease-out" />
+                  {/* Content */}
+                  <div className="relative z-10">
+                    <div className="text-2xl font-bold text-white group-hover:scale-110 transition-transform duration-300">24/7</div>
+                    <div className="text-sm text-white/80 group-hover:text-white transition-colors duration-300">Support</div>
+                  </div>
+                  {/* Corner Highlight */}
+                  <div className="absolute top-0 right-0 w-0 h-0 border-l-[15px] border-l-transparent border-t-[15px] border-t-white/20 group-hover:border-t-white/40 transition-colors duration-300" />
                 </div>
               </div>
 
@@ -88,21 +112,30 @@ const HomePage = () => {
               </div>
 
               {/* Social Proof */}
-              <div className="flex items-center space-x-4 pt-4">
-                <div className="flex -space-x-2">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 border-2 border-white"></div>
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-green-600 border-2 border-white"></div>
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 border-2 border-white"></div>
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-pink-400 to-pink-600 border-2 border-white"></div>
-                </div>
-                <div>
-                  <div className="text-sm font-semibold text-[#1B1B1B]">
-                    Join 10,00,000+ investors
+              <div className="group bg-transparent backdrop-blur-lg border border-white/20 rounded-xl p-4 relative overflow-hidden cursor-pointer transition-all hover:scale-105 hover:shadow-2xl hover:border-white/50 duration-500">
+                {/* Animated Background Gradient */}
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-400 to-pink-600 rounded-xl opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
+                {/* Shimmer Effect */}
+                <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 ease-out" />
+                {/* Content */}
+                <div className="relative z-10 flex items-center space-x-4">
+                  <div className="flex -space-x-2">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 border-2 border-white"></div>
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-green-600 border-2 border-white"></div>
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 border-2 border-white"></div>
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-pink-400 to-pink-600 border-2 border-white"></div>
                   </div>
-                  <div className="text-xs text-gray-500">
-                    who trust us with their investments
+                  <div>
+                    <div className="text-sm font-semibold text-white group-hover:scale-105 transition-transform duration-300">
+                      Join 10,00,000+ investors
+                    </div>
+                    <div className="text-xs text-white/70 group-hover:text-white/90 transition-colors duration-300">
+                      who trust us with their investments
+                    </div>
                   </div>
                 </div>
+                {/* Corner Highlight */}
+                <div className="absolute top-0 right-0 w-0 h-0 border-l-[15px] border-l-transparent border-t-[15px] border-t-white/20 group-hover:border-t-white/40 transition-colors duration-300" />
               </div>
             </div>
 
@@ -229,6 +262,11 @@ const HomePage = () => {
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* Demo Mutual Funds Component */}
+          <div className="relative flex flex-col gap-8">
+            <DemoMutualFunds />
           </div>
         </div>
 

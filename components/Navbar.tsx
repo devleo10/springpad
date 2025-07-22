@@ -4,9 +4,14 @@ import { useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { usePathname } from "next/navigation";
 
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+  
+  // Only apply fixed positioning on the home page
+  const isHomePage = pathname === "/";
 
   const navItems = [
     { name: "Pricing", href: "/pricing" },
@@ -15,28 +20,24 @@ export function Navbar() {
   ];
 
   return (
-    <nav className="absolute top-6 left-1/2 transform -translate-x-1/2 z-50 w-[95%] max-w-6xl">
-      <div className="flex justify-between px-4 py-2 rounded-full bg-white/80 dark:bg-black/80 shadow-xl backdrop-blur-md items-center transition duration-200 border border-gray-200 dark:border-white/10 ring-1 ring-gray-300 dark:ring-0">
+    <nav className={`${isHomePage ? 'fixed top-6' : 'sticky top-0'} left-1/2 transform -translate-x-1/2 z-50 w-[95%] max-w-6xl`}>
+      <div className="flex justify-between rounded-2xl bg-transparent backdrop-blur-lg shadow-2xl items-center transition duration-300 border border-white/20 dark:border-white/10">
         {/* Logo */}
         <Link
           href="/"
           className="flex items-center space-x-2 text-sm px-2 py-1 text-black dark:text-white"
         >
-          <div className="h-5 w-6 bg-black dark:bg-white rounded-br-lg rounded-tr-sm rounded-tl-lg rounded-bl-sm" />
-          <span className="font-medium">DeepFundz</span>
+          <img src="/logo.png" alt="SpringPad Logo" className=" p-3 h-22 w-auto object-contain" />
+          {/* <span className="font-medium">SpringPad</span> */}
         </Link>
 
         {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden md:flex items-center gap-4">
           {navItems.map((item, idx) => (
             <Link
               key={`nav-${idx}`}
               href={item.href}
-              className="text-sm px-4 py-2 rounded-md 
-                         text-black 
-                         dark:text-white
-                         hover:bg-[#F5F5F5] dark:hover:bg-neutral-800 
-                         transition"
+              className="text-sm px-5 py-2 rounded-md text-neutral-800 dark:text-neutral-200 hover:bg-gray-100 dark:hover:bg-neutral-800 transition font-medium"
             >
               {item.name}
             </Link>
@@ -44,25 +45,12 @@ export function Navbar() {
         </div>
 
         {/* Right Side (Theme + Auth) */}
-        <div className="hidden md:flex items-center space-x-2">
+        <div className="hidden md:flex items-center space-x-4">
           <ThemeToggle />
-          <Link
-            href="/login"
-            className="text-sm px-4 py-2 rounded-full 
-                       text-black  
-                       dark:text-white 
-                       hover:bg-gray-100 dark:hover:bg-neutral-800 
-                       transition"
-          >
+          <Link href="/login" className="text-sm px-5 py-2 rounded-full text-neutral-800 dark:text-neutral-200 hover:bg-gray-100 dark:hover:bg-neutral-800 transition font-medium">
             Login
           </Link>
-          <Link
-            href="/signup"
-            className="text-sm px-4 py-2 rounded-full 
-                       bg-neutral-900 hover:bg-black/90 
-                       text-white transition 
-                       shadow-[0px_-1px_0px_0px_#FFFFFF40_inset,_0px_1px_0px_0px_#FFFFFF40_inset]"
-          >
+          <Link href="/signup" className="text-sm mx-3 px-6 py-2 rounded-full bg-yellow-600 hover:bg-yellow-700 text-white transition shadow-lg font-semibold">
             Sign Up
           </Link>
         </div>
