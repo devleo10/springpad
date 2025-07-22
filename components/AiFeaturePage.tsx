@@ -5,7 +5,7 @@ import React from "react";
 const AiFeaturesPage: React.FC = () => {
   return (
     <div className="min-h-screen py-10 px-4 bg-white">
-      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Card 1 - AI Chat Interface */}
         <div className="bg-[#f9fafb] rounded-[18px] p-4 border border-gray-200 shadow-lg">
           <div className="bg-white border border-gray-200 rounded-xl p-4 h-80 flex flex-col">
