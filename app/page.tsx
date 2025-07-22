@@ -4,7 +4,7 @@ import { TrendingUp, Shield, Users, BarChart3, ArrowRight, Play } from 'lucide-r
 
 function App() {
   return (
-    <div className="min-h-screenpt-24">
+    <div className="min-h-screen">
       {/* Navigation */}
       <nav className="fixed left-1/2 top-6 -translate-x-1/2 w-[95vw] max-w-5xl z-50 bg-transparent backdrop-blur-lg shadow-xl px-8 py-3 rounded-full border border-white/30 transition-all">
         <div className="flex items-center justify-between">
@@ -29,14 +29,20 @@ function App() {
 
       {/* Hero Section */}
       <section className=" bg-transparent relative overflow-hidden">
-        {/* Background Image */}
+        {/* Seamless Background Video */}
         <video
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out"
           src="/heroVid.mp4"
           autoPlay
           muted
           loop
           playsInline
+          preload="auto"
+          style={{
+            background: 'black',
+            opacity: 0.95,
+            zIndex: 0,
+          }}
         />
         {/* Dark overlay for readability */}
         <div className="absolute inset-0 bg-black/60" />
