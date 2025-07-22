@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -27,7 +28,7 @@ export function Navbar() {
           href="/"
           className="flex items-center space-x-2 text-[11px] px-0.5 py-0 text-black dark:text-white"
         >
-          <img src="/logo.png" alt="SpringPad Logo" className="p-2 h-18 w-auto object-contain" />
+          <Image src="/logo.png" alt="SpringPad Logo" className="p-2 h-18 w-auto object-contain" />
           {/* <span className="font-medium">SpringPad</span> */}
         </Link>
 
