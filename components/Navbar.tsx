@@ -21,7 +21,7 @@ export function Navbar() {
 
   return (
     <nav className={`${isHomePage ? 'fixed top-6' : 'sticky top-0'} left-1/2 transform -translate-x-1/2 z-50 w-[95%] max-w-6xl`}>
-      <div className="flex justify-between rounded-2xl bg-transparent backdrop-blur-lg shadow-2xl items-center transition duration-300 border border-white/20 dark:border-white/10">
+      <div className="flex justify-between rounded-full bg-transparent backdrop-blur-lg shadow-2xl items-center transition duration-300 border border-white/20 dark:border-white/10">
         {/* Logo */}
         <Link
           href="/"
