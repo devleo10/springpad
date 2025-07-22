@@ -31,7 +31,7 @@ const HomePage = () => {
             {/* Left Column - Content */}
             <div className="space-y-8">
               {/* Trust Indicators */}
-              <div className="flex items-center space-x-6">
+              {/* <div className="flex items-center space-x-6">
                 <div className="flex items-center space-x-2">
                   <Shield className="w-5 h-5 text-[#ffb400]" />
                   <span className="text-sm text-gray-600 font-medium">
@@ -44,7 +44,7 @@ const HomePage = () => {
                     10L+ Investors
                   </span>
                 </div>
-              </div>
+              </div> */}
 
               {/* Main Headline */}
               <div className="space-y-4">
@@ -59,8 +59,7 @@ const HomePage = () => {
               {/* Key Benefits */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="group bg-transparent backdrop-blur-lg border border-white/20 rounded-xl p-4 relative overflow-hidden cursor-pointer transition-all hover:scale-105 hover:shadow-2xl hover:border-white/50 duration-500">
-                  {/* Animated Background Gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#ffb400] to-[#ff8c00] rounded-xl opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
+                  {/* Removed gradient background for transparency */}
                   {/* Shimmer Effect */}
                   <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 ease-out" />
                   {/* Content */}
@@ -72,8 +71,7 @@ const HomePage = () => {
                   <div className="absolute top-0 right-0 w-0 h-0 border-l-[15px] border-l-transparent border-t-[15px] border-t-white/20 group-hover:border-t-white/40 transition-colors duration-300" />
                 </div>
                 <div className="group bg-transparent backdrop-blur-lg border border-white/20 rounded-xl p-4 relative overflow-hidden cursor-pointer transition-all hover:scale-105 hover:shadow-2xl hover:border-white/50 duration-500">
-                  {/* Animated Background Gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-blue-600 rounded-xl opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
+                  {/* Removed gradient background for transparency */}
                   {/* Shimmer Effect */}
                   <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 ease-out" />
                   {/* Content */}
@@ -85,8 +83,7 @@ const HomePage = () => {
                   <div className="absolute top-0 right-0 w-0 h-0 border-l-[15px] border-l-transparent border-t-[15px] border-t-white/20 group-hover:border-t-white/40 transition-colors duration-300" />
                 </div>
                 <div className="group bg-transparent backdrop-blur-lg border border-white/20 rounded-xl p-4 relative overflow-hidden cursor-pointer transition-all hover:scale-105 hover:shadow-2xl hover:border-white/50 duration-500">
-                  {/* Animated Background Gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-green-400 to-green-600 rounded-xl opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
+                  {/* Removed gradient background for transparency */}
                   {/* Shimmer Effect */}
                   <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 ease-out" />
                   {/* Content */}
@@ -113,8 +110,7 @@ const HomePage = () => {
 
               {/* Social Proof */}
               <div className="group bg-transparent backdrop-blur-lg border border-white/20 rounded-xl p-4 relative overflow-hidden cursor-pointer transition-all hover:scale-105 hover:shadow-2xl hover:border-white/50 duration-500">
-                {/* Animated Background Gradient */}
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-400 to-pink-600 rounded-xl opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
+                {/* Removed gradient background for transparency */}
                 {/* Shimmer Effect */}
                 <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 ease-out" />
                 {/* Content */}
