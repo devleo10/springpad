@@ -137,7 +137,7 @@ const AiFeaturesPage: React.FC = () => {
 
                   {/* Card 2 */}
                   <div
-                    className="absolute inset-0 bg-gradient-to-br from-purple-600 to-purple-800 rounded-xl p-4 text-white shadow-xl transform transition-all duration-2000 ease-in-out"
+                    className="absolute inset-0 bg-gradient-to-br from-black to-black/80 rounded-xl p-4 text-white shadow-xl transform transition-all duration-2000 ease-in-out"
                     style={{
                       animation: "cardLoop2 9s infinite",
                       zIndex: 2,
