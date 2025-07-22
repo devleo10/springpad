@@ -4,7 +4,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#ffb400]/10 to-[#ff8c00]/10">
       <div className="bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl p-8 md:p-10 w-full max-w-md border border-gray-100">
-        <h2 className="text-2xl font-bold text-[#1B1B1B] mb-6 text-center">Login to InvestPro</h2>
+        <h2 className="text-2xl font-bold text-[#1B1B1B] mb-6 text-center">Login to SpringPad</h2>
         <form className="space-y-6">
           <div>
             <label className="block text-sm font-medium text-gray-700">Email</label>
