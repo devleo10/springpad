@@ -28,7 +28,13 @@ export function Navbar() {
           href="/"
           className="flex items-center space-x-2 text-[11px] px-0.5 py-0 text-black dark:text-white"
         >
-          <Image src="/logo.png" alt="SpringPad Logo" className="p-2 h-18 w-auto object-contain" />
+          <Image
+            src="/logo.png"
+            alt="SpringPad Logo"
+            width={150}
+            height={100}
+            className="p-2 object-contain"
+          />
           {/* <span className="font-medium">SpringPad</span> */}
         </Link>
 

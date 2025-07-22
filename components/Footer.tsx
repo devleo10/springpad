@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export function Footer() {
@@ -11,12 +12,13 @@ export function Footer() {
               href="/"
               className="font-normal flex space-x-2 items-center text-sm mr-4 px-2 py-1 relative z-20 text-black"
             >
-              <div className="h-8 w-8 bg-black rounded-br-lg rounded-tr-sm rounded-tl-lg rounded-bl-sm flex items-center justify-center">
-                <span className="text-yellow-400 font-extrabold text-lg">
-                  S
-                </span>
-              </div>
-              <span className="font-bold text-lg text-black">Springpad</span>
+              <Image
+                          src="/logo.png"
+                          alt="SpringPad Logo"
+                          width={150}
+                          height={100}
+                          className="p-2 object-contain"
+                        />
             </Link>
           </div>
           <div className="text-black">Copyright © 2024 Springpad</div>
