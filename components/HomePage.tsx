@@ -245,6 +245,7 @@ const HomePage = () => {
               </div>
 
               {/* Floating Elements */}
+              
               <div className="absolute -top-4 -right-4 bg-gradient-to-br from-[#ffb400] to-[#ff8c00] rounded-xl p-4 shadow-lg">
                 <BarChart3 className="w-6 h-6 text-white" />
               </div>

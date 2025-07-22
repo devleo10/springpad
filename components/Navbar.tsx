@@ -10,8 +10,8 @@ export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
   
-  // Only apply fixed positioning on the home page
-  const isHomePage = pathname === "/";
+  // Only apply fixed positioning on the home page and calculators page
+  const isHomePage = pathname === "/" || pathname === "/calculators";
 
   const navItems = [
     { name: "Pricing", href: "/pricing" },
