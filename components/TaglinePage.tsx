@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { PointerHighlight } from "./ui/pointer-highlight";
 
 export default function TaglinePage() {
   return (
@@ -9,9 +10,16 @@ export default function TaglinePage() {
         {/* Left Side */}
         <div className="space-y-8">
           <div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-black mb-4">
-              It&apos;s Always A{" "} <br />
-              <span className="text-yellow-500">Good Time </span>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl text-black mb-4">
+              It&apos;s Always A <br />
+              {/* <span className="text-yellow-500">Good Time </span> */}
+              <PointerHighlight
+                rectangleClassName="bg-yellow-100 border-yellow-300 leading-loose"
+                pointerClassName="text-yellow-500 h-3 w-3"
+                containerClassName="inline-block mx-1"
+              >
+                <span className="z-10 relative text-bold">Good Time</span>
+              </PointerHighlight>
               To Invest And Plan!
             </h1>
             <p className="text-lg md:text-xl text-gray-700 mb-8">
