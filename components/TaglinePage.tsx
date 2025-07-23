@@ -1,8 +1,12 @@
 "use client";
 
-
 import Image from "next/image";
-import { FaHome, FaUmbrellaBeach, FaGraduationCap, FaRing } from "react-icons/fa";
+import {
+  FaHome,
+  FaUmbrellaBeach,
+  FaGraduationCap,
+  FaRing,
+} from "react-icons/fa";
 export default function TaglinePage() {
   return (
     <div className="min-h-screen bg-white flex flex-col justify-center px-4 py-30">
@@ -18,7 +22,9 @@ export default function TaglinePage() {
               <div className="w-14 h-14 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-xl flex items-center justify-center text-yellow-700 shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300 mb-2">
                 <FaHome className="w-8 h-8 drop-shadow-lg" />
               </div>
-              <div className="font-bold text-neutral-800 text-base md:text-lg tracking-wide group-hover:text-yellow-600 transition-colors duration-300 mb-2">Dream Home</div>
+              <div className="font-bold text-neutral-800 text-base md:text-lg tracking-wide group-hover:text-yellow-600 transition-colors duration-300 mb-2">
+                Dream Home
+              </div>
               <div className="absolute right-0 top-0 w-16 h-16 bg-yellow-100 rounded-bl-3xl blur-2xl opacity-30 group-hover:opacity-60 transition-opacity duration-300" />
             </div>
             {/* Card 2 */}
@@ -26,7 +32,9 @@ export default function TaglinePage() {
               <div className="w-14 h-14 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-xl flex items-center justify-center text-yellow-700 shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300 mb-2">
                 <FaUmbrellaBeach className="w-8 h-8 drop-shadow-lg" />
               </div>
-              <div className="font-bold text-neutral-800 text-base md:text-lg tracking-wide group-hover:text-yellow-600 transition-colors duration-300 mb-2">Retirement</div>
+              <div className="font-bold text-neutral-800 text-base md:text-lg tracking-wide group-hover:text-yellow-500 transition-colors duration-300 mb-2">
+                Retirement
+              </div>
               <div className="absolute right-0 top-0 w-16 h-16 bg-yellow-100 rounded-bl-3xl blur-2xl opacity-30 group-hover:opacity-60 transition-opacity duration-300" />
             </div>
             {/* Card 3 */}
@@ -34,7 +42,9 @@ export default function TaglinePage() {
               <div className="w-14 h-14 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-xl flex items-center justify-center text-yellow-700 shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300 mb-2">
                 <FaGraduationCap className="w-8 h-8 drop-shadow-lg" />
               </div>
-              <div className="font-bold text-neutral-800 text-base md:text-lg tracking-wide group-hover:text-yellow-600 transition-colors duration-300 mb-2">Child&apos;s Education</div>
+              <div className="font-bold text-neutral-800 text-base md:text-lg tracking-wide group-hover:text-yellow-500 transition-colors duration-300 mb-2">
+                Child&apos;s Education
+              </div>
               <div className="absolute right-0 top-0 w-16 h-16 bg-yellow-100 rounded-bl-3xl blur-2xl opacity-30 group-hover:opacity-60 transition-opacity duration-300" />
             </div>
             {/* Card 4 */}
@@ -42,7 +52,9 @@ export default function TaglinePage() {
               <div className="w-14 h-14 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-xl flex items-center justify-center text-yellow-700 shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300 mb-2">
                 <FaRing className="w-8 h-8 drop-shadow-lg" />
               </div>
-              <div className="font-bold text-neutral-800 text-base md:text-lg tracking-wide group-hover:text-yellow-600 transition-colors duration-300 mb-2">Child&apos;s Wedding</div>
+              <div className="font-bold text-neutral-800 text-base md:text-lg tracking-wide group-hover:text-yellow-500 transition-colors duration-300 mb-2">
+                Child&apos;s Wedding
+              </div>
               <div className="absolute right-0 top-0 w-16 h-16 bg-yellow-100 rounded-bl-3xl blur-2xl opacity-30 group-hover:opacity-60 transition-opacity duration-300" />
             </div>
           </div>
@@ -60,7 +72,9 @@ export default function TaglinePage() {
               className="relative rounded-3xl shadow-2xl"
             />
           </div>
-          <button className="px-8 py-3 bg-yellow-500 hover:bg-yellow-600 text-neutral-800 rounded-xl font-bold text-lg shadow-lg transition-all duration-300">Know More</button>
+          <button className="px-8 py-3 bg-yellow-400 hover:bg-yellow-500 text-neutral-800 rounded-xl font-bold text-lg shadow-lg transition-all duration-300">
+            Know More
+          </button>
         </div>
       </div>
     </div>
