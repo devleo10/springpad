@@ -7,12 +7,14 @@ import { Navbar } from "@/components/Navbar";
 import CalculatorsPage from "./calculators/page";
 import OurPartners from "@/components/OurPartners";
 import { Faq } from "@/components/Faq";
+import TaglinePage from "@/components/TaglinePage";
 
 function App() {
   return (
     <div>
       <Navbar />
       <HomePage />
+      <TaglinePage />
       <BentoPage />
       <FeaturePage />
       <AiFeaturesPage />
