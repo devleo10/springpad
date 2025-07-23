@@ -1,8 +1,55 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 const AiFeaturesPage: React.FC = () => {
+  const [niftyData, setNiftyData] = useState({
+    price: 25145.4,
+    lastUpdated: "09:15",
+    isLoading: false,
+  });
+
+  // Function to fetch Nifty 50 data
+  const fetchNiftyData = async () => {
+    setNiftyData((prev) => ({ ...prev, isLoading: true }));
+
+    try {
+      // Example API call - replace with actual Nifty 50 API
+      // const response = await fetch('https://api.example.com/nifty50');
+      // const data = await response.json();
+
+      // For demo purposes, simulate API response with random variation
+      const mockPrice = 25000 + Math.random() * 500;
+      const now = new Date();
+      const timeString = now.toLocaleTimeString("en-IN", {
+        hour: "2-digit",
+        minute: "2-digit",
+        timeZone: "Asia/Kolkata",
+      });
+
+      setNiftyData({
+        price: parseFloat(mockPrice.toFixed(2)),
+        lastUpdated: timeString,
+        isLoading: false,
+      });
+    } catch (error) {
+      console.error("Error fetching Nifty data:", error);
+      setNiftyData((prev) => ({ ...prev, isLoading: false }));
+    }
+  };
+
+  // Set up interval to fetch data every 5 minutes
+  useEffect(() => {
+    // Fetch data immediately on component mount
+    fetchNiftyData();
+
+    // Set up interval for every 5 minutes (300,000 ms)
+    const interval = setInterval(fetchNiftyData, 5 * 60 * 1000);
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="min-h-screen py-10 px-4 bg-white">
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -273,91 +320,118 @@ const AiFeaturesPage: React.FC = () => {
 
         {/* Card 3 - AI Financial Advisor */}
         <div className="bg-[#f9fafb] rounded-[18px] p-4 border border-gray-200 shadow-lg">
-          <div className="bg-white border border-gray-200 rounded-xl p-4 h-80 flex flex-col">
-            {/* Financial Advisor Header */}
-            <div className="flex items-center justify-between pb-3 border-b border-gray-200">
+          <div className="bg-white border border-gray-100 rounded-xl p-4 flex flex-col h-80">
+            {/* Header */}
+            <div className="flex items-center justify-between pb-3 border-b border-gray-100">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center">
-                  <span className="text-black text-xs font-bold"> </span>
+                <div className="w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center text-xs font-bold text-black">
+                  AI
                 </div>
                 <div>
-                  <h4 className="text-sm font-semibold text-black">
+                  <h4 className="text-sm font-semibold text-gray-800">
                     AI Financial Advisor
                   </h4>
-                  <span className="text-xs text-gray-500">
-                    Age: 28 | Income: $85k
-                  </span>
+                  <p className="text-xs text-gray-500">
+                    Age: <span className="font-medium">28</span> | Income:{" "}
+                    <span className="font-medium">$85k</span>
+                  </p>
                 </div>
               </div>
               <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
             </div>
 
-            {/* Financial Advisory Content */}
-            <div className="flex-1 py-2 space-y-2 overflow-hidden">
-              {/* Market Alert */}
-              <div className="bg-red-50 rounded-lg p-2 border border-red-200">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="text-xs font-semibold text-red-700">
-                      Market Alert
+            {/* Body */}
+            <div className="py-3 flex-1 overflow-hidden">
+              <div className="bg-yellow-50 rounded-lg p-4 border border-yellow-100 shadow-sm h-full flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between ">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-medium text-gray-700">
+                        Nifty 50
+                      </span>
+                      <span className="text-[10px] text-white bg-red-500 px-1.5 py-0.5 rounded-full">
+                        Live
+                      </span>
+                      {niftyData.isLoading && (
+                        <div className="w-3 h-3 border-2 border-yellow-400 border-t-transparent rounded-full animate-spin"></div>
+                      )}
                     </div>
-                    <div className="text-xs text-red-600">
-                      Portfolio down 3.2% today
-                    </div>
+                    <span className="text-lg font-bold text-green-600">
+                      {niftyData.price.toLocaleString("en-IN", {
+                        minimumFractionDigits: 2,
+                      })}
+                    </span>
                   </div>
-                  <div className="text-sm font-bold text-red-600">-$1,850</div>
+                  <p className="text-xs text-gray-500">
+                    Last updated:{" "}
+                    <span className="font-medium">{niftyData.lastUpdated}</span>
+                  </p>
                 </div>
-                <div className="text-xs text-gray-600 mt-1">
-                  Tech sector correction due to Fed rate hike
+
+                {/* Chart */}
+                <div className="w-full h-30 mt-3">
+                  <svg
+                    viewBox="0 0 200 60"
+                    width="100%"
+                    height="100%"
+                    className="bg-yellow-100 rounded-md"
+                  >
+                    <defs>
+                      <linearGradient
+                        id="priceGradient"
+                        x1="0%"
+                        y1="0%"
+                        x2="0%"
+                        y2="100%"
+                      >
+                        <stop
+                          offset="0%"
+                          stopColor="#22c55e"
+                          stopOpacity="0.3"
+                        />
+                        <stop
+                          offset="100%"
+                          stopColor="#22c55e"
+                          stopOpacity="0.1"
+                        />
+                      </linearGradient>
+                    </defs>
+
+                    <polyline
+                      fill="url(#priceGradient)"
+                      stroke="none"
+                      points="10,30 30,20 50,35 70,33 90,40 110,37 130,43 150,40 170,45 190,43 190,50 10,50"
+                    />
+
+                    <polyline
+                      fill="none"
+                      stroke="#22c55e"
+                      strokeWidth="2"
+                      points="10,30 30,20 50,35 70,33 90,40 110,37 130,43 150,40 170,45 190,43"
+                    />
+
+                    <circle cx="10" cy="30" r="2.5" fill="#22c55e" />
+
+                    <text
+                      x="15"
+                      y="16"
+                      fontSize="8"
+                      fill="#16a34a"
+                      fontWeight="bold"
+                    >
+                      {niftyData.price.toFixed(2)}
+                    </text>
+                  </svg>
                 </div>
               </div>
-
-              {/* Recommended MF Mix */}
-              <div className="bg-yellow-50 rounded-lg p-2 border border-yellow-200">
-                <div className="flex items-center gap-2 mb-1">
-                  <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
-                  <span className="text-xs font-semibold text-black">
-                    Recommended MF Mix
-                  </span>
-                </div>
-                <div className="space-y-0.5">
-                  <div className="flex justify-between text-xs">
-                    <span className="text-gray-700">Large Cap (40%)</span>
-                    <span className="text-green-600">+8.2%</span>
-                  </div>
-                  <div className="flex justify-between text-xs">
-                    <span className="text-gray-700">Mid Cap (30%)</span>
-                    <span className="text-blue-600">+12.4%</span>
-                  </div>
-                  <div className="flex justify-between text-xs">
-                    <span className="text-gray-700">Small Cap (20%)</span>
-                    <span className="text-purple-600">+15.8%</span>
-                  </div>
-                  <div className="flex justify-between text-xs">
-                    <span className="text-gray-700">Debt (10%)</span>
-                    <span className="text-gray-600">+6.1%</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="grid grid-cols-2 gap-2">
-                <button className="bg-black text-white px-3 py-1.5 rounded-lg text-xs hover:bg-gray-800 transition-colors">
-                    Rebalance
-                </button>
-                <button className="bg-yellow-400 text-black px-3 py-1.5 rounded-lg text-xs hover:bg-yellow-500 transition-colors">
-                    Invest Now
-                </button>
-              </div>
-
             </div>
           </div>
+
+          {/* Footer */}
           <div className="mt-4">
-            <h3 className="text-lg font-bold text-black">
-              AI Financial Advisor
-            </h3>
+            <h3 className="text-lg font-bold text-black">Market Insight</h3>
             <p className="text-sm text-gray-600">
-              Personalized investment advice based on age & income
+               Nifty 50 shows stable trends. Review your portfolio to stay aligned with your goals.
             </p>
           </div>
         </div>
