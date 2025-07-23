@@ -56,7 +56,7 @@ export function Faq() {
   };
 
   return (
-    <section className="py-24 px-4 max-w-6xl mx-auto bg-white">
+    <section className="px-4 max-w-6xl mx-auto bg-white">
       <div className="text-center mb-16">
         <h2 className="text-4xl font-bold text-gray-900 mb-4">
           Frequently <span className="text-yellow-600">Asked</span> Questions

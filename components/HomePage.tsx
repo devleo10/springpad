@@ -4,7 +4,7 @@ import React from "react";
 const HomePage = () => {
   return (
     <div className="min-h-screen">
-      <section className="bg-transparent relative overflow-hidden min-h-screen flex items-center justify-center pt-20">
+      <section className="bg-transparent relative overflow-hidden min-h-screen flex items-center justify-center">
         {/* Video Wrapper with relative positioning */}
         <div className="w-full max-w-5xl aspect-video overflow-hidden rounded-lg">
           {/* Background Video */}
