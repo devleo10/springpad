@@ -47,7 +47,7 @@ const AiFeaturesPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen py-10 px-4 bg-white">
+    <div className="pb-32 px-4 bg-white">
       <div className="text-center mb-12">
         <h2 className="text-3xl font-bold text-neutral-800 leading-tight">
           AI-Driven Mutual Fund Investing Built for the Modern Investor
