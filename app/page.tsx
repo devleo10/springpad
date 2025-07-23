@@ -1,11 +1,12 @@
 import { AiFeaturesPage } from "@/components/AiFeaturePage";
 import BentoPage from "@/components/BentoPage";
 import FeaturePage from "@/components/FeaturePage";
-import {Footer} from "@/components/Footer";
+import { Footer } from "@/components/Footer";
 import HomePage from "@/components/HomePage";
 import { Navbar } from "@/components/Navbar";
 import CalculatorsPage from "./calculators/page";
 import OurPartners from "@/components/OurPartners";
+import { Faq } from "@/components/Faq";
 
 function App() {
   return (
@@ -15,7 +16,8 @@ function App() {
       <BentoPage />
       <FeaturePage />
       <AiFeaturesPage />
-      <OurPartners/>
+      <OurPartners />
+      <Faq />
       <Footer />
     </div>
   );
