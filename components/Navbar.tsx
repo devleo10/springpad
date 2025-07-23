@@ -15,8 +15,9 @@ export function Navbar() {
   const isHomePage = pathname === "/" || pathname === "/calculators";
 
   const navItems = [
-    { name: "Pricing", href: "/pricing" },
-    { name: "Blog", href: "/blog" },
+    { name: "Calculators", href: "/calculators" },
+    { name: "Mutual MF Research", href: "/mutual-funds" },
+    { name: "Goals", href: "/goals" },
     { name: "Contact", href: "/contact" },
   ];
 
@@ -42,7 +43,7 @@ export function Navbar() {
         </Link>
 
         {/* Desktop Links */}
-        <div className="hidden md:flex items-center space-x-1">
+        <div className="hidden md:flex items-center space-x-2 lg:space-x-4">
           {navItems.map((item, idx) => (
             <Link
               key={`nav-${idx}`}

@@ -3,28 +3,14 @@ import { Navbar } from '@/components/Navbar';
 
 export default function CalculatorsPage() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-white">
       <Navbar />
-      <section className="bg-transparent relative overflow-hidden">
+      <section className="bg-white relative overflow-hidden">
         {/* Seamless Background Video */}
-        <video
-          className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out"
-          src="/heroVid.mp4"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          style={{
-            background: 'black',
-            opacity: 0.95,
-            zIndex: 0,
-          }}
-        />
+      
         {/* Dark overlay for readability */}
-        <div className="absolute inset-0 bg-black/60" />
+        <div className="absolute inset" />
         <div className="relative max-w-7xl mx-auto px-6 py-16 lg:py-24 z-10">
-          <h1 className="text-3xl font-bold mb-6 text-white">All Calculators</h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
             {[
               { title: 'Become Crorepati Calculator', description: 'Plan how to become a crorepati.' },
@@ -44,7 +30,7 @@ export default function CalculatorsPage() {
               { title: 'Human Life Value Calculator', description: 'Estimate your human life value.' },
               { title: 'SIP Step-up Calculator', description: 'Calculate step-up SIP returns.' },
             ].map((item, idx) => (
-              <div key={idx} className="flex flex-col justify-between bg-transparent backdrop-blur-lg border border-white/20 rounded-xl p-6 shadow-xl aspect-square text-white">
+              <div key={idx} className="flex flex-col text-black justify-between bg-transparent backdrop-blur-lg border border-white/20 rounded-xl p-6 shadow-xl aspect-square">
                 <div>
                   <h2 className="text-2xl font-bold mb-2">{item.title}</h2>
                   <p>{item.description}</p>
