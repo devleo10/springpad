@@ -85,7 +85,7 @@ const Feature = ({
   return (
     <div
       className={cn(
-        "flex flex-col relative bg-white border border-neutral-200 hover:shadow-lg transition-shadow rounded-xl p-6 overflow-hidden hover:border-yellow-500 group"
+        "flex flex-col relative bg-white border border-neutral-200 hover:shadow-md transition-shadow hover-shadow-black rounded-xl p-6 overflow-hidden hover:border-yellow-500 group"
       )}
     >
       {/* Background Image */}

@@ -19,12 +19,19 @@ const HomePage = () => {
           />
 
           {/* Punchline Text */}
-          <div className="absolute top-[34vw] inset-0 flex items-center justify-center z-10 px-4">
+          <div className="absolute top-[36vw] inset-0 flex items-center justify-center z-10 px-4">
             <h2
-              style={{ transform: "scaley(1.3)" }}
+              style={{ transform: "scaley(1.1)" }}
               className="text-center text-4xl md:text-6xl lg:text-7xl font-semibold"
             >
-              <span className=" bg-gradient-to-b from-neutral-800 via-neutral-700 to-neutral-600 bg-clip-text text-transparent">Smarter Funds,&nbsp;          Sharper Returns&nbsp;</span>
+              <span className="bg-gradient-to-b from-neutral-800 via-neutral-700 to-neutral-600 bg-clip-text text-transparent mr-[220px]">
+                {" "}
+                {/* Added mr-8 for margin-right */}
+                Smarter Funds,
+              </span>
+              <span className="bg-gradient-to-b from-neutral-800 via-neutral-700 to-neutral-600 bg-clip-text text-transparent">
+                Sharper Returns
+              </span>
               <span className="bg-gradient-to-b from-yellow-500 to-yellow-400 bg-clip-text text-transparent">
                 <br />
                 with AI Precision.
