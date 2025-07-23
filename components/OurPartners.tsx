@@ -16,25 +16,25 @@ function OurPartners() {
         </p>
 
         {/* Vertical marquee container */}
-        <div className="overflow-hidden relative w-full h-32 flex justify-center items-center mx-auto">
+        <div className="overflow-hidden relative w-full h-40 flex justify-center items-center mx-auto">
           {/* Marquee inner wrapper for vertical animation */}
           <div className="flex flex-col animate-marquee-vertical">
             {/* First image */}
             <Image
               alt="Partner Logos"
               src={logo}
-              width={800}
-              height={200}
-              className="object-contain  mb-4"
+              width={1000}
+              height={250}
+              className="object-contain mb-4"
               priority
             />
             {/* Duplicate image for seamless infinite scroll */}
             <Image
               alt="Partner Logos"
               src={logo}
-              width={800}
-              height={200}
-              className="object-contain  mb-4"
+              width={1000}
+              height={250}
+              className="object-contain mb-4"
               priority
             />
           </div>
