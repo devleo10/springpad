@@ -5,6 +5,7 @@ import {Footer} from "@/components/Footer";
 import HomePage from "@/components/HomePage";
 import { Navbar } from "@/components/Navbar";
 import CalculatorsPage from "./calculators/page";
+import OurPartners from "@/components/OurPartners";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <BentoPage />
       <FeaturePage />
       <AiFeaturesPage />
+      <OurPartners/>
       <Footer />
     </div>
   );
