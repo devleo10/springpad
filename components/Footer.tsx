@@ -13,12 +13,12 @@ export function Footer() {
               className="font-normal flex space-x-2 items-center text-sm mr-4 px-2 py-1 relative z-20 text-black"
             >
               <Image
-                          src="/logo.png"
-                          alt="SpringPad Logo"
-                          width={150}
-                          height={100}
-                          className="p-2 object-contain"
-                        />
+                src="/logo.png"
+                alt="SpringPad Logo"
+                width={150}
+                height={100}
+                className="p-2 object-contain"
+              />
             </Link>
           </div>
           <div className="text-black">Copyright © 2024 Springpad</div>
@@ -103,7 +103,11 @@ export function Footer() {
       {/* Bottom background text */}
       <div
         className="mt-16 text-[14vw] lg:text-[16vw] xl:text-[16vw] leading-none font-extrabold text-center select-none tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-yellow-400 via-yellow-200 to-white drop-shadow-[0_2px_16px_rgba(234,179,8,0.15)]"
-        style={{ WebkitTextStroke: "2px #111", letterSpacing: "-0.04em",  transform: "scaleY(1.2)" }}
+        style={{
+          WebkitTextStroke: "2px #111",
+          letterSpacing: "-0.04em",
+          transform: "scaleY(1.2)",
+        }}
       >
         SPRINGPAD
       </div>
