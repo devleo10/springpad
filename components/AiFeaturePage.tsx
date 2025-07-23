@@ -38,20 +38,27 @@ const AiFeaturesPage: React.FC = () => {
     }
   };
 
-  // Set up interval to fetch data every 5 minutes
   useEffect(() => {
-    // Fetch data immediately on component mount
     fetchNiftyData();
 
-    // Set up interval for every 5 minutes (300,000 ms)
     const interval = setInterval(fetchNiftyData, 5 * 60 * 1000);
 
-    // Cleanup interval on component unmount
     return () => clearInterval(interval);
   }, []);
 
   return (
     <div className="min-h-screen py-10 px-4 bg-white">
+      <div className="text-center mb-12">
+        <h2 className="text-3xl font-bold text-neutral-800 leading-tight">
+          AI-Driven Mutual Fund Investing Built for the Modern Investor
+        </h2>
+        <p className="mt-2 text-neutral-500 text-sm max-w-2xl mx-auto">
+          From personalized fund recommendations to real-time performance
+          insights, our platform uses the power of AI to help you invest with
+          confidence and clarity.
+        </p>
+      </div>
+
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Card 1 - AI Chat Interface */}
         <div className="bg-[#f9fafb] rounded-[18px] p-4 border border-gray-200 shadow-lg">
@@ -431,7 +438,8 @@ const AiFeaturesPage: React.FC = () => {
           <div className="mt-4">
             <h3 className="text-lg font-bold text-black">Market Insight</h3>
             <p className="text-sm text-gray-600">
-               Nifty 50 shows stable trends. Review your portfolio to stay aligned with your goals.
+              Nifty 50 shows stable trends. Review your portfolio to stay
+              aligned with your goals.
             </p>
           </div>
         </div>
