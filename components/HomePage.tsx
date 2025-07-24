@@ -4,10 +4,10 @@ import { PointerHighlight } from "./ui/pointer-highlight";
 
 const HomePage = () => {
   return (
-    <div className="">
+    <div className="pb-32 min-h-screen w-full">
       <section className="bg-transparent relative overflow-hidden min-h-screen flex items-center justify-center">
         {/* Video Wrapper with relative positioning */}
-        <div className="w-full max-w-5xl aspect-video overflow-hidden rounded-lg">
+        <div className="max-w-5xl aspect-video overflow-hidden h-[95%] rounded-lg">
           {/* Background Video */}
           <video
             className="w-full h-full object-cover"
@@ -20,7 +20,7 @@ const HomePage = () => {
           />
 
           {/* Punchline Text */}
-          <div className="absolute top-[36vw] inset-0 flex items-center justify-center z-10 px-4">
+          <div className="absolute top-[35vw] inset-0 flex items-center justify-center z-10 px-4">
             <h2
               style={{ transform: "scaley(1.1)" }}
               className="text-center text-4xl md:text-6xl lg:text-7xl font-semibold"
