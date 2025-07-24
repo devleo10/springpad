@@ -163,11 +163,11 @@ export function Footer() {
         <div className="bg-gray-50 rounded-2xl p-8 mb-12">
           <div className="text-center mb-6">
             <h3 className="text-2xl font-bold text-gray-900 mb-2">
-              Stay Updated
+              Unlock Smarter Investing
+
             </h3>
             <p className="text-gray-600">
-              Get the latest financial insights and market updates delivered to
-              your inbox.
+              Join thousands of investors getting exclusive insights, market trends, and expert tips—straight to your inbox.
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
