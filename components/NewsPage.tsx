@@ -132,7 +132,7 @@ export function NewsPage() {
   }
 
   return (
-    <div className="pb-32 bg-white relative overflow-hidden">
+    <div className="py-32 bg-white relative overflow-hidden">
       {/* Background Animated Blobs */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-20 left-10 w-32 h-32 bg-yellow-300/30 rounded-full blur-3xl animate-bounce"></div>
@@ -145,12 +145,12 @@ export function NewsPage() {
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="relative z-20 text-center py-16 px-4"
+        className="relative z-20 text-center px-4"
       >
-        <h1 className="text-3xl md:text-4xl font-bold text-neutral-800 mb-4">
-          📰 NEWS CENTRAL
+        <h1 className="text-3xl md:text-4xl font-bold text-neutral-800 mb-2">
+          News Highlights
         </h1>
-        <p className="text-gray-600 font-medium text-lg">
+        <p className="text-gray-600 font-medium text-lg mb-6">
           Breaking News • Live Updates • Global Coverage
         </p>
       </motion.header>
@@ -160,7 +160,7 @@ export function NewsPage() {
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.2 }}
-        className="relative z-10 max-w-7xl mx-auto px-4 pb-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+        className="relative z-10 max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
       >
         {articles.map((article, idx) => (
           <motion.a
