@@ -83,7 +83,7 @@ export default function RetirementPlanningCalculator() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-neutral-800">
+    <div className="min-h-screen bg-white text-neutral-800 pt-18">
       <Navbar />
 
       <div className="max-w-5xl mx-auto px-4 py-16">
