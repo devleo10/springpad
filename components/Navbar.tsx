@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 
@@ -57,7 +56,6 @@ export function Navbar() {
 
         {/* Right Side (Theme + Auth) */}
         <div className="hidden md:flex items-center space-x-2">
-          <ThemeToggle />
           <Link
             href="/login"
             className="text-sm px-4 py-2 rounded-xl text-gray-700 hover:text-black hover:bg-gray-100/80 transition-all duration-200 font-medium"
@@ -122,7 +120,6 @@ export function Navbar() {
           </Link>
         </div>
         <div className="pt-2 border-t border-gray-200/50 flex justify-center">
-          <ThemeToggle />
         </div>
       </div>
     </nav>
