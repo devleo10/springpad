@@ -45,7 +45,7 @@ const Feature = ({
     <div className="absolute inset-0 bg-gradient-to-br from-yellow-50 via-yellow-25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl pointer-events-none" />
 
     {/* Replacing icon with image */}
-    <div className="z-10 w-14 h-14 bg-gradient-to-br to-yellow-400 rounded-xl flex items-center justify-center shadow-lg mb-2 group-hover:scale-110 transition-all ease-in-out duration-300">
+    <div className="z-10 w-14 h-14 bg-gradient-to-br from-yellow-200 to-yellow-400 rounded-xl flex items-center justify-center shadow-lg mb-2 group-hover:scale-110 transition-all ease-in-out duration-300">
       <Image
         src={image}
         alt={title}

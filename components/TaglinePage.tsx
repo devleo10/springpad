@@ -39,7 +39,7 @@ export default function TaglinePage() {
                 <div className="absolute inset-0 bg-gradient-to-br from-yellow-50 via-yellow-25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl pointer-events-none" />
 
                 {/* Icon Box */}
-                <div className="z-10 w-14 h-14 bg-gradient-to-br to-yellow-400 rounded-xl flex items-center justify-center shadow-lg mb-2 group-hover:scale-110 transition-all ease-in-out duration-300">
+                <div className="z-10 w-14 h-14 bg-gradient-to-br from-yellow-200 to-yellow-400 rounded-xl flex items-center justify-center shadow-lg mb-2 group-hover:scale-110 transition-all ease-in-out duration-300">
                   <Icon className="w-8 h-8 text-neutral-800 drop-shadow-md" />
                 </div>
 
@@ -58,7 +58,7 @@ export default function TaglinePage() {
         {/* Right Side */}
         <div className="flex flex-col items-center justify-center lg:justify-end gap-6">
           <div className="relative">
-            <div className="absolute inset-0 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-3xl transform rotate-3 opacity-20"></div>
+            <div className="absolute inset-0 bg-yellow-300 rounded-3xl transform rotate-5 opacity-50"></div>
             <Image
               src="/family.png"
               alt="Financial Planning & Mutual Fund Investment"
@@ -67,7 +67,7 @@ export default function TaglinePage() {
               className="relative rounded-3xl shadow-2xl"
             />
           </div>
-          <button className="px-8 py-3 bg-gradient-to-br to-yellow-300 hover:bg-yellow-500 text-neutral-800 rounded-xl font-bold text-lg shadow-lg transition-all duration-300">
+          <button className="px-8 py-3 bg-yellow-300 hover:bg-yellow-400 text-neutral-800 rounded-xl font-bold text-lg shadow-lg transition-all duration-300">
             Know More
           </button>
         </div>

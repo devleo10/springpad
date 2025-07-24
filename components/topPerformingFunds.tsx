@@ -142,13 +142,13 @@ const TopPerformingFunds: React.FC = () => {
       <style dangerouslySetInnerHTML={{ __html: customStyles }} />
       
       {/* Enhanced Animated Background Objects */}
-      <div className="absolute inset-0 pointer-events-none">
+      {/* <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-yellow-300/30 to-orange-300/20 rounded-full animate-float-slow blur-xl"></div>
         <div className="absolute top-40 right-20 w-24 h-24 bg-gradient-to-br from-orange-300/25 to-yellow-300/15 rounded-full animate-float-medium blur-lg"></div>
         <div className="absolute bottom-32 left-1/4 w-40 h-40 bg-gradient-to-br from-yellow-200/20 to-orange-200/30 rounded-full animate-float-fast blur-2xl"></div>
         <div className="absolute bottom-20 right-10 w-28 h-28 bg-gradient-to-br from-orange-200/25 to-yellow-200/20 rounded-full animate-float-slow blur-lg"></div>
         <div className="absolute top-1/2 left-1/2 w-36 h-36 bg-gradient-to-br from-yellow-300/15 to-orange-300/15 rounded-full animate-float-medium transform -translate-x-1/2 -translate-y-1/2 blur-xl"></div>
-      </div>
+      </div> */}
       
       <div className="max-w-6xl mx-auto relative z-10">
         {/* Enhanced Header */}
