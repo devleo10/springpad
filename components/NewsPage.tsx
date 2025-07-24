@@ -53,22 +53,6 @@ export function NewsPage() {
       urlToImage: "https://images.pexels.com/photos/159888/pexels-photo-159888.jpeg",
       publishedAt: "2025-01-08T07:30:00Z",
       source: { name: "Financial Times" }
-    },
-    {
-      title: "Olympic Games Preparation Underway",
-      description: "Athletes from around the world prepare for the upcoming games with innovative training methods.",
-      url: "#",
-      urlToImage: "https://images.pexels.com/photos/863988/pexels-photo-863988.jpeg",
-      publishedAt: "2025-01-08T06:20:00Z",
-      source: { name: "Sports World" }
-    },
-    {
-      title: "Renewable Energy Milestone Achieved",
-      description: "Solar and wind power now account for 60% of new electricity generation worldwide.",
-      url: "#",
-      urlToImage: "https://images.pexels.com/photos/9875454/pexels-photo-9875454.jpeg",
-      publishedAt: "2025-01-08T05:10:00Z",
-      source: { name: "Energy Today" }
     }
   ];
 
@@ -168,7 +152,6 @@ export function NewsPage() {
             href={article.url}
             target="_blank"
             rel="noopener noreferrer"
-            whileHover={{ scale: 1.05, y: -8 }}
             transition={{ type: 'spring', stiffness: 300, damping: 20 }}
             className="group relative flex flex-col bg-white/60 backdrop-blur-lg border border-yellow-100 rounded-2xl shadow-xl hover:shadow-2xl hover:border-yellow-300 transition-all duration-300 overflow-hidden"
           >
