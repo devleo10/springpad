@@ -99,7 +99,7 @@ const AiFeaturesPage: React.FC = () => {
 
               {/* User Message */}
               <div className="flex gap-2 justify-end">
-                <div className="bg-yellow-400 text-black rounded-lg px-3 py-2 text-sm max-w-[70%] shadow-md">
+                <div className="bg-yellow-300 text-black rounded-lg px-3 py-2 text-sm max-w-[70%] shadow-md">
                   Can you help me analyze my data?
                 </div>
                 <div className="w-6 h-6 bg-gray-600 rounded-full flex items-center justify-center text-white text-xs font-bold">
@@ -146,7 +146,7 @@ const AiFeaturesPage: React.FC = () => {
                 placeholder="Type your message..."
                 className="flex-1 bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm text-black placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400"
               />
-              <button className="bg-yellow-400 text-black px-4 py-2 rounded-lg text-sm hover:bg-yellow-500 transition-colors font-semibold">
+              <button className="bg-yellow-300 text-black px-4 py-2 rounded-lg text-sm hover:bg-yellow-400 transition-colors font-semibold">
                 Send
               </button>
             </div>
@@ -331,7 +331,7 @@ const AiFeaturesPage: React.FC = () => {
             {/* Header */}
             <div className="flex items-center justify-between pb-3 border-b border-gray-100">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center text-xs font-bold text-black">
+                <div className="w-8 h-8 bg-yellow-300 rounded-full flex items-center justify-center text-xs font-bold text-black">
                   AI
                 </div>
                 <div>

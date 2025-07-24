@@ -59,7 +59,7 @@ export function Faq() {
     <section className="px-4 max-w-6xl mx-auto bg-white pb-32">
       <div className="text-center mb-16">
         <h2 className="text-4xl font-bold text-gray-900 mb-4">
-          Frequently <span className="text-yellow-600">Asked</span> Questions
+          Frequently <span className="text-yellow-500">Asked</span> Questions
         </h2>
         <p className="text-gray-600 text-lg max-w-2xl mx-auto leading-relaxed">
           Get answers to common questions about mutual fund investments, our
@@ -78,10 +78,10 @@ export function Faq() {
               onClick={() => toggle(index)}
               className="flex justify-between items-center w-full text-left group"
             >
-              <span className="font-semibold text-lg text-gray-900 group-hover:text-yellow-700 transition-colors duration-200">
+              <span className="font-semibold text-lg text-gray-900 group-hover:text-yellow-500 transition-colors duration-200">
                 {faq.question}
               </span>
-              <span className="text-yellow-600 bg-yellow-100 p-2 rounded-full transition-all duration-200 group-hover:bg-yellow-600 group-hover:text-white">
+              <span className="bg-yellow-100 p-2 rounded-full transition-all duration-200 group-hover:bg-yellow-400 group-hover:text-white">
                 {openIndex === index ? (
                   <FaTimes className="w-4 h-4" />
                 ) : (

@@ -137,7 +137,7 @@ const TopPerformingFunds: React.FC = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
-      className="min-h-screen/3 bg-gradient-to-br from-yellow-50 via-orange-50 to-yellow-100 p-6 relative overflow-hidden"
+      className="min-h-screen/3 bg-gradient-to-br from-yellow-50 via-orange-50 to-yellow-100 relative overflow-hidden pb-32"
     >
       <style dangerouslySetInnerHTML={{ __html: customStyles }} />
       
