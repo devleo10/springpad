@@ -1,135 +1,87 @@
+"use client";
+
 import React from "react";
-import {
-  IconChartLine,
-  IconShieldLock,
-  IconTrendingUp,
-  IconWallet,
-  IconPigMoney,
-  IconArrowsDoubleSwNe,
-  IconClockDollar,
-  IconUsersGroup,
-} from "@tabler/icons-react";
+import { motion } from "framer-motion";
+import { FaChartLine, FaMoneyBillWave, FaCalculator, FaFileInvoiceDollar } from "react-icons/fa";
 
 import { cn } from "@/lib/utils";
 
 const features = [
   {
-    title: "Smart Portfolio Tracking",
-    description:
-      "Monitor your mutual fund investments in real time with insights and visualizations.",
-    icon: <IconChartLine size={32} stroke={1.5} />,
-    bgImage: "/bg-1.png",
+    title: "What’s Moving Your Portfolio?",
+    description: "Real-time explainable impact summaries",
+    icon: <FaChartLine className="w-8 h-8" />,
   },
   {
-    title: "Secure & Compliant",
-    description:
-      "Your data and transactions are end-to-end encrypted and SEBI-compliant.",
-    icon: <IconShieldLock size={32} stroke={1.5} />,
-    bgImage: "/bg-2.png",
+    title: "Post-Tax XIRR & Cash-in-Hand Returns",
+    description: "See true net performance",
+    icon: <FaMoneyBillWave className="w-8 h-8" />,
   },
   {
-    title: "High Growth Funds",
-    description:
-      "Discover top-performing funds based on historical and projected returns.",
-    icon: <IconTrendingUp size={32} stroke={1.5} />,
-    bgImage: "bg-3.png",
+    title: "Smart Tax Harvesting + What-If Simulations",
+    description: "Optimize LTCG exemptions",
+    icon: <FaCalculator className="w-8 h-8" />,
   },
   {
-    title: "Easy Withdrawals",
-    description:
-      "Withdraw your money anytime with minimal processing time and no hidden fees.",
-    icon: <IconWallet size={32} stroke={1.5} />,
-    bgImage: "/bg-4.png",
-  },
-  {
-    title: "SIP Management",
-    description:
-      "Manage your Systematic Investment Plans (SIPs) effortlessly in one place.",
-    icon: <IconPigMoney size={32} stroke={1.5} />,
-    bgImage: "/bg-3.png",
-  },
-  {
-    title: "Risk Analyzer",
-    description:
-      "Gauge your risk profile and receive fund recommendations accordingly.",
-    icon: <IconArrowsDoubleSwNe size={32} stroke={1.5} />,
-    bgImage: "/bg-4.png",
-  },
-  {
-    title: "Tax Saving Options",
-    description:
-      "Explore ELSS and other tax-saving mutual fund options under section 80C.",
-    icon: <IconClockDollar size={32} stroke={1.5} />,
-    bgImage: "/bg-1.png",
-  },
-  {
-    title: "Community & Support",
-    description:
-      "Engage with experts and investors. Get support anytime from our advisors.",
-    icon: <IconUsersGroup size={32} stroke={1.5} />,
-    bgImage: "/bg-2.png",
+    title: "Automated FIFO-Based Tax Matching Engine",
+    description: "Accurate STCG/LTCG tracking",
+    icon: <FaFileInvoiceDollar className="w-8 h-8" />,
   },
 ];
 
-const Feature = ({
-  title,
-  description,
-  icon,
-  bgImage,
-}: {
-  title: string;
-  description: string;
-  icon: React.ReactNode;
-  bgImage: string;
-}) => {
-  return (
-    <div
-      className={cn(
-        "flex flex-col relative bg-white border border-neutral-200 hover:shadow-md transition-shadow hover-shadow-black rounded-xl p-6 overflow-hidden hover:border-yellow-500 group"
-      )}
-    >
-      {/* Background Image */}
-      <div
-        className="absolute inset-0 opacity-50"
-        style={{
-          backgroundImage: `url(${bgImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      ></div>
 
-      <div className="relative z-10 text-black mb-4">{icon}</div>
-      <div className="relative z-10 text-lg font-semibold text-neutral-800 mb-2">
-        <span className="block group-hover:translate-x-1 transition-transform duration-200">
-          {title}
-        </span>
-        <div className="w-6 h-1 bg-yellow-500 rounded-full mt-1 transition-all scale-x-0 group-hover:scale-x-100 origin-left duration-300" />
-      </div>
-      <p className="relative z-10 text-sm text-neutral-600">{description}</p>
+const Feature = ({ title, description, icon, index }: { title: string; description: string; icon: React.ReactNode; index: number }) => (
+  <motion.div 
+    whileHover={{ scale: 1.05 }}
+    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+    className="flex flex-col items-center gap-3 p-6 bg-white/60 backdrop-blur-lg rounded-2xl shadow-xl border border-yellow-100 hover:shadow-2xl hover:border-yellow-400 transition-all duration-300 group relative overflow-hidden"
+  >
+    <div className="w-14 h-14 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-xl flex items-center justify-center text-yellow-700 shadow-lg mb-2">
+      {icon}
     </div>
-  );
-};
+    <div className="font-bold text-neutral-800 text-base md:text-lg tracking-wide mb-2 text-center">
+      {title}
+    </div>
+    <div className="text-sm text-gray-700 text-center mb-2">{description}</div>
+    <div className="absolute right-0 top-0 w-16 h-16 bg-yellow-100 rounded-bl-3xl blur-2xl" />
+  </motion.div>
+);
 
 const FeaturePage = () => {
   return (
-    <section className="pb-32 relative bg-white overflow-hidden">
+    <motion.section 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8 }}
+      className="pb-32 relative bg-white overflow-hidden"
+    >
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Section */}
-        <div className="text-center mb-12">
+        <motion.div 
+          initial={{ opacity: 0, y: -30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="text-center mb-12"
+        >
           <h2 className="text-3xl font-bold text-neutral-800">Why Choose Our Mutual Fund Platform?</h2>
           <p className="mt-2 text-neutral-500 text-sm">
             Everything you need to grow your investments smartly, securely, and efficiently.
           </p>
-        </div>
+        </motion.div>
 
         {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {features.map((feature) => (
-            <Feature key={feature.title} {...feature} />
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="grid grid-cols-1 sm:grid-cols-2 gap-6"
+        >
+          {features.map((feature, index) => (
+            <Feature key={feature.title} {...feature} index={index} />
           ))}
-        </div>
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 
