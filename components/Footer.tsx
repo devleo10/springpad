@@ -163,21 +163,31 @@ export function Footer() {
         <div className="bg-gray-50 rounded-2xl p-8 mb-12">
           <div className="text-center mb-6">
             <h3 className="text-2xl font-bold text-gray-900 mb-2">
-              Unlock Smarter Investing
-
+              Connect with our Advisor
             </h3>
             <p className="text-gray-600">
-              Join thousands of investors getting exclusive insights, market trends, and expert tips—straight to your inbox.
+              Join thousands of investors getting exclusive insights, market
+              trends, and expert tips—straight to your inbox.
             </p>
           </div>
-          <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+          <div className="flex flex-col sm:flex-row gap-4 max-w-4xl mx-auto">
+            <input
+              type="text"
+              placeholder="Enter your Name"
+              className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+            />
+            <input
+              type="tel"
+              placeholder="Enter your Number"
+              className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+            />
             <input
               type="email"
               placeholder="Enter your email"
               className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
             />
-            <button className="bg-yellow-300 hover:bg-yellow-400 text-black font-semibold px-6 py-3 rounded-lg transition-colors duration-200">
-              Subscribe
+            <button className="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-8 py-3 rounded-lg transition-colors duration-200 whitespace-nowrap">
+              Connect Now
             </button>
           </div>
         </div>
