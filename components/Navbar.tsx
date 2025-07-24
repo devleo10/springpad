@@ -23,10 +23,10 @@ export function Navbar() {
   return (
     <nav
       className={`${
-        isHomePage ? "fixed top-4" : "sticky top-0"
-      } left-1/2 transform -translate-x-1/2 z-50 w-[95%] max-w-6xl`}
+        isHomePage ? "fixed top-8 sm:top-8" : "sticky top-0"
+      } left-1/2 transform -translate-x-1/2 z-50 w-[98%] sm:w-[95%] max-w-6xl`}
     >
-      <div className="flex justify-between items-center rounded-2xl bg-white/95 backdrop-blur-xl shadow-lg border border-gray-200/50 py-2 px-6 transition-all duration-300">
+      <div className="flex justify-between items-center rounded-xl sm:rounded-2xl bg-white/95 backdrop-blur-xl shadow-lg border border-gray-200/50 py-2 sm:py-2 px-4 sm:px-6 transition-all duration-300">
         {/* Logo */}
         <Link
           href="/"
@@ -36,8 +36,8 @@ export function Navbar() {
             src="/logo.png"
             alt="SpringPad Logo"
             width={120}
-            height={40}
-            className="object-contain"
+            height={36}
+            className="object-contain sm:w-[140px] sm:h-[48px]"
           />
         </Link>
 
