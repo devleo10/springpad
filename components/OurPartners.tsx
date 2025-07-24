@@ -6,7 +6,7 @@ const logo = "/client_logos.png";
 
 function OurPartners() {
   return (
-    <section className="bg-white pb-32">
+    <section className="bg-white py-32">
       <div className="max-w-7xl mx-auto px-4 text-center">
         <h2 className="text-3xl font-bold text-neutral-800 mb-2">
           Our Partners

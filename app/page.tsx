@@ -4,11 +4,9 @@ import FeaturePage from "@/components/FeaturePage";
 import { Footer } from "@/components/Footer";
 import HomePage from "@/components/HomePage";
 import { Navbar } from "@/components/Navbar";
-import CalculatorsPage from "./calculators/page";
 import OurPartners from "@/components/OurPartners";
 import { Faq } from "@/components/Faq";
 import TaglinePage from "@/components/TaglinePage";
-import Feature2 from "@/components/Feature2";
 import TopPerformingFunds from "@/components/topPerformingFunds";
 
 function App() {
@@ -20,7 +18,6 @@ function App() {
       {/* <BentoPage /> */}
       <FeaturePage />
       <AiFeaturesPage />
-      {/* <Feature2 /> */}
       <TopPerformingFunds/>
       <OurPartners />
       <Faq />
