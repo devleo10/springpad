@@ -8,6 +8,7 @@ import OurPartners from "@/components/OurPartners";
 import { Faq } from "@/components/Faq";
 import TaglinePage from "@/components/TaglinePage";
 import TopPerformingFunds from "@/components/topPerformingFunds";
+import { NewsPage } from "@/components/NewsPage";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
       <FeaturePage />
       <AiFeaturesPage />
       <TopPerformingFunds/>
+      <NewsPage />
       <OurPartners />
       <Faq />
       <Footer />
