@@ -1,49 +1,101 @@
-import {Footer} from '@/components/Footer';
-import { Navbar } from '@/components/Navbar';
+"use client";
+
+import Link from "next/link";
+import { Footer } from "@/components/Footer";
+import { Navbar } from "@/components/Navbar";
+import {
+  FaRupeeSign,
+  FaCalculator,
+  FaChartLine,
+  FaUserGraduate,
+  FaPiggyBank,
+  FaWallet,
+  FaUserShield,
+  FaChild,
+  FaClipboardList,
+  FaBalanceScale,
+  FaChartPie,
+  FaCoins,
+  FaMoneyCheckAlt,
+  FaUniversity,
+  FaRegClock,
+} from "react-icons/fa";
+
+// slugify label to route
+const slugify = (label: string) =>
+  "/" +
+  label
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+const calculatorSections = [
+  {
+    title: "Investment",
+    items: [
+      { label: "Become Crorepati Calculator", icon: <FaRupeeSign /> },
+      { label: "SIP Return Calculator", icon: <FaChartLine /> },
+      { label: "Retirement Planning Calculator", icon: <FaRegClock /> },
+      { label: "SWP Calculator", icon: <FaMoneyCheckAlt /> },
+      { label: "EMI Calculator", icon: <FaWallet /> },
+      { label: "SIP Step-up Calculator", icon: <FaChartPie /> },
+    ],
+  },
+  {
+    title: "Goal Planning",
+    items: [
+      { label: "Goal Setting Calculator", icon: <FaClipboardList /> },
+      { label: "Composite Financial Goal Calculator", icon: <FaBalanceScale /> },
+      { label: "Children Education Planner", icon: <FaChild /> },
+      { label: "Human Life Value Calculator", icon: <FaUserShield /> },
+    ],
+  },
+  {
+    title: "Financial Tools",
+    items: [
+      { label: "Asset Allocation Calculator", icon: <FaCoins /> },
+      { label: "Networth Calculator", icon: <FaPiggyBank /> },
+      { label: "Compounding Calculator", icon: <FaUniversity /> },
+      { label: "Spending Less Calculator", icon: <FaWallet /> },
+      { label: "PPF Calculator", icon: <FaUserGraduate /> },
+      { label: "EPF Calculator", icon: <FaCalculator /> },
+    ],
+  },
+];
 
 export default function CalculatorsPage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white text-neutral-800 pt-20">
       <Navbar />
-      <section className="bg-white relative overflow-hidden">
-        {/* Seamless Background Video */}
-      
-        {/* Dark overlay for readability */}
-        <div className="absolute inset" />
-        <div className="relative max-w-7xl mx-auto px-6 py-16 lg:py-24 z-10">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-            {[
-              { title: 'Become Crorepati Calculator', description: 'Plan how to become a crorepati.' },
-              { title: 'SIP Return Calculator', description: 'Estimate returns on systematic investment plan.' },
-              { title: 'Retirement Planning Calculator', description: 'Plan your retirement corpus.' },
-              { title: 'Asset Allocation Calculator', description: 'Determine optimal asset allocation.' },
-              { title: 'SWP Calculator', description: 'Calculate systematic withdrawal plan.' },
-              { title: 'EMI Calculator', description: 'Calculate your equated monthly installment.' },
-              { title: 'PPF Calculator', description: 'Estimate returns from PPF investments.' },
-              { title: 'EPF Calculator', description: 'Estimate EPF retirement benefits.' },
-              { title: 'Goal Setting Calculator', description: 'Set and track your financial goals.' },
-              { title: 'Composite Financial Goal Calculator', description: 'Plan multiple financial goals together.' },
-              { title: 'Children Education Planner', description: 'Plan for child education expenses.' },
-              { title: 'Networth Calculator', description: 'Calculate your net worth.' },
-              { title: 'Compounding Calculator', description: 'Calculate compound interest growth.' },
-              { title: 'Spending Less Calculator', description: 'Plan for reducing your expenditures.' },
-              { title: 'Human Life Value Calculator', description: 'Estimate your human life value.' },
-              { title: 'SIP Step-up Calculator', description: 'Calculate step-up SIP returns.' },
-            ].map((item, idx) => (
-              <div key={idx} className="flex flex-col text-black justify-between bg-transparent backdrop-blur-lg border border-white/20 rounded-xl p-6 shadow-xl aspect-square">
-                <div>
-                  <h2 className="text-2xl font-bold mb-2">{item.title}</h2>
-                  <p>{item.description}</p>
-                </div>
-                <button className="mt-4 self-start py-2 px-4 bg-yellow-600 hover:bg-yellow-700 rounded text-white font-semibold">
-                  Calculate Now
-                </button>
-              </div>
-            ))}
+
+      <div className="max-w-6xl mx-auto px-4 py-16">
+        <h1 className="text-4xl font-bold mb-4">Calculators</h1>
+        <p className="text-gray-600 mb-10">
+          Simplify your financial decision with our calculators.
+        </p>
+
+        {calculatorSections.map((section, idx) => (
+          <div key={idx} className="mb-12">
+            <h2 className="text-xl font-semibold mb-4">{section.title}</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              {section.items.map((item, i) => (
+                <Link
+                  key={i}
+                  href={`/calculators${slugify(item.label)}`}
+                  className="flex items-center w-full gap-3 bg-white border border-gray-200 hover:border-yellow-400 rounded-lg overflow-hidden transition-all shadow-sm hover:shadow-md"
+                >
+                  <div className="bg-yellow-50 px-4 py-3 flex items-center justify-center text-yellow-600">
+                    {item.icon}
+                  </div>
+                  <span className="text-sm font-medium">{item.label}</span>
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
-      <Footer/>
+        ))}
+      </div>
+
+      <Footer />
     </div>
   );
 }

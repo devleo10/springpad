@@ -10,9 +10,6 @@ export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
 
-  // Only apply fixed positioning on the home page and calculators page
-  const isHomePage = pathname === "/" || pathname === "/calculators";
-
   const navItems = [
     { name: "Calculators", href: "/calculators" },
     { name: "Mutual MF Research", href: "/mutual-funds" },
@@ -22,11 +19,10 @@ export function Navbar() {
 
   return (
     <nav
-      className={`${
-        isHomePage ? "fixed top-8 sm:top-8" : "sticky top-0"
-      } left-1/2 transform -translate-x-1/2 z-50 w-[98%] sm:w-[95%] max-w-6xl`}
+      className="fixed top-4
+       left-1/2 transform -translate-x-1/2 z-50 w-[95%] max-w-6xl"
     >
-      <div className="flex justify-between items-center rounded-xl sm:rounded-2xl bg-white/95 backdrop-blur-xl shadow-lg border border-gray-200/50 py-2 sm:py-2 px-4 sm:px-6 transition-all duration-300">
+      <div className="flex justify-between items-center rounded-2xl bg-white/95 backdrop-blur-xl shadow-lg border border-gray-200/50 py-2 px-6 transition-all duration-300">
         {/* Logo */}
         <Link
           href="/"
@@ -36,8 +32,8 @@ export function Navbar() {
             src="/logo.png"
             alt="SpringPad Logo"
             width={120}
-            height={36}
-            className="object-contain sm:w-[140px] sm:h-[48px]"
+            height={40}
+            className="object-contain"
           />
         </Link>
 
@@ -47,14 +43,18 @@ export function Navbar() {
             <Link
               key={`nav-${idx}`}
               href={item.href}
-              className="text-sm px-4 py-2 rounded-xl text-gray-700 hover:text-black hover:bg-gray-100/80 transition-all duration-200 font-medium"
+              className={`text-sm px-4 py-2 rounded-xl font-medium transition-all duration-200 ${
+                pathname === item.href
+                  ? "bg-yellow-200 text-black"
+                  : "text-gray-700 hover:text-black hover:bg-gray-100/80"
+              }`}
             >
               {item.name}
             </Link>
           ))}
         </div>
 
-        {/* Right Side (Theme + Auth) */}
+        {/* Auth Buttons (Desktop) */}
         <div className="hidden md:flex items-center space-x-2">
           <Link
             href="/login"
@@ -118,8 +118,6 @@ export function Navbar() {
           >
             Sign Up
           </Link>
-        </div>
-        <div className="pt-2 border-t border-gray-200/50 flex justify-center">
         </div>
       </div>
     </nav>
