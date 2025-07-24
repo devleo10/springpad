@@ -9,22 +9,10 @@ import {
 } from "react-icons/fa";
 
 const cards = [
-  {
-    title: "Dream Home",
-    Icon: FaHome,
-  },
-  {
-    title: "Retirement",
-    Icon: FaUmbrellaBeach,
-  },
-  {
-    title: "Child's Education",
-    Icon: FaGraduationCap,
-  },
-  {
-    title: "Child's Wedding",
-    Icon: FaRing,
-  },
+  { title: "Dream Home", Icon: FaHome },
+  { title: "Retirement", Icon: FaUmbrellaBeach },
+  { title: "Child's Education", Icon: FaGraduationCap },
+  { title: "Child's Wedding", Icon: FaRing },
 ];
 
 export default function TaglinePage() {
@@ -34,21 +22,34 @@ export default function TaglinePage() {
         {/* Left Side */}
         <div className="space-y-8">
           <h1 className="text-2xl md:text-3xl lg:text-4xl text-neutral-800 mb-8 font-bold tracking-tight">
-            It&apos;s Always A Good Time To Invest And Plan!
+            It&apos;s Always A{" "}
+            <span className="animated-underline font-semibold text-yellow-500">
+              Good Time To Invest
+            </span>{" "}
+            And Plan!
           </h1>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             {cards.map(({ title, Icon }, index) => (
               <div
                 key={index}
-                className="flex flex-col items-center gap-3 p-6 bg-white/60 backdrop-blur-lg rounded-2xl shadow-xl border border-yellow-100 hover:shadow-2xl hover:border-yellow-400 transition-all duration-300 group relative overflow-hidden"
+                className="relative flex flex-col items-center gap-3 p-6 bg-white/60 backdrop-blur-md rounded-2xl border border-yellow-100 group overflow-hidden transition-all duration-300 ease-in-out hover:border-yellow-300 hover:shadow-2xl shadow-xl"
               >
-                <div className="w-14 h-14 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300 mb-2">
-                  <Icon className="w-8 h-8 drop-shadow-lg" />
+                {/* Hover Overlay Gradient */}
+                <div className="absolute inset-0 bg-gradient-to-br from-yellow-50 via-yellow-25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl pointer-events-none" />
+
+                {/* Icon Box */}
+                <div className="z-10 w-14 h-14 bg-gradient-to-br to-yellow-400 rounded-xl flex items-center justify-center shadow-lg mb-2 group-hover:scale-110 transition-all ease-in-out duration-300">
+                  <Icon className="w-8 h-8 text-neutral-800 drop-shadow-md" />
                 </div>
-                <div className="font-bold text-neutral-800 text-base md:text-lg tracking-wide group-hover:text-yellow-500 transition-colors duration-300 mb-2">
+
+                {/* Title */}
+                <div className="z-10 font-semibold text-neutral-800 text-base md:text-lg text-center tracking-wide">
                   {title}
                 </div>
-                <div className="absolute right-0 top-0 w-16 h-16 bg-yellow-100 rounded-bl-3xl blur-2xl opacity-30 group-hover:opacity-60 transition-opacity duration-300" />
+
+                {/* Circular Background Blur */}
+                <div className="z-0 absolute -top-4 -right-4 w-16 h-16 bg-yellow-100 opacity-20 rounded-full blur-2xl pointer-events-none group-hover:opacity-40 transition-opacity duration-300" />
               </div>
             ))}
           </div>
@@ -66,7 +67,7 @@ export default function TaglinePage() {
               className="relative rounded-3xl shadow-2xl"
             />
           </div>
-          <button className="px-8 py-3 bg-yellow-400 hover:bg-yellow-500 text-neutral-800 rounded-xl font-bold text-lg shadow-lg transition-all duration-300">
+          <button className="px-8 py-3 bg-gradient-to-br to-yellow-300 hover:bg-yellow-500 text-neutral-800 rounded-xl font-bold text-lg shadow-lg transition-all duration-300">
             Know More
           </button>
         </div>

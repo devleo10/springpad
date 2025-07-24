@@ -2,82 +2,102 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { FaChartLine, FaMoneyBillWave, FaCalculator, FaFileInvoiceDollar } from "react-icons/fa";
+import Image from "next/image";
 
-import { cn } from "@/lib/utils";
-
+// Dummy feature data with images instead of icons
 const features = [
   {
     title: "What’s Moving Your Portfolio?",
     description: "Real-time explainable impact summaries",
-    icon: <FaChartLine className="w-8 h-8" />,
+    image: "/graph.png",
   },
   {
     title: "Post-Tax XIRR & Cash-in-Hand Returns",
     description: "See true net performance",
-    icon: <FaMoneyBillWave className="w-8 h-8" />,
+    image: "/light.png",
   },
   {
     title: "Smart Tax Harvesting + What-If Simulations",
     description: "Optimize LTCG exemptions",
-    icon: <FaCalculator className="w-8 h-8" />,
+    image: "/calculator.png",
   },
   {
     title: "Automated FIFO-Based Tax Matching Engine",
     description: "Accurate STCG/LTCG tracking",
-    icon: <FaFileInvoiceDollar className="w-8 h-8" />,
+    image: "/money.png",
   },
 ];
 
-
-const Feature = ({ title, description, icon, index }: { title: string; description: string; icon: React.ReactNode; index: number }) => (
-  <motion.div 
-    whileHover={{ scale: 1.05 }}
+const Feature = ({
+  title,
+  description,
+  image,
+}: {
+  title: string;
+  description: string;
+  image: string;
+}) => (
+  <motion.div
     transition={{ type: "spring", stiffness: 300, damping: 20 }}
-    className="flex flex-col items-center gap-3 p-6 bg-white/60 backdrop-blur-lg rounded-2xl shadow-xl border border-yellow-100 hover:shadow-2xl hover:border-yellow-400 transition-all duration-300 group relative overflow-hidden"
+    className="relative flex flex-col items-center gap-3 p-6 bg-white/60 backdrop-blur-md rounded-2xl border border-yellow-100 group overflow-hidden transition-all duration-300 ease-in-out hover:border-yellow-300 hover:shadow-2xl shadow-xl"
   >
-    <div className="w-14 h-14 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-xl flex items-center justify-center text-yellow-700 shadow-lg mb-2">
-      {icon}
+    {/* Gradient overlay on hover */}
+    <div className="absolute inset-0 bg-gradient-to-br from-yellow-50 via-yellow-25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl pointer-events-none" />
+
+    {/* Replacing icon with image */}
+    <div className="z-10 w-14 h-14 bg-gradient-to-br to-yellow-400 rounded-xl flex items-center justify-center shadow-lg mb-2 group-hover:scale-110 transition-all ease-in-out duration-300">
+      <Image
+        src={image}
+        alt={title}
+        width={28}
+        height={28}
+        className="object-contain"
+      />
     </div>
-    <div className="font-bold text-neutral-800 text-base md:text-lg tracking-wide mb-2 text-center">
+
+    <h3 className="z-10 font-semibold text-neutral-800 text-base md:text-lg text-center">
       {title}
-    </div>
-    <div className="text-sm text-gray-700 text-center mb-2">{description}</div>
-    <div className="absolute right-0 top-0 w-16 h-16 bg-yellow-100 rounded-bl-3xl blur-2xl" />
+    </h3>
+    <p className="z-10 text-sm text-gray-700 text-center">{description}</p>
+
+    <div className="z-0 absolute -top-4 -right-4 w-16 h-16 bg-yellow-100 opacity-20 rounded-full blur-2xl pointer-events-none group-hover:opacity-40 transition-opacity duration-300" />
   </motion.div>
 );
 
 const FeaturePage = () => {
   return (
-    <motion.section 
+    <motion.section
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
-      className="pb-32 relative bg-white overflow-hidden"
+      className="py-20 relative bg-white overflow-hidden"
     >
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header Section */}
-        <motion.div 
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <motion.div
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl font-bold text-neutral-800">Why Choose Our Mutual Fund Platform?</h2>
-          <p className="mt-2 text-neutral-500 text-sm">
-            Everything you need to grow your investments smartly, securely, and efficiently.
+          <h2 className="text-3xl font-bold text-neutral-800">
+            Why Choose Our Mutual Fund Platform?
+          </h2>
+          <p className="mt-2 text-neutral-500 text-sm sm:text-base max-w-2xl mx-auto">
+            Everything you need to grow your investments smartly, securely, and
+            efficiently.
           </p>
         </motion.div>
 
         {/* Features Grid */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="grid grid-cols-1 sm:grid-cols-2 gap-6"
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6"
         >
           {features.map((feature, index) => (
-            <Feature key={feature.title} {...feature} index={index} />
+            <Feature key={index} {...feature} />
           ))}
         </motion.div>
       </div>
