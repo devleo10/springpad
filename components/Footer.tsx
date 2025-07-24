@@ -36,25 +36,25 @@ export function Footer() {
             <div className="space-y-4">
               <Link
                 href="/about"
-                className="block text-gray-600 hover:text-yellow-600 transition-colors duration-200"
+                className="block text-gray-600 hover:text-yellow-500 transition-colors duration-200"
               >
                 About Us
               </Link>
               <Link
                 href="/careers"
-                className="block text-gray-600 hover:text-yellow-600 transition-colors duration-200"
+                className="block text-gray-600 hover:text-yellow-500 transition-colors duration-200"
               >
                 Careers
               </Link>
               <Link
                 href="/blog"
-                className="block text-gray-600 hover:text-yellow-600 transition-colors duration-200"
+                className="block text-gray-600 hover:text-yellow-500 transition-colors duration-200"
               >
                 Blog
               </Link>
               <Link
                 href="/press"
-                className="block text-gray-600 hover:text-yellow-600 transition-colors duration-200"
+                className="block text-gray-600 hover:text-yellow-500 transition-colors duration-200"
               >
                 Press
               </Link>
@@ -69,25 +69,25 @@ export function Footer() {
             <div className="space-y-4">
               <Link
                 href="/calculators"
-                className="block text-gray-600 hover:text-yellow-600 transition-colors duration-200"
+                className="block text-gray-600 hover:text-yellow-500 transition-colors duration-200"
               >
                 Financial Calculators
               </Link>
               <Link
                 href="/stock-market"
-                className="block text-gray-600 hover:text-yellow-600 transition-colors duration-200"
+                className="block text-gray-600 hover:text-yellow-500 transition-colors duration-200"
               >
                 AI Stock Analysis
               </Link>
               <Link
                 href="/portfolio"
-                className="block text-gray-600 hover:text-yellow-600 transition-colors duration-200"
+                className="block text-gray-600 hover:text-yellow-500 transition-colors duration-200"
               >
                 Portfolio Management
               </Link>
               <Link
                 href="/retirement-planning"
-                className="block text-gray-600 hover:text-yellow-600 transition-colors duration-200"
+                className="block text-gray-600 hover:text-yellow-500 transition-colors duration-200"
               >
                 Retirement Planning
               </Link>
@@ -102,25 +102,25 @@ export function Footer() {
             <div className="space-y-4">
               <Link
                 href="/contact"
-                className="block text-gray-600 hover:text-yellow-600 transition-colors duration-200"
+                className="block text-gray-600 hover:text-yellow-500 transition-colors duration-200"
               >
                 Contact Us
               </Link>
               <Link
                 href="/help"
-                className="block text-gray-600 hover:text-yellow-600 transition-colors duration-200"
+                className="block text-gray-600 hover:text-yellow-500 transition-colors duration-200"
               >
                 Help Center
               </Link>
               <Link
                 href="/faq"
-                className="block text-gray-600 hover:text-yellow-600 transition-colors duration-200"
+                className="block text-gray-600 hover:text-yellow-500 transition-colors duration-200"
               >
                 FAQ
               </Link>
               <Link
                 href="/community"
-                className="block text-gray-600 hover:text-yellow-600 transition-colors duration-200"
+                className="block text-gray-600 hover:text-yellow-500 transition-colors duration-200"
               >
                 Community
               </Link>
@@ -133,25 +133,25 @@ export function Footer() {
             <div className="space-y-4">
               <Link
                 href="/privacy-policy"
-                className="block text-gray-600 hover:text-yellow-600 transition-colors duration-200"
+                className="block text-gray-600 hover:text-yellow-500 transition-colors duration-200"
               >
                 Privacy Policy
               </Link>
               <Link
                 href="/terms"
-                className="block text-gray-600 hover:text-yellow-600 transition-colors duration-200"
+                className="block text-gray-600 hover:text-yellow-500 transition-colors duration-200"
               >
                 Terms of Service
               </Link>
               <Link
                 href="/refund-policy"
-                className="block text-gray-600 hover:text-yellow-600 transition-colors duration-200"
+                className="block text-gray-600 hover:text-yellow-500 transition-colors duration-200"
               >
                 Refund Policy
               </Link>
               <Link
                 href="/disclaimer"
-                className="block text-gray-600 hover:text-yellow-600 transition-colors duration-200"
+                className="block text-gray-600 hover:text-yellow-500 transition-colors duration-200"
               >
                 Investment Disclaimer
               </Link>
@@ -176,7 +176,7 @@ export function Footer() {
               placeholder="Enter your email"
               className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
             />
-            <button className="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold px-6 py-3 rounded-lg transition-colors duration-200">
+            <button className="bg-yellow-300 hover:bg-yellow-400 text-black font-semibold px-6 py-3 rounded-lg transition-colors duration-200">
               Subscribe
             </button>
           </div>
@@ -187,7 +187,7 @@ export function Footer() {
           <Link
             href="https://instagram.com"
             target="_blank"
-            className="w-12 h-12 bg-gray-100 hover:bg-yellow-500 rounded-full flex items-center justify-center transition-all duration-300 group"
+            className="w-12 h-12 bg-gray-100 hover:bg-yellow-300 rounded-full flex items-center justify-center transition-all duration-300 group"
           >
             <svg
               className="w-6 h-6 text-gray-600 group-hover:text-black transition-colors"
@@ -200,7 +200,7 @@ export function Footer() {
           <Link
             href="https://linkedin.com"
             target="_blank"
-            className="w-12 h-12 bg-gray-100 hover:bg-yellow-500 rounded-full flex items-center justify-center transition-all duration-300 group"
+            className="w-12 h-12 bg-gray-100 hover:bg-yellow-300 rounded-full flex items-center justify-center transition-all duration-300 group"
           >
             <svg
               className="w-6 h-6 text-gray-600 group-hover:text-black transition-colors"
@@ -213,7 +213,7 @@ export function Footer() {
           <Link
             href="https://facebook.com"
             target="_blank"
-            className="w-12 h-12 bg-gray-100 hover:bg-yellow-500 rounded-full flex items-center justify-center transition-all duration-300 group"
+            className="w-12 h-12 bg-gray-100 hover:bg-yellow-300 rounded-full flex items-center justify-center transition-all duration-300 group"
           >
             <svg
               className="w-6 h-6 text-gray-600 group-hover:text-black transition-colors"
@@ -226,7 +226,7 @@ export function Footer() {
           <Link
             href="https://youtube.com"
             target="_blank"
-            className="w-12 h-12 bg-gray-100 hover:bg-yellow-500 rounded-full flex items-center justify-center transition-all duration-300 group"
+            className="w-12 h-12 bg-gray-100 hover:bg-yellow-300 rounded-full flex items-center justify-center transition-all duration-300 group"
           >
             <svg
               className="w-6 h-6 text-gray-600 group-hover:text-black transition-colors"
@@ -239,7 +239,7 @@ export function Footer() {
           <Link
             href="https://twitter.com"
             target="_blank"
-            className="w-12 h-12 bg-gray-100 hover:bg-yellow-500 rounded-full flex items-center justify-center transition-all duration-300 group"
+            className="w-12 h-12 bg-gray-100 hover:bg-yellow-300 rounded-full flex items-center justify-center transition-all duration-300 group"
           >
             <svg
               className="w-6 h-6 text-gray-600 group-hover:text-black transition-colors"
