@@ -19,6 +19,10 @@ import {
   FaMoneyCheckAlt,
   FaUniversity,
   FaRegClock,
+  FaHome,
+  FaGem,
+  FaRing,
+  FaShieldAlt,
 } from "react-icons/fa";
 
 // slugify label to route
@@ -45,9 +49,16 @@ const calculatorSections = [
     title: "Goal Planning",
     items: [
       { label: "Goal Setting Calculator", icon: <FaClipboardList /> },
-      { label: "Composite Financial Goal Calculator", icon: <FaBalanceScale /> },
+      {
+        label: "Composite Financial Goal Calculator",
+        icon: <FaBalanceScale />,
+      },
       { label: "Children Education Planner", icon: <FaChild /> },
       { label: "Human Life Value Calculator", icon: <FaUserShield /> },
+      { label: "Dream Home Calculator", icon: <FaHome /> },
+      { label: "Wealth Creation Calculator", icon: <FaGem /> },
+      { label: "Child's Wedding Calculator", icon: <FaRing /> },
+      { label: "Emergency Fund Calculator", icon: <FaShieldAlt /> },
     ],
   },
   {

@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
 import Image from "next/image";
 
 // Security feature data matching the design
@@ -80,7 +79,7 @@ const FeaturePage = () => {
         {/* Description */}
         <div className="text-center mb-12">
           <p className="text-gray-600 text-lg max-w-4xl mx-auto leading-relaxed">
-            We value the trust you place in us that's why, we are committed to keeping highest standards for securing
+            We value the trust you place in us that&apos;s why, we are committed to keeping highest standards for securing
             transactions and customer confidentiality
           </p>
         </div>
