@@ -2,6 +2,7 @@
 
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import Image from "next/image";
 import {
   FaLinkedin,
   FaTwitter,
@@ -11,15 +12,20 @@ import {
   FaUsers,
   FaRocket,
 } from "react-icons/fa";
+import { useState } from "react";
 
 export default function AboutPage() {
+  const [imageErrors, setImageErrors] = useState<{ [key: number]: boolean }>(
+    {}
+  );
+
   const teamMembers = [
     {
       name: "Rahul Chandra",
       position: "Founder & CEO",
       description:
         "Rahul Chandra is the founder of SpringPad Mutual Fund, where he combines his deep expertise in finance with a passion for enabling sustainable investment growth. With over a decade of experience in private equity capital, equity research and asset management, Rahul has built a reputation for fostering long-impact investment strategies in the Indian markets.",
-      image: "/team/rahul.jpg", // You'll need to add actual images
+      image: "/rahul.avif",
       linkedin: "#",
       twitter: "#",
       email: "rahul@springpad.com",
@@ -29,7 +35,7 @@ export default function AboutPage() {
       position: "Co-founder & CTO",
       description:
         "Pratik Chakrabarty, co-founder of SpringPad Mutual Fund, is a seasoned multi-asset international markets hedge fund trader, financial strategist with extensive experience in equity markets and wealth management. His commitment to ethical investing and financial inclusion shapes SpringPad's vision as a transparent, sustainable mutual fund platform. Pratik's expertise in blending quantitative and modern investment approaches has positioned him as a trusted figure in the financial community, inspiring investors to achieve their long-term financial goals.",
-      image: "/team/pratik.jpg",
+      image: "/pratik.avif",
       linkedin: "#",
       twitter: "#",
       email: "pratik@springpad.com",
@@ -199,8 +205,8 @@ export default function AboutPage() {
               benefits etc. Our investment strategies have been tested and
               proven by a dedicated team of financial experts is always ready to
               assist you, providing personalized advice and support. Join the
-              SpringPad community and let&apos;s together embark on a journey towards
-              your financial freedom.
+              SpringPad community and let&apos;s together embark on a journey
+              towards your financial freedom.
             </p>
           </div>
         </div>
@@ -223,11 +229,26 @@ export default function AboutPage() {
                 className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow"
               >
                 <div className="flex items-start gap-6">
-                  <div className="w-24 h-24 bg-gradient-to-br from-[#2C5282] to-[#4A90E2] rounded-full flex items-center justify-center text-white text-2xl font-bold flex-shrink-0">
-                    {member.name
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")}
+                  <div className="w-24 h-24 rounded-full overflow-hidden flex-shrink-0 ring-4 ring-yellow-100 relative">
+                    {!imageErrors[index] ? (
+                      <Image
+                        src={member.image}
+                        alt={member.name}
+                        width={96}
+                        height={96}
+                        className="w-full h-full object-cover"
+                        onError={() =>
+                          setImageErrors((prev) => ({ ...prev, [index]: true }))
+                        }
+                      />
+                    ) : (
+                      <div className="w-24 h-24 bg-gradient-to-br from-[#2C5282] to-[#4A90E2] rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                        {member.name
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")}
+                      </div>
+                    )}
                   </div>
                   <div className="flex-1">
                     <h3 className="text-2xl font-bold mb-1">{member.name}</h3>
