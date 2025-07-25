@@ -158,170 +158,101 @@ const AiFeaturesPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Card 2 - AI Payment Cards Carousel */}
+        {/* Card 2 - Portfolio Health Checkup */}
         <div className="bg-[#f9fafb] rounded-[18px] p-4 border border-gray-200 shadow-lg">
-          <div className="bg-white border border-gray-200 rounded-xl p-4 h-80 flex flex-col relative overflow-hidden">
-            {/* Animated Cards Container */}
-            <div className="flex-1 relative">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="relative w-full max-w-[280px] h-[180px]">
-                  {/* Card 1 */}
-                  <div
-                    className="absolute inset-0 bg-gradient-to-br from-blue-600 to-blue-800 rounded-xl p-4 text-white shadow-xl transform transition-all duration-2000 ease-in-out"
-                    style={{
-                      animation: "cardLoop1 9s infinite",
-                      zIndex: 3,
-                    }}
-                  >
-                    <div className="flex justify-between items-start mb-8">
-                      <div className="text-lg font-bold">$12,000</div>
-                      <div className="text-sm opacity-80">Total Balance</div>
-                    </div>
-                    <div className="mb-4">
-                      <div className="w-12 h-8 bg-yellow-400 rounded"></div>
-                    </div>
-                    <div className="text-sm font-medium">
-                      john.doe@email.com
-                    </div>
-                    <div className="text-xs opacity-80 mt-1">
-                      PayPal • Connected
-                    </div>
-                  </div>
-
-                  {/* Card 2 */}
-                  <div
-                    className="absolute inset-0 bg-gradient-to-br from-black to-black/80 rounded-xl p-4 text-white shadow-xl transform transition-all duration-2000 ease-in-out"
-                    style={{
-                      animation: "cardLoop2 9s infinite",
-                      zIndex: 2,
-                    }}
-                  >
-                    <div className="flex justify-between items-start mb-8">
-                      <div className="text-lg font-bold">$8,500</div>
-                      <div className="text-sm opacity-80">Available</div>
-                    </div>
-                    <div className="mb-4">
-                      <div className="w-12 h-8 bg-yellow-400 rounded"></div>
-                    </div>
-                    <div className="text-sm font-medium">
-                      **** **** **** 4532
-                    </div>
-                    <div className="text-xs opacity-80 mt-1">
-                      Visa • Premium
-                    </div>
-                  </div>
-
-                  {/* Card 3 */}
-                  <div
-                    className="absolute inset-0 bg-gradient-to-br from-green-600 to-green-800 rounded-xl p-4 text-white shadow-xl transform transition-all duration-2000 ease-in-out"
-                    style={{
-                      animation: "cardLoop3 9s infinite",
-                      zIndex: 1,
-                    }}
-                  >
-                    <div className="flex justify-between items-start mb-8">
-                      <div className="text-lg font-bold">$15,250</div>
-                      <div className="text-sm opacity-80">Savings</div>
-                    </div>
-                    <div className="mb-4">
-                      <div className="w-12 h-8 bg-yellow-400 rounded"></div>
-                    </div>
-                    <div className="text-sm font-medium">
-                      **** **** **** 7891
-                    </div>
-                    <div className="text-xs opacity-80 mt-1">
-                      Mastercard • Gold
-                    </div>
-                  </div>
+          <div className="bg-white border border-gray-100 rounded-xl p-4 flex flex-col h-80">
+            {/* Header */}
+            <div className="flex items-center justify-between pb-3 border-b border-gray-100">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                  <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <div>
+                  <h4 className="text-sm font-semibold text-[#2C5282]">
+                    Portfolio Health
+                  </h4>
+                  <p className="text-xs text-gray-500">
+                    Score: <span className="font-medium text-green-600">8.5/10</span>
+                  </p>
                 </div>
               </div>
+              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
             </div>
 
-            {/* Bottom Text */}
-            <div className="mt-auto pt-4 border-t border-gray-200">
-              <div className="text-center">
-                <div className="text-sm font-semibold text-[#2C5282]">
-                  Easy payments
+            {/* Body */}
+            <div className="py-3 flex-1 overflow-hidden">
+              <div className="space-y-4 h-full">
+                {/* Health Score Section */}
+                <div className="bg-green-50 rounded-lg p-3 border border-green-100">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs font-medium text-green-700">Overall Health</span>
+                    <span className="text-sm font-bold text-green-600">Excellent</span>
+                  </div>
+                  <div className="w-full bg-green-200 rounded-full h-1.5">
+                    <div className="bg-green-500 h-1.5 rounded-full" style={{ width: '85%' }}></div>
+                  </div>
                 </div>
-                <div className="text-xs text-gray-600 mt-1">
-                  We accept all kinds of cards. We make sure you get money
-                  whichever way possible.
+
+                {/* Risk Assessment */}
+                <div className="bg-yellow-50 rounded-lg p-3 border border-yellow-100">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs font-medium text-yellow-700">Risk Level</span>
+                    <span className="text-sm font-bold text-yellow-600">Moderate</span>
+                  </div>
+                  <div className="flex gap-1">
+                    {[1,2,3,4,5].map((i) => (
+                      <div 
+                        key={i} 
+                        className={`w-3 h-3 rounded ${i <= 3 ? 'bg-yellow-500' : 'bg-yellow-200'}`}
+                      ></div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Asset Allocation */}
+                <div className="bg-blue-50 rounded-lg p-3 border border-blue-100">
+                  <span className="text-xs font-medium text-blue-700 block mb-2">Asset Mix</span>
+                  <div className="space-y-1">
+                    <div className="flex justify-between items-center">
+                      <span className="text-[10px] text-gray-600">Equity</span>
+                      <span className="text-[10px] font-bold text-blue-600">65%</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-[10px] text-gray-600">Debt</span>
+                      <span className="text-[10px] font-bold text-blue-600">25%</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-[10px] text-gray-600">Gold</span>
+                      <span className="text-[10px] font-bold text-blue-600">10%</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Performance */}
+                <div className="bg-purple-50 rounded-lg p-3 border border-purple-100">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-medium text-purple-700">1Y Returns</span>
+                    <div className="flex items-center gap-1">
+                      <svg className="w-3 h-3 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L10 4.414 6.707 7.707a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                      </svg>
+                      <span className="text-sm font-bold text-purple-600">+18.2%</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+
+          {/* Footer */}
           <div className="mt-4">
-            <h3 className="text-lg font-bold text-[#2C5282]">Payment Solutions</h3>
+            <h3 className="text-lg font-bold text-[#2C5282]">Portfolio Health Checkup</h3>
             <p className="text-sm text-gray-600">
-              Secure and flexible payment options for all your needs
+              Your portfolio shows excellent health with balanced diversification and strong performance.
             </p>
           </div>
-
-          {/* CSS Animations */}
-          <style jsx>{`
-            @keyframes cardLoop1 {
-              0%,
-              33.33% {
-                transform: translateX(0) scale(1);
-                opacity: 1;
-                z-index: 3;
-              }
-              34%,
-              66.66% {
-                transform: translateX(-100%) scale(0.95);
-                opacity: 0.7;
-                z-index: 1;
-              }
-              67%,
-              100% {
-                transform: translateX(100%) scale(0.95);
-                opacity: 0.7;
-                z-index: 2;
-              }
-            }
-
-            @keyframes cardLoop2 {
-              0%,
-              33.33% {
-                transform: translateX(100%) scale(0.95);
-                opacity: 0.7;
-                z-index: 2;
-              }
-              34%,
-              66.66% {
-                transform: translateX(0) scale(1);
-                opacity: 1;
-                z-index: 3;
-              }
-              67%,
-              100% {
-                transform: translateX(-100%) scale(0.95);
-                opacity: 0.7;
-                z-index: 1;
-              }
-            }
-
-            @keyframes cardLoop3 {
-              0%,
-              33.33% {
-                transform: translateX(-100%) scale(0.95);
-                opacity: 0.7;
-                z-index: 1;
-              }
-              34%,
-              66.66% {
-                transform: translateX(100%) scale(0.95);
-                opacity: 0.7;
-                z-index: 2;
-              }
-              67%,
-              100% {
-                transform: translateX(0) scale(1);
-                opacity: 1;
-                z-index: 3;
-              }
-            }
-          `}</style>
         </div>
 
         {/* Card 3 - AI Financial Advisor */}
