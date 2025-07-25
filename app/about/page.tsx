@@ -56,7 +56,7 @@ export default function AboutPage() {
       {/* Hero Section */}
       <div className="p-6">
         <div className="relative bg-gradient-to-br from-slate-800 via-slate-900 to-blue-900 text-white py-20 rounded-3xl">
-          <div className="absolute inset-0 bg-black opacity-10"></div>
+          <div className="absolute inset-0 opacity-10"></div>
           <div className="relative max-w-6xl mx-auto px-4">
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div>

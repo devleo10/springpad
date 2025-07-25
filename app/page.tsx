@@ -1,5 +1,4 @@
 import { AiFeaturesPage } from "@/components/AiFeaturePage";
-// import BentoPage from "@/components/BentoPage";
 import FeaturePage from "@/components/FeaturePage";
 import { Footer } from "@/components/Footer";
 import HomePage from "@/components/HomePage";
@@ -17,10 +16,9 @@ function App() {
       <Navbar />
       <HomePage />
       <TaglinePage />
-      <InterestCalculator/>
-      {/* <BentoPage /> */}
-      <FeaturePage />
       <AiFeaturesPage />
+      <InterestCalculator/>
+      <FeaturePage />
       <TopPerformingFunds/>
       <NewsPage />
       <OurPartners />
