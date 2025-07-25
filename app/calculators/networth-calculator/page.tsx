@@ -11,6 +11,8 @@ import {
   FaCar,
   FaChartLine,
 } from "react-icons/fa";
+import { Card } from "@/components/ui/Card";
+import { Input } from "@/components/ui/Input";
 
 interface AssetItem {
   id: number;
@@ -211,68 +213,75 @@ export default function NetworthCalculator() {
         </p>
 
         {/* Net Worth Summary */}
-        <div className="grid md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-gradient-to-r from-green-50 to-green-100 p-6 rounded-lg border border-green-200">
-            <h3 className="text-lg font-semibold text-green-800 mb-2">
-              Total Assets
-            </h3>
-            <p className="text-2xl font-bold text-green-600">
-              {formatLakhs(result.totalAssets)}
-            </p>
-          </div>
-          <div className="bg-gradient-to-r from-red-50 to-red-100 p-6 rounded-lg border border-red-200">
-            <h3 className="text-lg font-semibold text-red-800 mb-2">
-              Total Liabilities
-            </h3>
-            <p className="text-2xl font-bold text-red-600">
-              {formatLakhs(result.totalLiabilities)}
-            </p>
-          </div>
-          <div
-            className={`bg-gradient-to-r p-6 rounded-lg border ${
-              result.netWorth >= 0
-                ? "from-blue-50 to-blue-100 border-blue-200"
-                : "from-red-50 to-red-100 border-red-200"
-            }`}
-          >
-            <h3
-              className={`text-lg font-semibold mb-2 ${
-                result.netWorth >= 0 ? "text-blue-800" : "text-red-800"
+        <Card className="mb-8">
+          <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+            <FaChartLine className="text-green-500" />
+            Net Worth Summary
+          </h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="bg-gradient-to-r from-green-50 to-green-100 p-6 rounded-lg border border-green-200">
+              <h3 className="text-lg font-semibold text-green-800 mb-2">
+                Total Assets
+              </h3>
+              <p className="text-2xl font-bold text-green-600">
+                {formatLakhs(result.totalAssets)}
+              </p>
+            </div>
+            <div className="bg-gradient-to-r from-red-50 to-red-100 p-6 rounded-lg border border-red-200">
+              <h3 className="text-lg font-semibold text-red-800 mb-2">
+                Total Liabilities
+              </h3>
+              <p className="text-2xl font-bold text-red-600">
+                {formatLakhs(result.totalLiabilities)}
+              </p>
+            </div>
+            <div
+              className={`bg-gradient-to-r p-6 rounded-lg border ${
+                result.netWorth >= 0
+                  ? "from-blue-50 to-blue-100 border-blue-200"
+                  : "from-red-50 to-red-100 border-red-200"
               }`}
             >
-              Net Worth
-            </h3>
-            <p
-              className={`text-2xl font-bold ${
-                result.netWorth >= 0 ? "text-blue-600" : "text-red-600"
-              }`}
-            >
-              {formatLakhs(result.netWorth)}
-            </p>
+              <h3
+                className={`text-lg font-semibold mb-2 ${
+                  result.netWorth >= 0 ? "text-blue-800" : "text-red-800"
+                }`}
+              >
+                Net Worth
+              </h3>
+              <p
+                className={`text-2xl font-bold ${
+                  result.netWorth >= 0 ? "text-blue-600" : "text-red-600"
+                }`}
+              >
+                {formatLakhs(result.netWorth)}
+              </p>
+            </div>
           </div>
-        </div>
+        </Card>
 
         <div className="grid lg:grid-cols-2 gap-8">
           {/* Assets Section */}
           <div className="space-y-6">
-            <div className="bg-green-50 p-6 rounded-lg border border-green-200">
-              <h2 className="text-xl font-semibold mb-4 text-green-800">
+            <Card>
+              <h2 className="text-xl font-semibold mb-4 text-green-800 flex items-center gap-2">
+                <FaHome className="text-green-600" />
                 Assets
               </h2>
 
               {/* Add New Asset */}
-              <div className="grid grid-cols-1 gap-3 mb-4">
-                <input
+              <div className="grid grid-cols-1 gap-3 mb-4 p-4 bg-green-50 rounded-lg border border-green-200">
+                <h3 className="font-medium text-green-800">Add New Asset</h3>
+                <Input
                   type="text"
                   placeholder="Asset name (e.g., Savings Account)"
                   value={newAsset.name}
                   onChange={(e) =>
                     setNewAsset({ ...newAsset, name: e.target.value })
                   }
-                  className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
                 <div className="grid grid-cols-2 gap-2">
-                  <input
+                  <Input
                     type="number"
                     placeholder="Value (₹)"
                     value={newAsset.value || ""}
@@ -282,7 +291,6 @@ export default function NetworthCalculator() {
                         value: Number(e.target.value),
                       })
                     }
-                    className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
                   />
                   <select
                     value={newAsset.category}
@@ -352,45 +360,50 @@ export default function NetworthCalculator() {
               </div>
 
               {/* Assets by Category */}
-              <div className="mt-4 pt-4 border-t border-green-200">
-                <h3 className="font-medium text-green-800 mb-2">
-                  Assets by Category
-                </h3>
-                <div className="space-y-1">
-                  {result.assetsByCategory.map(({ category, value }) => (
-                    <div
-                      key={category}
-                      className="flex justify-between text-sm"
-                    >
-                      <span>{category}</span>
-                      <span className="font-medium">{formatLakhs(value)}</span>
-                    </div>
-                  ))}
+              {result.assetsByCategory.length > 0 && (
+                <div className="mt-4 pt-4 border-t border-green-200">
+                  <h3 className="font-medium text-green-800 mb-2">
+                    Assets by Category
+                  </h3>
+                  <div className="space-y-1">
+                    {result.assetsByCategory.map(({ category, value }) => (
+                      <div
+                        key={category}
+                        className="flex justify-between text-sm"
+                      >
+                        <span>{category}</span>
+                        <span className="font-medium">
+                          {formatLakhs(value)}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </div>
+              )}
+            </Card>
           </div>
 
           {/* Liabilities Section */}
           <div className="space-y-6">
-            <div className="bg-red-50 p-6 rounded-lg border border-red-200">
-              <h2 className="text-xl font-semibold mb-4 text-red-800">
+            <Card>
+              <h2 className="text-xl font-semibold mb-4 text-red-800 flex items-center gap-2">
+                <FaCar className="text-red-600" />
                 Liabilities
               </h2>
 
               {/* Add New Liability */}
-              <div className="grid grid-cols-1 gap-3 mb-4">
-                <input
+              <div className="grid grid-cols-1 gap-3 mb-4 p-4 bg-red-50 rounded-lg border border-red-200">
+                <h3 className="font-medium text-red-800">Add New Liability</h3>
+                <Input
                   type="text"
                   placeholder="Liability name (e.g., Home Loan)"
                   value={newLiability.name}
                   onChange={(e) =>
                     setNewLiability({ ...newLiability, name: e.target.value })
                   }
-                  className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                 />
                 <div className="grid grid-cols-2 gap-2">
-                  <input
+                  <Input
                     type="number"
                     placeholder="Amount (₹)"
                     value={newLiability.value || ""}
@@ -400,7 +413,6 @@ export default function NetworthCalculator() {
                         value: Number(e.target.value),
                       })
                     }
-                    className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                   />
                   <select
                     value={newLiability.category}
@@ -471,28 +483,32 @@ export default function NetworthCalculator() {
               </div>
 
               {/* Liabilities by Category */}
-              <div className="mt-4 pt-4 border-t border-red-200">
-                <h3 className="font-medium text-red-800 mb-2">
-                  Liabilities by Category
-                </h3>
-                <div className="space-y-1">
-                  {result.liabilitiesByCategory.map(({ category, value }) => (
-                    <div
-                      key={category}
-                      className="flex justify-between text-sm"
-                    >
-                      <span>{category}</span>
-                      <span className="font-medium">{formatLakhs(value)}</span>
-                    </div>
-                  ))}
+              {result.liabilitiesByCategory.length > 0 && (
+                <div className="mt-4 pt-4 border-t border-red-200">
+                  <h3 className="font-medium text-red-800 mb-2">
+                    Liabilities by Category
+                  </h3>
+                  <div className="space-y-1">
+                    {result.liabilitiesByCategory.map(({ category, value }) => (
+                      <div
+                        key={category}
+                        className="flex justify-between text-sm"
+                      >
+                        <span>{category}</span>
+                        <span className="font-medium">
+                          {formatLakhs(value)}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </div>
+              )}
+            </Card>
           </div>
         </div>
 
         {/* Information Section */}
-        <div className="mt-12 bg-blue-50 p-6 rounded-lg">
+        <Card className="mt-8">
           <h3 className="text-lg font-semibold mb-3">
             Understanding Net Worth
           </h3>
@@ -517,7 +533,7 @@ export default function NetworthCalculator() {
               </ul>
             </div>
           </div>
-        </div>
+        </Card>
       </div>
 
       <Footer />

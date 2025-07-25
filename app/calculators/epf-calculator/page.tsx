@@ -9,6 +9,8 @@ import {
   FaBuilding,
   FaUserTie,
 } from "react-icons/fa";
+import { Card } from "@/components/ui/Card";
+import { Input } from "@/components/ui/Input";
 
 interface EPFData {
   year: number;
@@ -142,26 +144,24 @@ export default function EPFCalculator() {
         </p>
 
         <div className="grid lg:grid-cols-3 gap-8">
-          {/* Input Section */}
-          <div className="lg:col-span-1">
-            <div className="bg-gray-50 p-6 rounded-lg">
+          <div className="lg:col-span-2 space-y-6">
+            {/* Input Section */}
+            <Card>
               <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
                 <FaBuilding className="text-blue-500" />
                 Employment Details
               </h2>
-
-              <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium mb-2">
                     Current Annual Salary (₹)
                   </label>
-                  <input
+                  <Input
                     type="number"
                     value={currentSalary}
                     onChange={(e) => setCurrentSalary(Number(e.target.value))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                    min="0"
-                    step="10000"
+                    min={0}
+                    step={10000}
                   />
                   <p className="text-xs text-gray-500 mt-1">
                     Basic salary for EPF calculation
@@ -172,13 +172,12 @@ export default function EPFCalculator() {
                   <label className="block text-sm font-medium mb-2">
                     Current Age
                   </label>
-                  <input
+                  <Input
                     type="number"
                     value={currentAge}
                     onChange={(e) => setCurrentAge(Number(e.target.value))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                    min="18"
-                    max="58"
+                    min={18}
+                    max={58}
                   />
                 </div>
 
@@ -186,13 +185,12 @@ export default function EPFCalculator() {
                   <label className="block text-sm font-medium mb-2">
                     Retirement Age
                   </label>
-                  <input
+                  <Input
                     type="number"
                     value={retirementAge}
                     onChange={(e) => setRetirementAge(Number(e.target.value))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
                     min={currentAge + 1}
-                    max="65"
+                    max={65}
                   />
                   <p className="text-xs text-gray-500 mt-1">
                     Normal retirement age is 58
@@ -203,14 +201,13 @@ export default function EPFCalculator() {
                   <label className="block text-sm font-medium mb-2">
                     Annual Salary Increment (%)
                   </label>
-                  <input
+                  <Input
                     type="number"
                     value={salaryIncrement}
                     onChange={(e) => setSalaryIncrement(Number(e.target.value))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                    min="0"
-                    max="20"
-                    step="0.5"
+                    min={0}
+                    max={20}
+                    step={0.5}
                   />
                 </div>
 
@@ -218,16 +215,15 @@ export default function EPFCalculator() {
                   <label className="block text-sm font-medium mb-2">
                     Employee Contribution (%)
                   </label>
-                  <input
+                  <Input
                     type="number"
                     value={employeeContribution}
                     onChange={(e) =>
                       setEmployeeContribution(Number(e.target.value))
                     }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                    min="12"
-                    max="12"
-                    step="0.1"
+                    min={12}
+                    max={12}
+                    step={0.1}
                   />
                   <p className="text-xs text-gray-500 mt-1">
                     Fixed at 12% of basic salary
@@ -238,221 +234,194 @@ export default function EPFCalculator() {
                   <label className="block text-sm font-medium mb-2">
                     Current EPF Balance (₹)
                   </label>
-                  <input
+                  <Input
                     type="number"
                     value={currentEPFBalance}
                     onChange={(e) =>
                       setCurrentEPFBalance(Number(e.target.value))
                     }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                    min="0"
-                    step="1000"
+                    min={0}
+                    step={1000}
                   />
                 </div>
 
-                <div>
+                <div className="md:col-span-2">
                   <label className="block text-sm font-medium mb-2">
                     EPF Interest Rate (%)
                   </label>
-                  <input
+                  <Input
                     type="number"
                     value={epfInterestRate}
                     onChange={(e) => setEpfInterestRate(Number(e.target.value))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                    min="5"
-                    max="12"
-                    step="0.05"
+                    min={5}
+                    max={12}
+                    step={0.05}
                   />
                   <p className="text-xs text-gray-500 mt-1">
                     Current rate: 8.15% (FY 2023-24)
                   </p>
                 </div>
-
-                <button
-                  onClick={calculateEPF}
-                  className="w-full bg-yellow-500 text-white py-2 px-4 rounded-md hover:bg-yellow-600 transition-colors flex items-center justify-center gap-2"
-                >
-                  <FaCalculator />
-                  Calculate EPF Benefits
-                </button>
               </div>
-            </div>
+
+              <button
+                onClick={calculateEPF}
+                className="w-full mt-4 bg-yellow-500 text-white py-2 px-4 rounded-md hover:bg-yellow-600 transition-colors flex items-center justify-center gap-2"
+              >
+                <FaCalculator />
+                Calculate EPF Benefits
+              </button>
+            </Card>
+
+            {/* Information Section */}
+            <Card>
+              <h3 className="text-lg font-semibold mb-3">
+                About Employee Provident Fund (EPF)
+              </h3>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h4 className="font-medium mb-2">Key Features</h4>
+                  <ul className="space-y-1 text-sm text-gray-700">
+                    <li>• Mandatory for companies with 20+ employees</li>
+                    <li>• Employee contributes 12% of basic salary</li>
+                    <li>• Employer contributes 12% (3.67% EPF + 8.33% EPS)</li>
+                    <li>• Interest rate declared annually by EPFO</li>
+                    <li>• Partial withdrawal allowed for specific purposes</li>
+                    <li>• Transferable between jobs</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-medium mb-2">Withdrawal Rules</h4>
+                  <ul className="space-y-1 text-sm text-gray-700">
+                    <li>• Full withdrawal after 2 months of unemployment</li>
+                    <li>
+                      • Partial withdrawal for house purchase, medical emergency
+                    </li>
+                    <li>• Tax-free if withdrawn after 5 years of service</li>
+                    <li>• Online withdrawal through UAN portal</li>
+                    <li>• Nomination facility available</li>
+                    <li>• Balance can be checked online anytime</li>
+                  </ul>
+                </div>
+              </div>
+            </Card>
           </div>
 
           {/* Results Section */}
-          <div className="lg:col-span-2 space-y-6">
-            {result && (
+          <div className="space-y-6">
+            {result ? (
               <>
-                {/* Summary Cards */}
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div className="bg-gradient-to-r from-green-50 to-green-100 p-6 rounded-lg border border-green-200">
-                    <h3 className="text-sm font-medium text-green-800 mb-1">
-                      EPF Maturity Amount
-                    </h3>
-                    <p className="text-2xl font-bold text-green-600">
-                      {formatLakhs(Number(result.epfMaturityAmount))}
-                    </p>
-                  </div>
-                  <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-6 rounded-lg border border-blue-200">
-                    <h3 className="text-sm font-medium text-blue-800 mb-1">
-                      Pension Fund Corpus
-                    </h3>
-                    <p className="text-2xl font-bold text-blue-600">
-                      {formatLakhs(Number(result.pensionCorpus))}
-                    </p>
-                  </div>
-                  <div className="bg-gradient-to-r from-purple-50 to-purple-100 p-6 rounded-lg border border-purple-200">
-                    <h3 className="text-sm font-medium text-purple-800 mb-1">
-                      Total Interest Earned
-                    </h3>
-                    <p className="text-xl font-bold text-purple-600">
-                      {formatLakhs(Number(result.totalInterest))}
-                    </p>
-                  </div>
-                  <div className="bg-gradient-to-r from-orange-50 to-orange-100 p-6 rounded-lg border border-orange-200">
-                    <h3 className="text-sm font-medium text-orange-800 mb-1">
-                      Estimated Monthly Pension
-                    </h3>
-                    <p className="text-xl font-bold text-orange-600">
-                      {formatCurrency(Number(result.monthlyPension))}
-                    </p>
-                  </div>
-                </div>
+                <Card>
+                  <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                    <FaChartLine className="text-green-500" />
+                    EPF Summary
+                  </h2>
 
-                {/* Contribution Breakdown */}
-                <div className="bg-yellow-50 p-6 rounded-lg border border-yellow-200">
-                  <h3 className="text-lg font-semibold text-yellow-800 mb-3">
+                  <div className="space-y-4">
+                    <div className="bg-gradient-to-r from-green-50 to-green-100 p-4 rounded-lg border border-green-200">
+                      <h3 className="text-sm font-medium text-green-800 mb-1">
+                        EPF Maturity Amount
+                      </h3>
+                      <p className="text-2xl font-bold text-green-600">
+                        {formatLakhs(Number(result.epfMaturityAmount))}
+                      </p>
+                    </div>
+
+                    <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-4 rounded-lg border border-blue-200">
+                      <h3 className="text-sm font-medium text-blue-800 mb-1">
+                        Pension Fund Corpus
+                      </h3>
+                      <p className="text-xl font-bold text-blue-600">
+                        {formatLakhs(Number(result.pensionCorpus))}
+                      </p>
+                    </div>
+
+                    <div className="bg-gradient-to-r from-purple-50 to-purple-100 p-4 rounded-lg border border-purple-200">
+                      <h3 className="text-sm font-medium text-purple-800 mb-1">
+                        Total Interest Earned
+                      </h3>
+                      <p className="text-xl font-bold text-purple-600">
+                        {formatLakhs(Number(result.totalInterest))}
+                      </p>
+                    </div>
+
+                    <div className="bg-gradient-to-r from-orange-50 to-orange-100 p-4 rounded-lg border border-orange-200">
+                      <h3 className="text-sm font-medium text-orange-800 mb-1">
+                        Estimated Monthly Pension
+                      </h3>
+                      <p className="text-xl font-bold text-orange-600">
+                        {formatCurrency(Number(result.monthlyPension))}
+                      </p>
+                    </div>
+                  </div>
+                </Card>
+
+                <Card>
+                  <h3 className="text-lg font-semibold mb-3">
                     Contribution Summary
                   </h3>
-                  <div className="grid md:grid-cols-3 gap-4">
-                    <div>
-                      <p className="text-sm text-yellow-700">
-                        Your Total Contribution
-                      </p>
-                      <p className="text-xl font-bold text-yellow-800">
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600">
+                        Your Total Contribution:
+                      </span>
+                      <span className="font-semibold">
                         {formatLakhs(Number(result.totalEmployeeContribution))}
-                      </p>
+                      </span>
                     </div>
-                    <div>
-                      <p className="text-sm text-yellow-700">
-                        Employer Total Contribution
-                      </p>
-                      <p className="text-xl font-bold text-yellow-800">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600">
+                        Employer Total Contribution:
+                      </span>
+                      <span className="font-semibold">
                         {formatLakhs(Number(result.totalEmployerContribution))}
-                      </p>
+                      </span>
                     </div>
-                    <div>
-                      <p className="text-sm text-yellow-700">Total Corpus</p>
-                      <p className="text-xl font-bold text-yellow-800">
-                        {formatLakhs(
-                          Number(result.epfMaturityAmount) +
-                            Number(result.pensionCorpus)
-                        )}
-                      </p>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600">
+                        Total Interest Earned:
+                      </span>
+                      <span className="font-semibold text-purple-600">
+                        {formatLakhs(Number(result.totalInterest))}
+                      </span>
+                    </div>
+                    <div className="border-t pt-3 mt-3">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-gray-600">
+                          Total Corpus:
+                        </span>
+                        <span className="font-bold text-green-600">
+                          {formatLakhs(
+                            Number(result.epfMaturityAmount) +
+                              Number(result.pensionCorpus)
+                          )}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </Card>
 
-                {/* Yearly Breakdown Table */}
-                <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-                  <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
-                    <h3 className="text-lg font-semibold flex items-center gap-2">
-                      <FaChartLine className="text-blue-500" />
-                      Year-wise EPF Growth
-                    </h3>
-                  </div>
-                  <div className="overflow-x-auto">
-                    <table className="w-full">
-                      <thead className="bg-gray-50">
-                        <tr>
-                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                            Age
-                          </th>
-                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                            Salary
-                          </th>
-                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                            Employee
-                          </th>
-                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                            Employer EPF
-                          </th>
-                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                            Pension
-                          </th>
-                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                            Interest
-                          </th>
-                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                            Total Balance
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-gray-200">
-                        {result.yearlyBreakdown.slice(0, 10).map((data) => (
-                          <tr key={data.year} className="hover:bg-gray-50">
-                            <td className="px-4 py-3 text-sm font-medium">
-                              {data.year}
-                            </td>
-                            <td className="px-4 py-3 text-sm">
-                              {formatCurrency(data.salary)}
-                            </td>
-                            <td className="px-4 py-3 text-sm text-blue-600">
-                              {formatCurrency(data.employeeContribution)}
-                            </td>
-                            <td className="px-4 py-3 text-sm text-green-600">
-                              {formatCurrency(data.employerContribution)}
-                            </td>
-                            <td className="px-4 py-3 text-sm text-purple-600">
-                              {formatCurrency(data.pensionContribution)}
-                            </td>
-                            <td className="px-4 py-3 text-sm text-orange-600">
-                              {formatCurrency(data.interest)}
-                            </td>
-                            <td className="px-4 py-3 text-sm font-medium">
-                              {formatCurrency(data.totalBalance)}
-                            </td>
-                          </tr>
-                        ))}
-                        {result.yearlyBreakdown.length > 10 && (
-                          <tr>
-                            <td
-                              colSpan={7}
-                              className="px-4 py-3 text-center text-sm text-gray-500"
-                            >
-                              ... and {result.yearlyBreakdown.length - 10} more
-                              years
-                            </td>
-                          </tr>
-                        )}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
-                {/* EPF vs EPS Breakdown */}
-                <div className="bg-gradient-to-br from-blue-50 to-green-50 p-6 rounded-lg">
+                <Card>
                   <h3 className="text-lg font-semibold mb-4">
                     EPF vs EPS Breakdown
                   </h3>
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div className="bg-white p-4 rounded-lg">
+                  <div className="space-y-4">
+                    <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
                       <h4 className="font-medium text-blue-700 mb-2 flex items-center gap-2">
                         <FaUserTie className="text-blue-500" />
                         Employee Provident Fund (EPF)
                       </h4>
-                      <ul className="space-y-1 text-sm text-gray-700">
+                      <ul className="space-y-1 text-xs text-blue-600">
                         <li>• Your contribution: 12% of basic salary</li>
                         <li>• Employer contribution: 3.67% of basic salary</li>
                         <li>• Lump sum withdrawal at retirement</li>
                         <li>• Tax-free maturity amount</li>
                       </ul>
                     </div>
-                    <div className="bg-white p-4 rounded-lg">
+                    <div className="bg-green-50 p-4 rounded-lg border border-green-200">
                       <h4 className="font-medium text-green-700 mb-2">
                         Employee Pension Scheme (EPS)
                       </h4>
-                      <ul className="space-y-1 text-sm text-gray-700">
+                      <ul className="space-y-1 text-xs text-green-600">
                         <li>• Employer contribution: 8.33% of basic salary</li>
                         <li>• Monthly pension after retirement</li>
                         <li>• Minimum 10 years of service required</li>
@@ -460,54 +429,102 @@ export default function EPFCalculator() {
                       </ul>
                     </div>
                   </div>
-                </div>
+                </Card>
               </>
+            ) : (
+              <Card>
+                <div className="text-center py-8 text-gray-500">
+                  <FaCalculator className="mx-auto text-4xl mb-4 text-gray-300" />
+                  <p>
+                    Enter your employment details and click &quot;Calculate EPF
+                    Benefits&quot; to see your EPF projections.
+                  </p>
+                </div>
+              </Card>
             )}
+          </div>
+        </div>
 
-            {!result && (
-              <div className="bg-gray-50 p-12 rounded-lg text-center text-gray-500">
-                <FaCalculator className="mx-auto text-4xl mb-4 text-gray-400" />
-                <p>
-                  Enter your employment details and click calculate to see your
-                  EPF projections
-                </p>
+        {/* Results Table Section */}
+        {result && (
+          <div className="mt-8">
+            <Card>
+              <div className="border-b border-gray-200 pb-4 mb-4">
+                <h3 className="text-lg font-semibold flex items-center gap-2">
+                  <FaChartLine className="text-blue-500" />
+                  Year-wise EPF Growth
+                </h3>
               </div>
-            )}
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                        Age
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                        Salary
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                        Employee
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                        Employer EPF
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                        Pension
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                        Interest
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                        Total Balance
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200">
+                    {result.yearlyBreakdown.slice(0, 10).map((data) => (
+                      <tr key={data.year} className="hover:bg-gray-50">
+                        <td className="px-4 py-3 text-sm font-medium">
+                          {data.year}
+                        </td>
+                        <td className="px-4 py-3 text-sm">
+                          {formatCurrency(data.salary)}
+                        </td>
+                        <td className="px-4 py-3 text-sm text-blue-600">
+                          {formatCurrency(data.employeeContribution)}
+                        </td>
+                        <td className="px-4 py-3 text-sm text-green-600">
+                          {formatCurrency(data.employerContribution)}
+                        </td>
+                        <td className="px-4 py-3 text-sm text-purple-600">
+                          {formatCurrency(data.pensionContribution)}
+                        </td>
+                        <td className="px-4 py-3 text-sm text-orange-600">
+                          {formatCurrency(data.interest)}
+                        </td>
+                        <td className="px-4 py-3 text-sm font-medium">
+                          {formatCurrency(data.totalBalance)}
+                        </td>
+                      </tr>
+                    ))}
+                    {result.yearlyBreakdown.length > 10 && (
+                      <tr>
+                        <td
+                          colSpan={7}
+                          className="px-4 py-3 text-center text-sm text-gray-500"
+                        >
+                          ... and {result.yearlyBreakdown.length - 10} more
+                          years
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </Card>
           </div>
-        </div>
-
-        {/* Information Section */}
-        <div className="mt-12 bg-blue-50 p-6 rounded-lg">
-          <h3 className="text-lg font-semibold mb-3">
-            About Employee Provident Fund (EPF)
-          </h3>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div>
-              <h4 className="font-medium mb-2">Key Features</h4>
-              <ul className="space-y-1 text-sm text-gray-700">
-                <li>• Mandatory for companies with 20+ employees</li>
-                <li>• Employee contributes 12% of basic salary</li>
-                <li>• Employer contributes 12% (3.67% EPF + 8.33% EPS)</li>
-                <li>• Interest rate declared annually by EPFO</li>
-                <li>• Partial withdrawal allowed for specific purposes</li>
-                <li>• Transferable between jobs</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-medium mb-2">Withdrawal Rules</h4>
-              <ul className="space-y-1 text-sm text-gray-700">
-                <li>• Full withdrawal after 2 months of unemployment</li>
-                <li>
-                  • Partial withdrawal for house purchase, medical emergency
-                </li>
-                <li>• Tax-free if withdrawn after 5 years of service</li>
-                <li>• Online withdrawal through UAN portal</li>
-                <li>• Nomination facility available</li>
-                <li>• Balance can be checked online anytime</li>
-              </ul>
-            </div>
-          </div>
-        </div>
+        )}
       </div>
 
       <Footer />

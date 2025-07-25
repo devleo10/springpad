@@ -3,7 +3,14 @@
 import { useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { FaChild, FaCalculator, FaGraduationCap } from "react-icons/fa";
+import {
+  FaChild,
+  FaCalculator,
+  FaGraduationCap,
+  FaChartLine,
+} from "react-icons/fa";
+import { Input } from "@/components/ui/Input";
+import { Card } from "@/components/ui/Card";
 
 interface Child {
   id: number;
@@ -203,7 +210,7 @@ export default function ChildrenEducationPlanner() {
           {/* Children Management Section */}
           <div className="lg:col-span-2 space-y-6">
             {/* Add New Child */}
-            <div className="bg-gray-50 p-6 rounded-lg">
+            <Card>
               <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
                 <FaGraduationCap className="text-blue-500" />
                 Add Child&apos;s Education Plan
@@ -213,13 +220,12 @@ export default function ChildrenEducationPlanner() {
                   <label className="block text-sm font-medium mb-2">
                     Child&apos;s Name
                   </label>
-                  <input
+                  <Input
                     type="text"
                     value={newChild.name}
                     onChange={(e) =>
                       setNewChild({ ...newChild, name: e.target.value })
                     }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
                     placeholder="e.g., Rahul, Priya"
                   />
                 </div>
@@ -227,7 +233,7 @@ export default function ChildrenEducationPlanner() {
                   <label className="block text-sm font-medium mb-2">
                     Current Age
                   </label>
-                  <input
+                  <Input
                     type="number"
                     value={newChild.currentAge}
                     onChange={(e) =>
@@ -236,9 +242,8 @@ export default function ChildrenEducationPlanner() {
                         currentAge: Number(e.target.value),
                       })
                     }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                    min="1"
-                    max="25"
+                    min={1}
+                    max={25}
                   />
                 </div>
                 <div>
@@ -271,7 +276,7 @@ export default function ChildrenEducationPlanner() {
                   <label className="block text-sm font-medium mb-2">
                     Estimated Cost Today (₹)
                   </label>
-                  <input
+                  <Input
                     type="number"
                     value={newChild.estimatedCost || ""}
                     onChange={(e) =>
@@ -280,9 +285,8 @@ export default function ChildrenEducationPlanner() {
                         estimatedCost: Number(e.target.value),
                       })
                     }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                    min="10000"
-                    step="10000"
+                    min={10000}
+                    step={10000}
                   />
                 </div>
               </div>
@@ -293,13 +297,11 @@ export default function ChildrenEducationPlanner() {
                 <FaChild />
                 Add Child
               </button>
-            </div>
+            </Card>
 
             {/* Children List */}
-            <div className="bg-white border border-gray-200 rounded-lg">
-              <h2 className="text-xl font-semibold p-6 border-b border-gray-200">
-                Education Plans
-              </h2>
+            <Card>
+              <h2 className="text-xl font-semibold mb-4">Education Plans</h2>
               <div className="divide-y divide-gray-200">
                 {children.map((child) => {
                   const yearsToEducation = Math.max(
@@ -309,7 +311,7 @@ export default function ChildrenEducationPlanner() {
                   return (
                     <div
                       key={child.id}
-                      className="p-4 flex items-center justify-between"
+                      className="py-4 flex items-center justify-between"
                     >
                       <div className="flex-1">
                         <div className="flex items-center gap-3">
@@ -336,19 +338,52 @@ export default function ChildrenEducationPlanner() {
                   );
                 })}
                 {children.length === 0 && (
-                  <div className="p-8 text-center text-gray-500">
+                  <div className="py-8 text-center text-gray-500">
                     No children added yet. Add your children&apos;s education
                     plans above.
                   </div>
                 )}
               </div>
-            </div>
+            </Card>
+
+            {/* Information Section */}
+            <Card>
+              <h3 className="text-lg font-semibold mb-3">
+                Important Considerations
+              </h3>
+              <ul className="space-y-2 text-sm text-gray-700">
+                <li>
+                  • Education costs have been rising faster than general
+                  inflation (6-10% annually in India)
+                </li>
+                <li>
+                  • Start early to benefit from compounding and reduce monthly
+                  investment burden
+                </li>
+                <li>
+                  • Consider dedicated education savings schemes like Sukanya
+                  Samriddhi Yojana for daughters
+                </li>
+                <li>
+                  • Review and adjust the plan annually based on actual
+                  education cost trends
+                </li>
+                <li>
+                  • Factor in additional costs like accommodation, books, and
+                  living expenses
+                </li>
+                <li>
+                  • Consider education insurance for protection against
+                  unforeseen circumstances
+                </li>
+              </ul>
+            </Card>
           </div>
 
           {/* Calculation Section */}
           <div className="space-y-6">
             {/* Input Parameters */}
-            <div className="bg-gray-50 p-6 rounded-lg">
+            <Card>
               <h2 className="text-xl font-semibold mb-4">
                 Planning Parameters
               </h2>
@@ -357,16 +392,15 @@ export default function ChildrenEducationPlanner() {
                   <label className="block text-sm font-medium mb-2">
                     Education Inflation Rate (%)
                   </label>
-                  <input
+                  <Input
                     type="number"
                     value={educationInflation}
                     onChange={(e) =>
                       setEducationInflation(Number(e.target.value))
                     }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                    min="3"
-                    max="15"
-                    step="0.5"
+                    min={3}
+                    max={15}
+                    step={0.5}
                   />
                   <p className="text-xs text-gray-500 mt-1">
                     Typically 6-10% for education in India
@@ -377,14 +411,13 @@ export default function ChildrenEducationPlanner() {
                   <label className="block text-sm font-medium mb-2">
                     Expected Investment Return (%)
                   </label>
-                  <input
+                  <Input
                     type="number"
                     value={expectedReturn}
                     onChange={(e) => setExpectedReturn(Number(e.target.value))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                    min="1"
-                    max="30"
-                    step="0.5"
+                    min={1}
+                    max={30}
+                    step={0.5}
                   />
                 </div>
 
@@ -392,12 +425,11 @@ export default function ChildrenEducationPlanner() {
                   <label className="block text-sm font-medium mb-2">
                     Current Education Savings (₹)
                   </label>
-                  <input
+                  <Input
                     type="number"
                     value={currentSavings}
                     onChange={(e) => setCurrentSavings(Number(e.target.value))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                    min="0"
+                    min={0}
                   />
                 </div>
 
@@ -410,92 +442,145 @@ export default function ChildrenEducationPlanner() {
                   Calculate Plan
                 </button>
               </div>
-            </div>
+            </Card>
 
             {/* Results */}
-            {result && (
-              <div className="bg-gradient-to-br from-yellow-50 to-orange-50 p-6 rounded-lg">
-                <h2 className="text-xl font-semibold mb-4">Investment Plan</h2>
-                <div className="space-y-4">
-                  <div className="bg-white p-4 rounded-lg shadow-sm">
-                    <h3 className="text-sm font-medium text-gray-600">
-                      Total Monthly Investment
-                    </h3>
-                    <p className="text-2xl font-bold text-green-600">
-                      {formatCurrency(Number(result.totalMonthlyInvestment))}
-                    </p>
-                  </div>
+            {result ? (
+              <>
+                <Card>
+                  <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                    <FaChartLine className="text-green-500" />
+                    Investment Plan Summary
+                  </h2>
 
-                  <div className="bg-white p-4 rounded-lg shadow-sm">
-                    <h3 className="text-sm font-medium text-gray-600">
-                      Total Future Education Cost
-                    </h3>
-                    <p className="text-xl font-bold text-blue-600">
-                      {formatCurrency(Number(result.totalFutureCost))}
-                    </p>
-                  </div>
+                  <div className="space-y-4">
+                    <div className="bg-gradient-to-r from-green-50 to-green-100 p-4 rounded-lg">
+                      <h3 className="text-sm font-medium text-gray-600 mb-1">
+                        Total Monthly Investment
+                      </h3>
+                      <p className="text-2xl font-bold text-green-600">
+                        {formatCurrency(Number(result.totalMonthlyInvestment))}
+                      </p>
+                    </div>
 
-                  <div className="bg-white p-4 rounded-lg shadow-sm">
-                    <h3 className="text-sm font-medium text-gray-600 mb-2">
-                      Child-wise Breakdown
-                    </h3>
-                    <div className="space-y-2">
-                      {result.childrenBreakdown.map((child, index) => (
-                        <div key={index} className="text-sm">
-                          <div className="flex justify-between items-center">
-                            <span className="font-medium">{child.name}</span>
-                            <span className="text-gray-600">
-                              {formatCurrency(Number(child.monthlyInvestment))}
-                              /month
-                            </span>
-                          </div>
-                          <div className="text-xs text-gray-500">
-                            {child.stage} • Future cost:{" "}
-                            {formatCurrency(Number(child.futureCost))}
-                            {child.yearsToEducation > 0 &&
-                              ` • ${child.yearsToEducation} years`}
-                          </div>
-                        </div>
-                      ))}
+                    <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-4 rounded-lg">
+                      <h3 className="text-sm font-medium text-gray-600 mb-1">
+                        Total Future Education Cost
+                      </h3>
+                      <p className="text-xl font-bold text-blue-600">
+                        {formatCurrency(Number(result.totalFutureCost))}
+                      </p>
+                    </div>
+
+                    <div className="bg-gradient-to-r from-purple-50 to-purple-100 p-4 rounded-lg">
+                      <h3 className="text-sm font-medium text-gray-600 mb-1">
+                        Total Investment Amount
+                      </h3>
+                      <p className="text-xl font-bold text-purple-600">
+                        {formatCurrency(Number(result.totalInvestment))}
+                      </p>
                     </div>
                   </div>
+                </Card>
+
+                <Card>
+                  <h3 className="text-lg font-semibold mb-3">
+                    Child-wise Breakdown
+                  </h3>
+                  <div className="space-y-3">
+                    {result.childrenBreakdown.map((child, index) => (
+                      <div key={index} className="bg-gray-50 p-3 rounded-lg">
+                        <div className="flex justify-between items-center mb-1">
+                          <span className="font-medium text-sm">
+                            {child.name}
+                          </span>
+                          <span className="text-sm font-semibold text-green-600">
+                            {formatCurrency(Number(child.monthlyInvestment))}
+                            /month
+                          </span>
+                        </div>
+                        <div className="text-xs text-gray-600">
+                          <div className="flex justify-between">
+                            <span>{child.stage}</span>
+                            <span>
+                              Future cost:{" "}
+                              {formatCurrency(Number(child.futureCost))}
+                            </span>
+                          </div>
+                          {child.yearsToEducation > 0 && (
+                            <div className="mt-1 text-blue-600">
+                              {child.yearsToEducation} years to education
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </Card>
+
+                <Card>
+                  <h3 className="text-lg font-semibold mb-3">
+                    Planning Summary
+                  </h3>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600">
+                        Education Inflation:
+                      </span>
+                      <span className="font-semibold">
+                        {educationInflation}% p.a.
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600">
+                        Expected Returns:
+                      </span>
+                      <span className="font-semibold">
+                        {expectedReturn}% p.a.
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600">
+                        Current Savings:
+                      </span>
+                      <span className="font-semibold">
+                        {formatCurrency(currentSavings)}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600">
+                        Number of Children:
+                      </span>
+                      <span className="font-semibold">{children.length}</span>
+                    </div>
+                    <div className="border-t pt-3 mt-3">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-gray-600">
+                          Total Monthly SIP:
+                        </span>
+                        <span className="font-bold text-green-600">
+                          {formatCurrency(
+                            Number(result.totalMonthlyInvestment)
+                          )}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+              </>
+            ) : (
+              <Card>
+                <div className="text-center py-8 text-gray-500">
+                  <FaChartLine className="mx-auto text-4xl mb-4 text-gray-300" />
+                  <p>
+                    Add children&apos;s education plans and click
+                    &quot;Calculate Plan&quot; to see your comprehensive
+                    education investment strategy.
+                  </p>
                 </div>
-              </div>
+              </Card>
             )}
           </div>
-        </div>
-
-        {/* Information Section */}
-        <div className="mt-12 bg-blue-50 p-6 rounded-lg">
-          <h3 className="text-lg font-semibold mb-3">
-            Important Considerations
-          </h3>
-          <ul className="space-y-2 text-sm text-gray-700">
-            <li>
-              • Education costs have been rising faster than general inflation
-              (6-10% annually in India)
-            </li>
-            <li>
-              • Start early to benefit from compounding and reduce monthly
-              investment burden
-            </li>
-            <li>
-              • Consider dedicated education savings schemes like Sukanya
-              Samriddhi Yojana for daughters
-            </li>
-            <li>
-              • Review and adjust the plan annually based on actual education
-              cost trends
-            </li>
-            <li>
-              • Factor in additional costs like accommodation, books, and living
-              expenses
-            </li>
-            <li>
-              • Consider education insurance for protection against unforeseen
-              circumstances
-            </li>
-          </ul>
         </div>
       </div>
 

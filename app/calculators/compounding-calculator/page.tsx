@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { FaUniversity, FaCalculator, FaChartLine } from "react-icons/fa";
+import { Input } from "@/components/ui/Input";
+import { Card } from "@/components/ui/Card";
 
 interface CompoundingData {
   year: number;
@@ -135,7 +137,7 @@ export default function CompoundingCalculator() {
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Input Section */}
           <div className="lg:col-span-1">
-            <div className="bg-gray-50 p-6 rounded-lg">
+            <Card>
               <h2 className="text-xl font-semibold mb-4">Investment Details</h2>
 
               <div className="space-y-4">
@@ -143,13 +145,12 @@ export default function CompoundingCalculator() {
                   <label className="block text-sm font-medium mb-2">
                     Initial Investment (₹)
                   </label>
-                  <input
+                  <Input
                     type="number"
                     value={principal}
                     onChange={(e) => setPrincipal(Number(e.target.value))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                    min="0"
-                    step="1000"
+                    min={0}
+                    step={1000}
                   />
                 </div>
 
@@ -157,15 +158,14 @@ export default function CompoundingCalculator() {
                   <label className="block text-sm font-medium mb-2">
                     Monthly Contribution (₹)
                   </label>
-                  <input
+                  <Input
                     type="number"
                     value={monthlyContribution}
                     onChange={(e) =>
                       setMonthlyContribution(Number(e.target.value))
                     }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                    min="0"
-                    step="500"
+                    min={0}
+                    step={500}
                   />
                 </div>
 
@@ -173,14 +173,13 @@ export default function CompoundingCalculator() {
                   <label className="block text-sm font-medium mb-2">
                     Annual Interest Rate (%)
                   </label>
-                  <input
+                  <Input
                     type="number"
                     value={annualRate}
                     onChange={(e) => setAnnualRate(Number(e.target.value))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                    min="0.1"
-                    max="50"
-                    step="0.1"
+                    min={0.1}
+                    max={50}
+                    step={0.1}
                   />
                 </div>
 
@@ -188,13 +187,12 @@ export default function CompoundingCalculator() {
                   <label className="block text-sm font-medium mb-2">
                     Time Period (Years)
                   </label>
-                  <input
+                  <Input
                     type="number"
                     value={timePeriod}
                     onChange={(e) => setTimePeriod(Number(e.target.value))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                    min="1"
-                    max="50"
+                    min={1}
+                    max={50}
                   />
                 </div>
 
@@ -228,66 +226,110 @@ export default function CompoundingCalculator() {
                   Calculate Growth
                 </button>
               </div>
-            </div>
+            </Card>
           </div>
 
           {/* Results Section */}
           <div className="lg:col-span-2 space-y-6">
-            {result && (
+            {result ? (
               <>
                 {/* Summary Cards */}
-                <div className="grid md:grid-cols-3 gap-4">
-                  <div className="bg-gradient-to-r from-green-50 to-green-100 p-6 rounded-lg border border-green-200">
-                    <h3 className="text-sm font-medium text-green-800 mb-1">
-                      Final Amount
-                    </h3>
-                    <p className="text-2xl font-bold text-green-600">
-                      {formatLakhs(Number(result.finalAmount))}
-                    </p>
+                <Card>
+                  <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                    <FaChartLine className="text-green-500" />
+                    Investment Summary
+                  </h2>
+                  <div className="grid md:grid-cols-3 gap-4">
+                    <div className="bg-gradient-to-r from-green-50 to-green-100 p-4 rounded-lg border border-green-200">
+                      <h3 className="text-sm font-medium text-green-800 mb-1">
+                        Final Amount
+                      </h3>
+                      <p className="text-2xl font-bold text-green-600">
+                        {formatLakhs(Number(result.finalAmount))}
+                      </p>
+                    </div>
+                    <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-4 rounded-lg border border-blue-200">
+                      <h3 className="text-sm font-medium text-blue-800 mb-1">
+                        Total Contributions
+                      </h3>
+                      <p className="text-xl font-bold text-blue-600">
+                        {formatLakhs(Number(result.totalContributions))}
+                      </p>
+                    </div>
+                    <div className="bg-gradient-to-r from-purple-50 to-purple-100 p-4 rounded-lg border border-purple-200">
+                      <h3 className="text-sm font-medium text-purple-800 mb-1">
+                        Interest Earned
+                      </h3>
+                      <p className="text-xl font-bold text-purple-600">
+                        {formatLakhs(Number(result.totalInterest))}
+                      </p>
+                    </div>
                   </div>
-                  <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-6 rounded-lg border border-blue-200">
-                    <h3 className="text-sm font-medium text-blue-800 mb-1">
-                      Total Contributions
-                    </h3>
-                    <p className="text-xl font-bold text-blue-600">
-                      {formatLakhs(Number(result.totalContributions))}
-                    </p>
-                  </div>
-                  <div className="bg-gradient-to-r from-purple-50 to-purple-100 p-6 rounded-lg border border-purple-200">
-                    <h3 className="text-sm font-medium text-purple-800 mb-1">
-                      Interest Earned
-                    </h3>
-                    <p className="text-xl font-bold text-purple-600">
-                      {formatLakhs(Number(result.totalInterest))}
-                    </p>
-                  </div>
-                </div>
+                </Card>
 
                 {/* Additional Info */}
-                <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
-                  <div className="grid md:grid-cols-2 gap-4 text-sm">
-                    <div>
-                      <span className="font-medium">
-                        Effective Annual Rate:
-                      </span>{" "}
-                      {result.effectiveRate}%
-                    </div>
-                    <div>
-                      <span className="font-medium">Growth Multiple:</span>{" "}
-                      {(
-                        Number(result.finalAmount) /
-                        Number(result.totalContributions)
-                      ).toFixed(2)}
-                      x
+                <Card>
+                  <h3 className="text-lg font-semibold mb-3">
+                    Investment Metrics
+                  </h3>
+                  <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                    <div className="grid md:grid-cols-2 gap-4 text-sm">
+                      <div>
+                        <span className="font-medium">
+                          Effective Annual Rate:
+                        </span>{" "}
+                        <span className="text-yellow-700 font-semibold">
+                          {result.effectiveRate}%
+                        </span>
+                      </div>
+                      <div>
+                        <span className="font-medium">Growth Multiple:</span>{" "}
+                        <span className="text-yellow-700 font-semibold">
+                          {(
+                            Number(result.finalAmount) /
+                            Number(result.totalContributions)
+                          ).toFixed(2)}
+                          x
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </Card>
+
+                {/* Visual Growth Chart */}
+                <Card>
+                  <h3 className="text-lg font-semibold mb-4">
+                    Growth Visualization
+                  </h3>
+                  <div className="grid grid-cols-10 gap-1 h-32">
+                    {result.yearlyBreakdown.slice(0, 10).map((data, index) => {
+                      const maxAmount = Math.max(
+                        ...result.yearlyBreakdown.map((d) => d.endingAmount)
+                      );
+                      const height = (data.endingAmount / maxAmount) * 100;
+                      return (
+                        <div key={index} className="flex flex-col justify-end">
+                          <div
+                            className="bg-gradient-to-t from-blue-500 to-purple-500 rounded-t min-h-1"
+                            style={{ height: `${height}%` }}
+                            title={`Year ${data.year}: ${formatCurrency(
+                              data.endingAmount
+                            )}`}
+                          ></div>
+                          <div className="text-xs text-center mt-1">
+                            {data.year}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </Card>
 
                 {/* Yearly Breakdown Table */}
-                <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-                  <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
-                    <h3 className="text-lg font-semibold flex items-center gap-2">
-                      <FaChartLine className="text-blue-500" />
+                <Card>
+                  <div className="flex items-center gap-2 mb-4">
+                    <FaChartLine className="text-blue-500" />
+                    <h3 className="text-lg font-semibold">
                       Year-wise Growth Breakdown
                     </h3>
                   </div>
@@ -335,53 +377,24 @@ export default function CompoundingCalculator() {
                       </tbody>
                     </table>
                   </div>
-                </div>
-
-                {/* Visual Growth Chart (Simple representation) */}
-                <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-6 rounded-lg">
-                  <h3 className="text-lg font-semibold mb-4">
-                    Growth Visualization
-                  </h3>
-                  <div className="grid grid-cols-10 gap-1 h-32">
-                    {result.yearlyBreakdown.slice(0, 10).map((data, index) => {
-                      const maxAmount = Math.max(
-                        ...result.yearlyBreakdown.map((d) => d.endingAmount)
-                      );
-                      const height = (data.endingAmount / maxAmount) * 100;
-                      return (
-                        <div key={index} className="flex flex-col justify-end">
-                          <div
-                            className="bg-gradient-to-t from-blue-500 to-purple-500 rounded-t min-h-1"
-                            style={{ height: `${height}%` }}
-                            title={`Year ${data.year}: ${formatCurrency(
-                              data.endingAmount
-                            )}`}
-                          ></div>
-                          <div className="text-xs text-center mt-1">
-                            {data.year}
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
+                </Card>
               </>
-            )}
-
-            {!result && (
-              <div className="bg-gray-50 p-12 rounded-lg text-center text-gray-500">
-                <FaUniversity className="mx-auto text-4xl mb-4 text-gray-400" />
-                <p>
-                  Enter your investment details and click calculate to see the
-                  power of compounding
-                </p>
-              </div>
+            ) : (
+              <Card>
+                <div className="text-center py-12 text-gray-500">
+                  <FaUniversity className="mx-auto text-4xl mb-4 text-gray-400" />
+                  <p>
+                    Enter your investment details and click &quot;Calculate
+                    Growth&quot; to see the power of compounding in action.
+                  </p>
+                </div>
+              </Card>
             )}
           </div>
         </div>
 
         {/* Information Section */}
-        <div className="mt-12 bg-blue-50 p-6 rounded-lg">
+        <Card className="mt-12">
           <h3 className="text-lg font-semibold mb-3">
             Understanding Compound Interest
           </h3>
@@ -412,7 +425,7 @@ export default function CompoundingCalculator() {
               </ul>
             </div>
           </div>
-        </div>
+        </Card>
       </div>
 
       <Footer />

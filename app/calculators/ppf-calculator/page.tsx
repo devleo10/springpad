@@ -9,6 +9,8 @@ import {
   FaChartLine,
   FaShieldAlt,
 } from "react-icons/fa";
+import { Card } from "@/components/ui/Card";
+import { Input } from "@/components/ui/Input";
 
 interface PPFData {
   year: number;
@@ -137,16 +139,15 @@ export default function PPFCalculator() {
         </p>
 
         <div className="grid lg:grid-cols-3 gap-8">
-          {/* Input Section */}
-          <div className="lg:col-span-1">
-            <div className="bg-gray-50 p-6 rounded-lg">
+          <div className="lg:col-span-2 space-y-6">
+            {/* Input Section */}
+            <Card>
               <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
                 <FaShieldAlt className="text-green-500" />
                 PPF Details
               </h2>
-
-              <div className="space-y-4">
-                <div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="md:col-span-2">
                   <label className="block text-sm font-medium mb-2">
                     Account Type
                   </label>
@@ -168,15 +169,14 @@ export default function PPFCalculator() {
                       <label className="block text-sm font-medium mb-2">
                         Current PPF Balance (₹)
                       </label>
-                      <input
+                      <Input
                         type="number"
                         value={currentPPFBalance}
                         onChange={(e) =>
                           setCurrentPPFBalance(Number(e.target.value))
                         }
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                        min="0"
-                        step="1000"
+                        min={0}
+                        step={1000}
                       />
                     </div>
 
@@ -184,13 +184,12 @@ export default function PPFCalculator() {
                       <label className="block text-sm font-medium mb-2">
                         Account Age (Years)
                       </label>
-                      <input
+                      <Input
                         type="number"
                         value={accountAge}
                         onChange={(e) => setAccountAge(Number(e.target.value))}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                        min="0"
-                        max="14"
+                        min={0}
+                        max={14}
                       />
                       <p className="text-xs text-gray-500 mt-1">
                         Years since account opening (max 14)
@@ -203,16 +202,15 @@ export default function PPFCalculator() {
                   <label className="block text-sm font-medium mb-2">
                     Annual Contribution (₹)
                   </label>
-                  <input
+                  <Input
                     type="number"
                     value={yearlyContribution}
                     onChange={(e) =>
                       setYearlyContribution(Number(e.target.value))
                     }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                    min="500"
-                    max="150000"
-                    step="500"
+                    min={500}
+                    max={150000}
+                    step={500}
                   />
                   <p className="text-xs text-gray-500 mt-1">
                     Minimum: ₹500, Maximum: ₹1,50,000
@@ -223,258 +221,333 @@ export default function PPFCalculator() {
                   <label className="block text-sm font-medium mb-2">
                     Current PPF Interest Rate (%)
                   </label>
-                  <input
+                  <Input
                     type="number"
                     value={interestRate}
                     onChange={(e) => setInterestRate(Number(e.target.value))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                    min="5"
-                    max="12"
-                    step="0.1"
+                    min={5}
+                    max={12}
+                    step={0.1}
                   />
                   <p className="text-xs text-gray-500 mt-1">
                     Current rate: 7.1% (FY 2023-24)
                   </p>
                 </div>
 
-                <div>
+                <div className="md:col-span-2">
                   <label className="block text-sm font-medium mb-2">
                     Extension Period (Years)
                   </label>
-                  <input
+                  <Input
                     type="number"
                     value={extensionYears}
                     onChange={(e) => setExtensionYears(Number(e.target.value))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                    min="0"
-                    max="50"
+                    min={0}
+                    max={50}
                   />
                   <p className="text-xs text-gray-500 mt-1">
                     Extend PPF beyond 15 years (without contributions)
                   </p>
                 </div>
-
-                <button
-                  onClick={calculatePPF}
-                  className="w-full bg-yellow-500 text-white py-2 px-4 rounded-md hover:bg-yellow-600 transition-colors flex items-center justify-center gap-2"
-                >
-                  <FaCalculator />
-                  Calculate PPF Returns
-                </button>
               </div>
-            </div>
+
+              <button
+                onClick={calculatePPF}
+                className="w-full mt-4 bg-yellow-500 text-white py-2 px-4 rounded-md hover:bg-yellow-600 transition-colors flex items-center justify-center gap-2"
+              >
+                <FaCalculator />
+                Calculate PPF Returns
+              </button>
+            </Card>
+
+            {/* Information Section */}
+            <Card>
+              <h3 className="text-lg font-semibold mb-3">
+                About Public Provident Fund (PPF)
+              </h3>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h4 className="font-medium mb-2">Key Features</h4>
+                  <ul className="space-y-1 text-sm text-gray-700">
+                    <li>• 15-year mandatory lock-in period</li>
+                    <li>• EEE (Exempt-Exempt-Exempt) tax status</li>
+                    <li>• Interest compounded annually</li>
+                    <li>• Loan facility available from 3rd year</li>
+                    <li>• Partial withdrawal from 7th year</li>
+                    <li>• Account can be extended in blocks of 5 years</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-medium mb-2">Investment Strategy</h4>
+                  <ul className="space-y-1 text-sm text-gray-700">
+                    <li>• Ideal for long-term wealth creation</li>
+                    <li>• Perfect for retirement planning</li>
+                    <li>
+                      • Contribute maximum ₹1.5L annually for best returns
+                    </li>
+                    <li>• Make contributions early in the financial year</li>
+                    <li>• Consider extension for tax-free growth</li>
+                    <li>
+                      • Combine with other 80C investments for diversification
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </Card>
           </div>
 
           {/* Results Section */}
-          <div className="lg:col-span-2 space-y-6">
-            {result && (
+          <div className="space-y-6">
+            {result ? (
               <>
-                {/* Summary Cards */}
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div className="bg-gradient-to-r from-green-50 to-green-100 p-6 rounded-lg border border-green-200">
-                    <h3 className="text-sm font-medium text-green-800 mb-1">
-                      Maturity Amount (15 years)
-                    </h3>
-                    <p className="text-2xl font-bold text-green-600">
-                      {formatLakhs(Number(result.maturityAmount))}
-                    </p>
+                <Card>
+                  <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                    <FaChartLine className="text-green-500" />
+                    PPF Summary
+                  </h2>
+
+                  <div className="space-y-4">
+                    <div className="bg-gradient-to-r from-green-50 to-green-100 p-4 rounded-lg border border-green-200">
+                      <h3 className="text-sm font-medium text-green-800 mb-1">
+                        Maturity Amount (15 years)
+                      </h3>
+                      <p className="text-2xl font-bold text-green-600">
+                        {formatLakhs(Number(result.maturityAmount))}
+                      </p>
+                    </div>
+
+                    <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-4 rounded-lg border border-blue-200">
+                      <h3 className="text-sm font-medium text-blue-800 mb-1">
+                        Total Interest Earned
+                      </h3>
+                      <p className="text-xl font-bold text-blue-600">
+                        {formatLakhs(Number(result.totalInterest))}
+                      </p>
+                    </div>
+
+                    <div className="bg-gradient-to-r from-purple-50 to-purple-100 p-4 rounded-lg border border-purple-200">
+                      <h3 className="text-sm font-medium text-purple-800 mb-1">
+                        Total Contributions
+                      </h3>
+                      <p className="text-xl font-bold text-purple-600">
+                        {formatLakhs(Number(result.totalContributions))}
+                      </p>
+                    </div>
+
+                    <div className="bg-gradient-to-r from-orange-50 to-orange-100 p-4 rounded-lg border border-orange-200">
+                      <h3 className="text-sm font-medium text-orange-800 mb-1">
+                        Tax Savings (30%)
+                      </h3>
+                      <p className="text-xl font-bold text-orange-600">
+                        {formatLakhs(Number(result.taxSavings))}
+                      </p>
+                    </div>
                   </div>
-                  <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-6 rounded-lg border border-blue-200">
-                    <h3 className="text-sm font-medium text-blue-800 mb-1">
-                      Total Interest Earned
-                    </h3>
-                    <p className="text-xl font-bold text-blue-600">
-                      {formatLakhs(Number(result.totalInterest))}
-                    </p>
-                  </div>
-                  <div className="bg-gradient-to-r from-purple-50 to-purple-100 p-6 rounded-lg border border-purple-200">
-                    <h3 className="text-sm font-medium text-purple-800 mb-1">
-                      Total Contributions
-                    </h3>
-                    <p className="text-xl font-bold text-purple-600">
-                      {formatLakhs(Number(result.totalContributions))}
-                    </p>
-                  </div>
-                  <div className="bg-gradient-to-r from-orange-50 to-orange-100 p-6 rounded-lg border border-orange-200">
-                    <h3 className="text-sm font-medium text-orange-800 mb-1">
-                      Tax Savings (30%)
-                    </h3>
-                    <p className="text-xl font-bold text-orange-600">
-                      {formatLakhs(Number(result.taxSavings))}
-                    </p>
-                  </div>
-                </div>
+                </Card>
 
                 {/* Extension Projection */}
                 {result.extensionProjection && (
-                  <div className="bg-yellow-50 p-6 rounded-lg border border-yellow-200">
-                    <h3 className="text-lg font-semibold text-yellow-800 mb-3">
+                  <Card>
+                    <h3 className="text-lg font-semibold mb-3">
                       Extended PPF Projection (
                       {result.extensionProjection.totalYears} years total)
                     </h3>
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
-                        <p className="text-sm text-yellow-700">
-                          Final Maturity Amount
-                        </p>
-                        <p className="text-xl font-bold text-yellow-800">
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-gray-600">
+                          Final Maturity Amount:
+                        </span>
+                        <span className="font-bold text-yellow-600">
                           {formatLakhs(
                             Number(result.extensionProjection.maturityAmount)
                           )}
-                        </p>
+                        </span>
                       </div>
-                      <div>
-                        <p className="text-sm text-yellow-700">
-                          Total Interest (Including Extension)
-                        </p>
-                        <p className="text-xl font-bold text-yellow-800">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-gray-600">
+                          Total Interest (Including Extension):
+                        </span>
+                        <span className="font-bold text-yellow-600">
                           {formatLakhs(
                             Number(result.extensionProjection.totalInterest)
                           )}
-                        </p>
+                        </span>
+                      </div>
+                    </div>
+                  </Card>
+                )}
+
+                <Card>
+                  <h3 className="text-lg font-semibold mb-3">
+                    Investment Summary
+                  </h3>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600">
+                        Account Type:
+                      </span>
+                      <span className="font-semibold capitalize">
+                        {calculationType}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600">
+                        Annual Contribution:
+                      </span>
+                      <span className="font-semibold">
+                        {formatLakhs(yearlyContribution)}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600">
+                        Interest Rate:
+                      </span>
+                      <span className="font-semibold">
+                        {interestRate}% p.a.
+                      </span>
+                    </div>
+                    {calculationType === "existing" && (
+                      <>
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm text-gray-600">
+                            Current Balance:
+                          </span>
+                          <span className="font-semibold">
+                            {formatLakhs(currentPPFBalance)}
+                          </span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm text-gray-600">
+                            Account Age:
+                          </span>
+                          <span className="font-semibold">
+                            {accountAge} years
+                          </span>
+                        </div>
+                      </>
+                    )}
+                    <div className="border-t pt-3 mt-3">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-gray-600">
+                          Maturity Value:
+                        </span>
+                        <span className="font-bold text-green-600">
+                          {formatLakhs(Number(result.maturityAmount))}
+                        </span>
                       </div>
                     </div>
                   </div>
-                )}
+                </Card>
 
-                {/* Yearly Breakdown */}
-                <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-                  <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
-                    <h3 className="text-lg font-semibold flex items-center gap-2">
-                      <FaChartLine className="text-blue-500" />
-                      Year-wise PPF Growth
-                    </h3>
-                  </div>
-                  <div className="overflow-x-auto">
-                    <table className="w-full">
-                      <thead className="bg-gray-50">
-                        <tr>
-                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                            Year
-                          </th>
-                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                            Opening Balance
-                          </th>
-                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                            Contribution
-                          </th>
-                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                            Interest
-                          </th>
-                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                            Closing Balance
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-gray-200">
-                        {result.yearlyBreakdown.map((data) => (
-                          <tr key={data.year} className="hover:bg-gray-50">
-                            <td className="px-4 py-3 text-sm font-medium">
-                              {data.year}
-                            </td>
-                            <td className="px-4 py-3 text-sm">
-                              {formatCurrency(data.startingBalance)}
-                            </td>
-                            <td className="px-4 py-3 text-sm text-blue-600">
-                              {formatCurrency(data.contribution)}
-                            </td>
-                            <td className="px-4 py-3 text-sm text-green-600">
-                              {formatCurrency(data.interest)}
-                            </td>
-                            <td className="px-4 py-3 text-sm font-medium">
-                              {formatCurrency(data.endingBalance)}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
-                {/* PPF Benefits */}
-                <div className="bg-gradient-to-br from-blue-50 to-green-50 p-6 rounded-lg">
+                <Card>
                   <h3 className="text-lg font-semibold mb-4">
                     PPF Benefits Summary
                   </h3>
-                  <div className="grid md:grid-cols-3 gap-4 text-sm">
-                    <div className="bg-white p-4 rounded-lg">
+                  <div className="space-y-4">
+                    <div className="bg-green-50 p-4 rounded-lg border border-green-200">
                       <h4 className="font-medium text-green-700 mb-2">
                         Tax Benefits
                       </h4>
-                      <ul className="space-y-1 text-gray-700">
+                      <ul className="space-y-1 text-xs text-green-600">
                         <li>• Contribution: 80C deduction</li>
                         <li>• Interest: Tax-free</li>
                         <li>• Maturity: Tax-free</li>
                       </ul>
                     </div>
-                    <div className="bg-white p-4 rounded-lg">
+                    <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
                       <h4 className="font-medium text-blue-700 mb-2">
                         Features
                       </h4>
-                      <ul className="space-y-1 text-gray-700">
+                      <ul className="space-y-1 text-xs text-blue-600">
                         <li>• 15-year lock-in period</li>
                         <li>• Government guaranteed</li>
                         <li>• Partial withdrawal after 7 years</li>
                       </ul>
                     </div>
-                    <div className="bg-white p-4 rounded-lg">
+                    <div className="bg-purple-50 p-4 rounded-lg border border-purple-200">
                       <h4 className="font-medium text-purple-700 mb-2">
                         Limits
                       </h4>
-                      <ul className="space-y-1 text-gray-700">
+                      <ul className="space-y-1 text-xs text-purple-600">
                         <li>• Min: ₹500 per year</li>
                         <li>• Max: ₹1,50,000 per year</li>
                         <li>• One account per person</li>
                       </ul>
                     </div>
                   </div>
-                </div>
+                </Card>
               </>
+            ) : (
+              <Card>
+                <div className="text-center py-8 text-gray-500">
+                  <FaUserGraduate className="mx-auto text-4xl mb-4 text-gray-300" />
+                  <p>
+                    Enter your PPF details and click &quot;Calculate PPF
+                    Returns&quot; to see your returns.
+                  </p>
+                </div>
+              </Card>
             )}
+          </div>
+        </div>
 
-            {!result && (
-              <div className="bg-gray-50 p-12 rounded-lg text-center text-gray-500">
-                <FaUserGraduate className="mx-auto text-4xl mb-4 text-gray-400" />
-                <p>
-                  Enter your PPF details and click calculate to see your returns
-                </p>
+        {/* Results Table Section */}
+        {result && (
+          <div className="mt-8">
+            <Card>
+              <div className="border-b border-gray-200 pb-4 mb-4">
+                <h3 className="text-lg font-semibold flex items-center gap-2">
+                  <FaChartLine className="text-blue-500" />
+                  Year-wise PPF Growth
+                </h3>
               </div>
-            )}
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                        Year
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                        Opening Balance
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                        Contribution
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                        Interest
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                        Closing Balance
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200">
+                    {result.yearlyBreakdown.map((data) => (
+                      <tr key={data.year} className="hover:bg-gray-50">
+                        <td className="px-4 py-3 text-sm font-medium">
+                          {data.year}
+                        </td>
+                        <td className="px-4 py-3 text-sm">
+                          {formatCurrency(data.startingBalance)}
+                        </td>
+                        <td className="px-4 py-3 text-sm text-blue-600">
+                          {formatCurrency(data.contribution)}
+                        </td>
+                        <td className="px-4 py-3 text-sm text-green-600">
+                          {formatCurrency(data.interest)}
+                        </td>
+                        <td className="px-4 py-3 text-sm font-medium">
+                          {formatCurrency(data.endingBalance)}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </Card>
           </div>
-        </div>
-
-        {/* Information Section */}
-        <div className="mt-12 bg-blue-50 p-6 rounded-lg">
-          <h3 className="text-lg font-semibold mb-3">
-            About Public Provident Fund (PPF)
-          </h3>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div>
-              <h4 className="font-medium mb-2">Key Features</h4>
-              <ul className="space-y-1 text-sm text-gray-700">
-                <li>• 15-year mandatory lock-in period</li>
-                <li>• EEE (Exempt-Exempt-Exempt) tax status</li>
-                <li>• Interest compounded annually</li>
-                <li>• Loan facility available from 3rd year</li>
-                <li>• Partial withdrawal from 7th year</li>
-                <li>• Account can be extended in blocks of 5 years</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-medium mb-2">Investment Strategy</h4>
-              <ul className="space-y-1 text-sm text-gray-700">
-                <li>• Ideal for long-term wealth creation</li>
-                <li>• Perfect for retirement planning</li>
-                <li>• Contribute maximum ₹1.5L annually for best returns</li>
-                <li>• Make contributions early in the financial year</li>
-                <li>• Consider extension for tax-free growth</li>
-                <li>
-                  • Combine with other 80C investments for diversification
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
+        )}
       </div>
 
       <Footer />

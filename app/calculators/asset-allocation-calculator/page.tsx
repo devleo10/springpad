@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { FaCoins, FaCalculator, FaChartPie } from "react-icons/fa";
+import { Navbar } from "@/components/Navbar";
+import { Input } from "@/components/ui/Input";
+import { Card } from "@/components/ui/Card";
 
 interface AssetClass {
   name: string;
@@ -37,10 +39,8 @@ export default function AssetAllocationCalculator() {
     const goldPercent = 5;
     const realEstatePercent = 5;
 
-    // Age-based allocation (100 minus age rule for equity)
     const baseEquity = Math.max(30, Math.min(80, 100 - age));
 
-    // Adjust based on risk tolerance
     switch (riskTolerance) {
       case "Conservative":
         equityPercent = Math.max(20, baseEquity - 20);
@@ -56,7 +56,6 @@ export default function AssetAllocationCalculator() {
         break;
     }
 
-    // Adjust for time horizon
     if (timeHorizon < 3) {
       equityPercent = Math.max(20, equityPercent - 20);
       debtPercent = 90 - goldPercent - realEstatePercent - equityPercent;
@@ -125,36 +124,32 @@ export default function AssetAllocationCalculator() {
         </p>
 
         <div className="grid lg:grid-cols-3 gap-8">
-          {/* Input Section */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Basic Information */}
-            <div className="bg-gray-50 p-6 rounded-lg">
+            <Card>
               <h2 className="text-xl font-semibold mb-4">Investment Profile</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium mb-2">Age</label>
-                  <input
+                  <Input
                     type="number"
                     value={age}
                     onChange={(e) => setAge(Number(e.target.value))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                    min="18"
-                    max="80"
+                    min={18}
+                    max={80}
                   />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-2">
                     Investment Amount (₹)
                   </label>
-                  <input
+                  <Input
                     type="number"
                     value={investmentAmount}
                     onChange={(e) =>
                       setInvestmentAmount(Number(e.target.value))
                     }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                    min="10000"
-                    step="10000"
+                    min={10000}
+                    step={10000}
                   />
                 </div>
                 <div>
@@ -182,20 +177,18 @@ export default function AssetAllocationCalculator() {
                   <label className="block text-sm font-medium mb-2">
                     Investment Time Horizon (Years)
                   </label>
-                  <input
+                  <Input
                     type="number"
                     value={timeHorizon}
                     onChange={(e) => setTimeHorizon(Number(e.target.value))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                    min="1"
-                    max="40"
+                    min={1}
+                    max={40}
                   />
                 </div>
               </div>
-            </div>
+            </Card>
 
-            {/* Custom Allocation */}
-            <div className="bg-white border border-gray-200 rounded-lg p-6">
+            <Card>
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-semibold">Asset Allocation</h2>
                 <label className="flex items-center gap-2">
@@ -220,15 +213,15 @@ export default function AssetAllocationCalculator() {
                       <span className="w-24 text-sm font-medium">
                         {asset.name}
                       </span>
-                      <input
+                      <Input
                         type="number"
                         value={asset.allocation}
                         onChange={(e) =>
                           updateAssetAllocation(index, Number(e.target.value))
                         }
-                        className="w-20 px-2 py-1 border border-gray-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-yellow-500"
-                        min="0"
-                        max="100"
+                        min={0}
+                        max={100}
+                        className="w-20 text-sm"
                       />
                       <span className="text-sm text-gray-500">%</span>
                     </div>
@@ -253,144 +246,107 @@ export default function AssetAllocationCalculator() {
                   ? "Calculate Custom Allocation"
                   : "Get Recommended Allocation"}
               </button>
-            </div>
+            </Card>
           </div>
 
           {/* Results Section */}
           <div className="space-y-6">
             {result && (
               <>
-                {/* Pie Chart Visualization */}
-                <div className="bg-gradient-to-br from-yellow-50 to-orange-50 p-6 rounded-lg">
+                <Card>
                   <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
                     <FaChartPie className="text-blue-500" />
                     Allocation Summary
                   </h2>
-
-                  {result.totalAllocation !== 100 && (
-                    <div className="bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded mb-4 text-sm">
-                      Warning: Total allocation is {result.totalAllocation}%.
-                      Should be 100%.
-                    </div>
-                  )}
-
                   <div className="space-y-3">
-                    {result.recommendedAllocation.map((asset, index) => (
+                    {result.recommendedAllocation.map((asset) => (
                       <div
                         key={asset.name}
-                        className="bg-white p-3 rounded-lg shadow-sm"
+                        className="flex items-center justify-between"
                       >
-                        <div className="flex items-center justify-between mb-2">
-                          <div className="flex items-center gap-2">
-                            <div
-                              className="w-3 h-3 rounded"
-                              style={{ backgroundColor: asset.color }}
-                            ></div>
-                            <span className="font-medium text-sm">
-                              {asset.name}
-                            </span>
-                          </div>
-                          <span className="font-bold text-sm">
-                            {asset.allocation}%
+                        <div className="flex items-center gap-2">
+                          <div
+                            className="w-3 h-3 rounded"
+                            style={{ backgroundColor: asset.color }}
+                          ></div>
+                          <span className="text-sm font-medium">
+                            {asset.name}
                           </span>
                         </div>
-                        <div className="text-xs text-gray-600">
-                          {formatCurrency(
-                            Number(
-                              result.allocationByAmount[index]?.amount || 0
-                            )
-                          )}
-                        </div>
-                        <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
-                          <div
-                            className="h-2 rounded-full transition-all duration-300"
-                            style={{
-                              backgroundColor: asset.color,
-                              width: `${asset.allocation}%`,
-                            }}
-                          ></div>
-                        </div>
+                        <span className="text-sm font-semibold">
+                          {asset.allocation}%
+                        </span>
                       </div>
                     ))}
                   </div>
-                </div>
-
-                {/* Recommendations */}
-                <div className="bg-blue-50 p-6 rounded-lg">
-                  <h3 className="text-lg font-semibold mb-3">
-                    Allocation Rationale
-                  </h3>
-                  <div className="space-y-2 text-sm text-gray-700">
-                    <p>
-                      • <strong>Age {age}:</strong> {100 - age}% equity
-                      allocation base (100 minus age rule)
-                    </p>
-                    <p>
-                      • <strong>{riskTolerance} Risk:</strong>{" "}
-                      {riskTolerance === "Conservative"
-                        ? "Lower equity, higher debt for stability"
-                        : riskTolerance === "Moderate"
-                        ? "Balanced allocation for steady growth"
-                        : "Higher equity allocation for maximum growth potential"}
-                    </p>
-                    <p>
-                      • <strong>{timeHorizon} Year Horizon:</strong>{" "}
-                      {timeHorizon < 3
-                        ? "Short-term focus on capital preservation"
-                        : timeHorizon > 15
-                        ? "Long-term growth orientation"
-                        : "Medium-term balanced approach"}
-                    </p>
+                  <div className="mt-4 pt-4 border-t">
+                    <div className="flex justify-between font-semibold">
+                      <span>Total Allocation:</span>
+                      <span>{result.totalAllocation}%</span>
+                    </div>
                   </div>
-                </div>
+                </Card>
+
+                <Card>
+                  <h2 className="text-xl font-semibold mb-4">
+                    Amount by Asset Class
+                  </h2>
+                  <div className="space-y-3">
+                    {result.allocationByAmount.map((asset) => (
+                      <div
+                        key={asset.name}
+                        className="flex items-center justify-between"
+                      >
+                        <div className="flex items-center gap-2">
+                          <div
+                            className="w-3 h-3 rounded"
+                            style={{ backgroundColor: asset.color }}
+                          ></div>
+                          <span className="text-sm font-medium">
+                            {asset.name}
+                          </span>
+                        </div>
+                        <span className="text-sm font-semibold">
+                          {formatCurrency(Number(asset.amount))}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-4 pt-4 border-t">
+                    <div className="flex justify-between font-semibold">
+                      <span>Total Investment:</span>
+                      <span>{formatCurrency(investmentAmount)}</span>
+                    </div>
+                  </div>
+                </Card>
+
+                {result.totalAllocation !== 100 && (
+                  <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
+                    <div className="flex">
+                      <div className="ml-3">
+                        <p className="text-sm text-yellow-700">
+                          <strong>Note:</strong> Your total allocation is{" "}
+                          {result.totalAllocation}%. Consider adjusting to reach
+                          100% for optimal portfolio balance.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </>
             )}
 
             {!result && (
-              <div className="bg-gray-50 p-6 rounded-lg text-center text-gray-500">
-                Enter your investment profile and click calculate to see your
-                recommended asset allocation
-              </div>
+              <Card>
+                <div className="text-center py-8 text-gray-500">
+                  <FaChartPie className="mx-auto text-4xl mb-4 text-gray-300" />
+                  <p>
+                    Click &quot;Get Recommended Allocation&quot; to see your
+                    personalized asset allocation.
+                  </p>
+                </div>
+              </Card>
             )}
-          </div>
-        </div>
-
-        {/* Information Section */}
-        <div className="mt-12 bg-blue-50 p-6 rounded-lg">
-          <h3 className="text-lg font-semibold mb-3">Asset Class Guide</h3>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div>
-              <h4 className="font-medium mb-2">Asset Classes Explained</h4>
-              <ul className="space-y-1 text-sm text-gray-700">
-                <li>
-                  • <strong>Equity:</strong> Stocks, mutual funds - High growth,
-                  high risk
-                </li>
-                <li>
-                  • <strong>Debt:</strong> Bonds, FDs, debt funds - Stable
-                  income, low risk
-                </li>
-                <li>
-                  • <strong>Gold:</strong> Physical/digital gold - Inflation
-                  hedge, moderate risk
-                </li>
-                <li>
-                  • <strong>Real Estate:</strong> Property, REITs - Long-term
-                  appreciation
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-medium mb-2">Allocation Principles</h4>
-              <ul className="space-y-1 text-sm text-gray-700">
-                <li>• Diversification reduces overall portfolio risk</li>
-                <li>• Younger investors can take more equity risk</li>
-                <li>
-                  • Rebalance portfolio annually or when allocations drift
-                </li>
-                <li>• Consider tax implications of different asset classes</li>
-              </ul>
-            </div>
           </div>
         </div>
       </div>

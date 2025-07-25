@@ -3,7 +3,9 @@
 import { useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { FaWallet, FaCalculator } from "react-icons/fa";
+import { FaWallet, FaCalculator, FaChartLine } from "react-icons/fa";
+import { Card } from "@/components/ui/Card";
+import { Input } from "@/components/ui/Input";
 
 export default function EmiCalculator() {
   const [loanAmount, setLoanAmount] = useState<number>(1000000);
@@ -62,10 +64,10 @@ export default function EmiCalculator() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-[#2C5282] pt-18">
+    <div className="relative min-h-screen bg-white text-[#2C5282] pt-18">
       <Navbar />
 
-      <div className="max-w-4xl mx-auto px-4 py-16">
+      <div className="max-w-6xl mx-auto px-4 py-16">
         <div className="flex items-center gap-3 mb-6">
           <FaWallet className="text-yellow-500 text-2xl" />
           <h1 className="text-3xl font-bold">EMI Calculator</h1>
@@ -76,85 +78,84 @@ export default function EmiCalculator() {
           personal loans, car loans, and more.
         </p>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* Input Section */}
-          <div className="bg-gray-50 p-6 rounded-lg">
-            <h2 className="text-xl font-semibold mb-4">Loan Details</h2>
+        <div className="grid lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2 space-y-6">
+            {/* Input Section */}
+            <Card>
+              <h2 className="text-xl font-semibold mb-4">Loan Details</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    Loan Amount (₹)
+                  </label>
+                  <Input
+                    type="number"
+                    value={loanAmount}
+                    onChange={(e) => setLoanAmount(Number(e.target.value))}
+                    min={50000}
+                    step={50000}
+                  />
+                  <p className="text-xs text-gray-500 mt-1">
+                    {formatCurrencyLakhs(loanAmount)}
+                  </p>
+                </div>
 
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium mb-2">
-                  Loan Amount (₹)
-                </label>
-                <input
-                  type="number"
-                  value={loanAmount}
-                  onChange={(e) => setLoanAmount(Number(e.target.value))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                  min="50000"
-                  step="50000"
-                />
-                <p className="text-xs text-gray-500 mt-1">
-                  {formatCurrencyLakhs(loanAmount)}
-                </p>
-              </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    Annual Interest Rate (%)
+                  </label>
+                  <Input
+                    type="number"
+                    value={interestRate}
+                    onChange={(e) => setInterestRate(Number(e.target.value))}
+                    min={5}
+                    max={20}
+                    step={0.1}
+                  />
+                </div>
 
-              <div>
-                <label className="block text-sm font-medium mb-2">
-                  Annual Interest Rate (%)
-                </label>
-                <input
-                  type="number"
-                  value={interestRate}
-                  onChange={(e) => setInterestRate(Number(e.target.value))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                  min="5"
-                  max="20"
-                  step="0.1"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-2">
-                  Loan Tenure (Years)
-                </label>
-                <input
-                  type="number"
-                  value={loanTenure}
-                  onChange={(e) => setLoanTenure(Number(e.target.value))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                  min="1"
-                  max="30"
-                />
-                <p className="text-xs text-gray-500 mt-1">
-                  {loanTenure * 12} months
-                </p>
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium mb-2">
+                    Loan Tenure (Years)
+                  </label>
+                  <Input
+                    type="number"
+                    value={loanTenure}
+                    onChange={(e) => setLoanTenure(Number(e.target.value))}
+                    min={1}
+                    max={30}
+                  />
+                  <p className="text-xs text-gray-500 mt-1">
+                    {loanTenure * 12} months
+                  </p>
+                </div>
               </div>
 
               <button
                 onClick={calculateEmi}
-                className="w-full bg-yellow-500 text-white py-2 px-4 rounded-md hover:bg-yellow-600 transition-colors flex items-center justify-center gap-2"
+                className="w-full mt-4 bg-yellow-500 text-white py-2 px-4 rounded-md hover:bg-yellow-600 transition-colors flex items-center justify-center gap-2"
               >
                 <FaCalculator />
                 Calculate EMI
               </button>
-            </div>
+            </Card>
 
             {/* Loan Type Quick Selectors */}
-            <div className="mt-6">
-              <h3 className="text-sm font-medium mb-3">Quick Loan Types</h3>
-              <div className="grid grid-cols-2 gap-2">
+            <Card>
+              <h3 className="text-lg font-semibold mb-4">Quick Loan Types</h3>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 <button
                   onClick={() => {
                     setLoanAmount(2500000);
                     setInterestRate(8.5);
                     setLoanTenure(20);
                   }}
-                  className="p-2 text-xs bg-blue-100 hover:bg-blue-200 rounded transition-colors"
+                  className="p-3 text-sm bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors border border-blue-200"
                 >
-                  Home Loan
-                  <br />
-                  <span className="text-gray-600">25L @ 8.5% - 20Y</span>
+                  <div className="font-medium text-blue-700">Home Loan</div>
+                  <div className="text-xs text-blue-600 mt-1">
+                    25L @ 8.5% - 20Y
+                  </div>
                 </button>
                 <button
                   onClick={() => {
@@ -162,11 +163,12 @@ export default function EmiCalculator() {
                     setInterestRate(9.5);
                     setLoanTenure(7);
                   }}
-                  className="p-2 text-xs bg-green-100 hover:bg-green-200 rounded transition-colors"
+                  className="p-3 text-sm bg-green-50 hover:bg-green-100 rounded-lg transition-colors border border-green-200"
                 >
-                  Car Loan
-                  <br />
-                  <span className="text-gray-600">8L @ 9.5% - 7Y</span>
+                  <div className="font-medium text-green-700">Car Loan</div>
+                  <div className="text-xs text-green-600 mt-1">
+                    8L @ 9.5% - 7Y
+                  </div>
                 </button>
                 <button
                   onClick={() => {
@@ -174,11 +176,14 @@ export default function EmiCalculator() {
                     setInterestRate(12);
                     setLoanTenure(5);
                   }}
-                  className="p-2 text-xs bg-purple-100 hover:bg-purple-200 rounded transition-colors"
+                  className="p-3 text-sm bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors border border-purple-200"
                 >
-                  Personal Loan
-                  <br />
-                  <span className="text-gray-600">5L @ 12% - 5Y</span>
+                  <div className="font-medium text-purple-700">
+                    Personal Loan
+                  </div>
+                  <div className="text-xs text-purple-600 mt-1">
+                    5L @ 12% - 5Y
+                  </div>
                 </button>
                 <button
                   onClick={() => {
@@ -186,117 +191,205 @@ export default function EmiCalculator() {
                     setInterestRate(11);
                     setLoanTenure(3);
                   }}
-                  className="p-2 text-xs bg-orange-100 hover:bg-orange-200 rounded transition-colors"
+                  className="p-3 text-sm bg-orange-50 hover:bg-orange-100 rounded-lg transition-colors border border-orange-200"
                 >
-                  Education Loan
-                  <br />
-                  <span className="text-gray-600">3L @ 11% - 3Y</span>
+                  <div className="font-medium text-orange-700">
+                    Education Loan
+                  </div>
+                  <div className="text-xs text-orange-600 mt-1">
+                    3L @ 11% - 3Y
+                  </div>
                 </button>
               </div>
-            </div>
+            </Card>
+
+            {/* Information Section */}
+            <Card>
+              <h3 className="text-lg font-semibold mb-3">
+                EMI Calculation Tips
+              </h3>
+              <ul className="space-y-2 text-sm text-gray-700">
+                <li>
+                  • EMI = [P × R × (1+R)^N] / [(1+R)^N-1], where P=Principal,
+                  R=Monthly Rate, N=Tenure in months
+                </li>
+                <li>
+                  • Lower interest rates and longer tenure reduce EMI but
+                  increase total interest
+                </li>
+                <li>
+                  • Prepayments can significantly reduce total interest and loan
+                  tenure
+                </li>
+                <li>
+                  • Consider your monthly income - EMI should not exceed 40-50%
+                  of your income
+                </li>
+                <li>
+                  • Compare different lenders for better interest rates and
+                  terms
+                </li>
+                <li>
+                  • Factor in processing fees, insurance, and other charges
+                </li>
+              </ul>
+            </Card>
           </div>
 
-          {/* Result Section */}
-          <div className="bg-gradient-to-br from-blue-50 to-green-50 p-6 rounded-lg">
-            <h2 className="text-xl font-semibold mb-4">EMI Breakdown</h2>
-
+          {/* Results Section */}
+          <div className="space-y-6">
             {result ? (
-              <div className="space-y-4">
-                <div className="bg-white p-4 rounded-lg shadow-sm border-l-4 border-yellow-500">
-                  <h3 className="text-sm font-medium text-gray-600">
-                    Monthly EMI
-                  </h3>
-                  <p className="text-2xl font-bold text-yellow-600">
-                    {formatCurrency(Number(result.emiAmount))}
-                  </p>
-                </div>
+              <>
+                <Card>
+                  <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                    <FaChartLine className="text-green-500" />
+                    EMI Breakdown
+                  </h2>
 
-                <div className="bg-white p-4 rounded-lg shadow-sm">
-                  <h3 className="text-sm font-medium text-gray-600">
-                    Principal Amount
-                  </h3>
-                  <p className="text-xl font-bold text-blue-600">
-                    {formatCurrencyLakhs(loanAmount)}
-                  </p>
-                </div>
+                  <div className="space-y-4">
+                    <div className="bg-gradient-to-r from-yellow-50 to-yellow-100 p-4 rounded-lg border-l-4 border-yellow-500">
+                      <h3 className="text-sm font-medium text-gray-600 mb-1">
+                        Monthly EMI
+                      </h3>
+                      <p className="text-2xl font-bold text-yellow-600">
+                        {formatCurrency(Number(result.emiAmount))}
+                      </p>
+                    </div>
 
-                <div className="bg-white p-4 rounded-lg shadow-sm">
-                  <h3 className="text-sm font-medium text-gray-600">
-                    Total Interest
-                  </h3>
-                  <p className="text-xl font-bold text-red-600">
-                    {formatCurrencyLakhs(Number(result.totalInterest))}
-                  </p>
-                  <p className="text-sm text-gray-500">
-                    {result.interestPercentage}% of principal
-                  </p>
-                </div>
+                    <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-4 rounded-lg">
+                      <h3 className="text-sm font-medium text-gray-600 mb-1">
+                        Principal Amount
+                      </h3>
+                      <p className="text-xl font-bold text-blue-600">
+                        {formatCurrencyLakhs(loanAmount)}
+                      </p>
+                    </div>
 
-                <div className="bg-white p-4 rounded-lg shadow-sm">
-                  <h3 className="text-sm font-medium text-gray-600">
-                    Total Amount Payable
-                  </h3>
-                  <p className="text-xl font-bold text-purple-600">
-                    {formatCurrencyLakhs(Number(result.totalAmount))}
-                  </p>
-                </div>
+                    <div className="bg-gradient-to-r from-red-50 to-red-100 p-4 rounded-lg">
+                      <h3 className="text-sm font-medium text-gray-600 mb-1">
+                        Total Interest
+                      </h3>
+                      <p className="text-xl font-bold text-red-600">
+                        {formatCurrencyLakhs(Number(result.totalInterest))}
+                      </p>
+                      <p className="text-sm text-gray-500">
+                        {result.interestPercentage}% of principal
+                      </p>
+                    </div>
 
-                {/* Payment Summary */}
-                <div className="bg-white p-4 rounded-lg shadow-sm">
-                  <h3 className="text-sm font-medium text-gray-600 mb-2">
+                    <div className="bg-gradient-to-r from-purple-50 to-purple-100 p-4 rounded-lg">
+                      <h3 className="text-sm font-medium text-gray-600 mb-1">
+                        Total Amount Payable
+                      </h3>
+                      <p className="text-xl font-bold text-purple-600">
+                        {formatCurrencyLakhs(Number(result.totalAmount))}
+                      </p>
+                    </div>
+                  </div>
+                </Card>
+
+                <Card>
+                  <h3 className="text-lg font-semibold mb-3">
                     Payment Summary
                   </h3>
-                  <div className="space-y-1 text-sm">
-                    <div className="flex justify-between">
-                      <span>Monthly EMI:</span>
-                      <span className="font-medium">
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600">
+                        Monthly EMI:
+                      </span>
+                      <span className="font-semibold">
                         {formatCurrency(Number(result.emiAmount))}
                       </span>
                     </div>
-                    <div className="flex justify-between">
-                      <span>Total Months:</span>
-                      <span className="font-medium">{loanTenure * 12}</span>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600">
+                        Total Months:
+                      </span>
+                      <span className="font-semibold">{loanTenure * 12}</span>
                     </div>
-                    <div className="flex justify-between">
-                      <span>Interest Rate:</span>
-                      <span className="font-medium">{interestRate}% p.a.</span>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600">
+                        Interest Rate:
+                      </span>
+                      <span className="font-semibold">
+                        {interestRate}% p.a.
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600">
+                        Loan Amount:
+                      </span>
+                      <span className="font-semibold">
+                        {formatCurrencyLakhs(loanAmount)}
+                      </span>
+                    </div>
+                    <div className="border-t pt-3 mt-3">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-gray-600">
+                          Total Payable:
+                        </span>
+                        <span className="font-bold text-purple-600">
+                          {formatCurrencyLakhs(Number(result.totalAmount))}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
+                </Card>
+
+                <Card>
+                  <h3 className="text-lg font-semibold mb-3">Cost Breakdown</h3>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600">
+                        Principal Amount:
+                      </span>
+                      <span className="font-semibold text-blue-600">
+                        {formatCurrencyLakhs(loanAmount)}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600">
+                        Interest Cost:
+                      </span>
+                      <span className="font-semibold text-red-600">
+                        {formatCurrencyLakhs(Number(result.totalInterest))}
+                      </span>
+                    </div>
+                    <div className="border-t pt-3 mt-3">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-gray-600">
+                          Total Cost:
+                        </span>
+                        <span className="font-bold text-purple-600">
+                          {formatCurrencyLakhs(Number(result.totalAmount))}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="bg-orange-50 p-3 rounded-lg border border-orange-200">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-orange-700">
+                          Interest as % of Principal:
+                        </span>
+                        <span className="font-bold text-orange-700">
+                          {result.interestPercentage}%
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+              </>
             ) : (
-              <p className="text-gray-500 text-center py-8">
-                Enter your loan details and click calculate to see EMI breakdown
-              </p>
+              <Card>
+                <div className="text-center py-8 text-gray-500">
+                  <FaChartLine className="mx-auto text-4xl mb-4 text-gray-300" />
+                  <p>
+                    Enter your loan details and click &quot;Calculate EMI&quot;
+                    to see your payment breakdown.
+                  </p>
+                </div>
+              </Card>
             )}
           </div>
-        </div>
-
-        {/* Information Section */}
-        <div className="mt-12 bg-blue-50 p-6 rounded-lg">
-          <h3 className="text-lg font-semibold mb-3">EMI Calculation Tips</h3>
-          <ul className="space-y-2 text-sm text-gray-700">
-            <li>
-              • EMI = [P × R × (1+R)^N] / [(1+R)^N-1], where P=Principal,
-              R=Monthly Rate, N=Tenure in months
-            </li>
-            <li>
-              • Lower interest rates and longer tenure reduce EMI but increase
-              total interest
-            </li>
-            <li>
-              • Prepayments can significantly reduce total interest and loan
-              tenure
-            </li>
-            <li>
-              • Consider your monthly income - EMI should not exceed 40-50% of
-              your income
-            </li>
-            <li>
-              • Compare different lenders for better interest rates and terms
-            </li>
-            <li>• Factor in processing fees, insurance, and other charges</li>
-          </ul>
         </div>
       </div>
 
