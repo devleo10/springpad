@@ -8,8 +8,8 @@ function OurPartners() {
   return (
     <section className="bg-white pb-32">
       <div className="max-w-7xl mx-auto px-4 text-center">
-        <h2 className="text-3xl font-bold text-neutral-800 mb-2">
-          Our Partners
+                <h2 className="text-3xl font-bold text-[#2C5282] mb-2">
+          Our Trusted Partners
         </h2>
         <p className="text-sm text-neutral-500 mb-10">
           These banks and AMCs partner with us to bring smarter investments to you.

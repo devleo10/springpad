@@ -20,7 +20,7 @@ const BentoPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white text-black p-4 md:p-8 relative overflow-hidden">
+    <div className="min-h-screen bg-white text-[#2C5282] p-4 md:p-8 relative overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 left-10 w-72 h-72 bg-yellow-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
@@ -56,10 +56,10 @@ const BentoPage = () => {
             <div className="relative z-10">
               <div className="flex justify-between items-start mb-6">
                 <div>
-                  <h3 className="text-3xl font-bold mb-2 text-black">AI Portfolio</h3>
+                  <h3 className="text-3xl font-bold mb-2 text-[#2C5282]">AI Portfolio</h3>
                   <p className="text-gray-600 text-lg">Intelligent optimization in real-time</p>
                 </div>
-                <div className="bg-gradient-to-br from-yellow-400 to-yellow-500 text-black font-black text-2xl px-4 py-2 rounded-2xl shadow-lg animate-pulse">
+                <div className="bg-gradient-to-br from-yellow-400 to-yellow-500 text-[#2C5282] font-black text-2xl px-4 py-2 rounded-2xl shadow-lg animate-pulse">
                   {animatedValues.score.toFixed(1)} / 10
                 </div>
               </div>
@@ -69,19 +69,19 @@ const BentoPage = () => {
                   <div className="bg-black text-yellow-400 text-2xl font-black p-4 rounded-2xl mb-2 transform group-hover:scale-110 transition-transform">
                     LOW
                   </div>
-                  <div className="text-sm font-semibold text-gray-700">Risk Level</div>
+                  <div className="text-sm font-semibold text-[#2C5282]">Risk Level</div>
                 </div>
                 <div className="text-center group">
-                  <div className="bg-gradient-to-br from-yellow-400 to-yellow-500 text-black text-2xl font-black p-4 rounded-2xl mb-2 transform group-hover:scale-110 transition-transform">
+                  <div className="bg-gradient-to-br from-yellow-400 to-yellow-500 text-[#2C5282] text-2xl font-black p-4 rounded-2xl mb-2 transform group-hover:scale-110 transition-transform">
                     {animatedValues.returns}%
                   </div>
-                  <div className="text-sm font-semibold text-gray-700">Annual Returns</div>
+                  <div className="text-sm font-semibold text-[#2C5282]">Annual Returns</div>
                 </div>
                 <div className="text-center group">
                   <div className="bg-black text-yellow-400 text-2xl font-black p-4 rounded-2xl mb-2 transform group-hover:scale-110 transition-transform">
                     A+
                   </div>
-                  <div className="text-sm font-semibold text-gray-700">AI Score</div>
+                  <div className="text-sm font-semibold text-[#2C5282]">AI Score</div>
                 </div>
               </div>
 
@@ -125,29 +125,29 @@ const BentoPage = () => {
 
           {/* Market Insights */}
           <div className="bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-3xl p-6 border-2 border-yellow-600 hover:shadow-xl hover:shadow-yellow-400/30 transition-all duration-300 transform hover:-translate-y-1 relative overflow-hidden">
-            <h3 className="text-xl font-bold mb-3 text-black">Market Insights</h3>
-            <p className="text-black/80 text-sm mb-6">Real-time AI analysis</p>
+            <h3 className="text-xl font-bold mb-3 text-[#2C5282]">Market Insights</h3>
+            <p className="text-[#2C5282]/80 text-sm mb-6">Real-time AI analysis</p>
             
             <div className="space-y-3">
-              <div className="flex items-center bg-black/20 rounded-xl p-3">
-                <div className="w-3 h-3 bg-black rounded-full mr-3 animate-pulse"></div>
-                <span className="text-black font-semibold text-sm">Bull market detected</span>
+              <div className="flex items-center bg-[#2C5282]/20 rounded-xl p-3">
+                <div className="w-3 h-3 bg-[#2C5282] rounded-full mr-3 animate-pulse"></div>
+                <span className="text-[#2C5282] font-semibold text-sm">Bull market detected</span>
               </div>
-              <div className="flex items-center bg-black/20 rounded-xl p-3">
-                <div className="w-3 h-3 bg-black rounded-full mr-3 animate-pulse delay-200"></div>
-                <span className="text-black font-semibold text-sm">Sector rotation ahead</span>
+              <div className="flex items-center bg-[#2C5282]/20 rounded-xl p-3">
+                <div className="w-3 h-3 bg-[#2C5282] rounded-full mr-3 animate-pulse delay-200"></div>
+                <span className="text-[#2C5282] font-semibold text-sm">Sector rotation ahead</span>
               </div>
             </div>
           </div>
 
           {/* Goals Progress */}
           <div className="lg:col-span-2 bg-gradient-to-br from-gray-50 to-white rounded-3xl p-8 border-2 border-gray-200 hover:border-yellow-400/50 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-            <h3 className="text-2xl font-bold mb-6 text-black">Your Financial Goals</h3>
+            <h3 className="text-2xl font-bold mb-6 text-[#2C5282]">Your Financial Goals</h3>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="text-center bg-yellow-50 rounded-2xl p-6 border border-yellow-200">
                 <div className="text-2xl font-black text-yellow-600 mb-1">₹5.2L</div>
-                <div className="text-sm font-semibold text-gray-700 mb-3">Emergency Fund</div>
+                <div className="text-sm font-semibold text-[#2C5282] mb-3">Emergency Fund</div>
                 <div className="w-full bg-gray-200 rounded-full h-3">
                   <div className="bg-gradient-to-r from-yellow-400 to-yellow-500 h-3 rounded-full transition-all duration-1000" style={{width: '75%'}}></div>
                 </div>
@@ -156,7 +156,7 @@ const BentoPage = () => {
               
               <div className="text-center bg-yellow-50 rounded-2xl p-6 border border-yellow-200">
                 <div className="text-2xl font-black text-yellow-600 mb-1">₹25L</div>
-                <div className="text-sm font-semibold text-gray-700 mb-3">Dream Home</div>
+                <div className="text-sm font-semibold text-[#2C5282] mb-3">Dream Home</div>
                 <div className="w-full bg-gray-200 rounded-full h-3">
                   <div className="bg-gradient-to-r from-yellow-400 to-yellow-500 h-3 rounded-full transition-all duration-1000 delay-300" style={{width: '50%'}}></div>
                 </div>
@@ -165,7 +165,7 @@ const BentoPage = () => {
               
               <div className="text-center bg-yellow-50 rounded-2xl p-6 border border-yellow-200">
                 <div className="text-2xl font-black text-yellow-600 mb-1">₹1.5Cr</div>
-                <div className="text-sm font-semibold text-gray-700 mb-3">Retirement</div>
+                <div className="text-sm font-semibold text-[#2C5282] mb-3">Retirement</div>
                 <div className="w-full bg-gray-200 rounded-full h-3">
                   <div className="bg-gradient-to-r from-yellow-400 to-yellow-500 h-3 rounded-full transition-all duration-1000 delay-500" style={{width: '25%'}}></div>
                 </div>
@@ -184,11 +184,11 @@ const BentoPage = () => {
 
           {/* AI Assistant */}
           <div className="bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-3xl p-6 border-2 border-yellow-600 hover:shadow-xl hover:shadow-yellow-400/30 transition-all duration-300 transform hover:-translate-y-1">
-            <h3 className="text-xl font-bold mb-3 text-black">AI Assistant</h3>
-            <div className="bg-black/20 rounded-xl p-4 mb-4">
-              <p className="text-black text-sm font-semibold italic">&quot;Should I invest in tech stocks now?&quot;</p>
+            <h3 className="text-xl font-bold mb-3 text-[#2C5282]">AI Assistant</h3>
+            <div className="bg-[#2C5282]/20 rounded-xl p-4 mb-4">
+              <p className="text-[#2C5282] text-sm font-semibold italic">&quot;Should I invest in tech stocks now?&quot;</p>
             </div>
-            <div className="text-black/80 text-sm font-semibold">Available 24/7</div>
+            <div className="text-[#2C5282]/80 text-sm font-semibold">Available 24/7</div>
           </div>
 
           {/* Performance Dashboard */}
@@ -220,7 +220,7 @@ const BentoPage = () => {
         <div className="text-center mt-16">
           <div className="inline-block relative">
             <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-3xl blur-xl opacity-50"></div>
-            <button className="relative bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 hover:from-yellow-500 hover:via-yellow-600 hover:to-yellow-700 text-black font-black py-6 px-12 rounded-3xl shadow-2xl hover:shadow-yellow-400/50 transform hover:scale-105 transition-all duration-300 text-xl">
+            <button className="relative bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 hover:from-yellow-500 hover:via-yellow-600 hover:to-yellow-700 text-[#2C5282] font-black py-6 px-12 rounded-3xl shadow-2xl hover:shadow-yellow-400/50 transform hover:scale-105 transition-all duration-300 text-xl">
               Start Your AI Investment Journey
               <span className="block text-sm font-semibold opacity-80">Join 50,000+ smart investors</span>
             </button>

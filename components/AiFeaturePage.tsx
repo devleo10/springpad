@@ -49,13 +49,12 @@ const AiFeaturesPage: React.FC = () => {
   return (
     <div className="pb-32 px-4 bg-white">
       <div className="text-center mb-12">
-        <h2 className="text-3xl font-bold text-neutral-800 leading-tight">
-          AI-Driven Mutual Fund Investing Built for the Modern Investor
+                <h2 className="text-3xl font-bold text-[#2C5282] leading-tight">
+          Experience Next-Gen Investing with AI
         </h2>
-        <p className="mt-2 text-neutral-500 text-sm max-w-2xl mx-auto">
-          From personalized fund recommendations to real-time performance
-          insights, our platform uses the power of AI to help you invest with
-          confidence and clarity.
+        <p className="mt-2 text-gray-500 text-sm max-w-2xl mx-auto">
+          Our AI-powered platform revolutionizes mutual fund investing with
+          intelligent insights and automated portfolio management.
         </p>
       </div>
 
@@ -69,7 +68,7 @@ const AiFeaturesPage: React.FC = () => {
                 <span className="text-white text-xs font-bold">AI</span>
               </div>
               <div>
-                <h4 className="text-sm font-semibold text-black">
+                <h4 className="text-sm font-semibold text-[#2C5282]">
                   AI Assistant
                 </h4>
                 <span className="text-xs text-green-500 flex items-center gap-1">
@@ -92,14 +91,14 @@ const AiFeaturesPage: React.FC = () => {
                 <div className="w-6 h-6 bg-black rounded-full flex items-center justify-center text-white text-xs font-bold">
                   AI
                 </div>
-                <div className="bg-gray-100 rounded-lg px-3 py-2 text-sm max-w-[70%] text-gray-700 shadow-md">
+                <div className="bg-gray-100 rounded-lg px-3 py-2 text-sm max-w-[70%] text-[#2C5282] shadow-md">
                   Hello! I&apos;m your AI assistant. How can I help you today?
                 </div>
               </div>
 
               {/* User Message */}
               <div className="flex gap-2 justify-end">
-                <div className="bg-yellow-300 text-black rounded-lg px-3 py-2 text-sm max-w-[70%] shadow-md">
+                <div className="bg-yellow-300 text-[#2C5282] rounded-lg px-3 py-2 text-sm max-w-[70%] shadow-md">
                   Can you help me analyze my data?
                 </div>
                 <div className="w-6 h-6 bg-gray-600 rounded-full flex items-center justify-center text-white text-xs font-bold">
@@ -112,7 +111,7 @@ const AiFeaturesPage: React.FC = () => {
                 <div className="w-6 h-6 bg-black rounded-full flex items-center justify-center text-white text-xs font-bold">
                   AI
                 </div>
-                <div className="bg-gray-100 rounded-lg px-3 py-2 text-sm max-w-[70%] text-gray-700 shadow-md">
+                <div className="bg-gray-100 rounded-lg px-3 py-2 text-sm max-w-[70%] text-[#2C5282] shadow-md">
                   Absolutely! I can help you analyze various types of data. What
                   kind of analysis are you looking for?
                 </div>
@@ -144,15 +143,15 @@ const AiFeaturesPage: React.FC = () => {
               <input
                 type="text"
                 placeholder="Type your message..."
-                className="flex-1 bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm text-black placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400"
+                className="flex-1 bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm text-[#2C5282] placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400"
               />
-              <button className="bg-yellow-300 text-black px-4 py-2 rounded-lg text-sm hover:bg-yellow-400 transition-colors font-semibold">
+              <button className="bg-yellow-300 text-[#2C5282] px-4 py-2 rounded-lg text-sm hover:bg-yellow-400 transition-colors font-semibold">
                 Send
               </button>
             </div>
           </div>
           <div className="mt-4">
-            <h3 className="text-lg font-bold text-black">AI Chat Assistant</h3>
+            <h3 className="text-lg font-bold text-[#2C5282]">AI Chat Assistant</h3>
             <p className="text-sm text-gray-600">
               Get instant help and insights from our intelligent AI assistant
             </p>
@@ -241,7 +240,7 @@ const AiFeaturesPage: React.FC = () => {
             {/* Bottom Text */}
             <div className="mt-auto pt-4 border-t border-gray-200">
               <div className="text-center">
-                <div className="text-sm font-semibold text-black">
+                <div className="text-sm font-semibold text-[#2C5282]">
                   Easy payments
                 </div>
                 <div className="text-xs text-gray-600 mt-1">
@@ -252,7 +251,7 @@ const AiFeaturesPage: React.FC = () => {
             </div>
           </div>
           <div className="mt-4">
-            <h3 className="text-lg font-bold text-black">Payment Solutions</h3>
+            <h3 className="text-lg font-bold text-[#2C5282]">Payment Solutions</h3>
             <p className="text-sm text-gray-600">
               Secure and flexible payment options for all your needs
             </p>
@@ -331,11 +330,11 @@ const AiFeaturesPage: React.FC = () => {
             {/* Header */}
             <div className="flex items-center justify-between pb-3 border-b border-gray-100">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-yellow-300 rounded-full flex items-center justify-center text-xs font-bold text-black">
+                <div className="w-8 h-8 bg-yellow-300 rounded-full flex items-center justify-center text-xs font-bold text-[#2C5282]">
                   AI
                 </div>
                 <div>
-                  <h4 className="text-sm font-semibold text-gray-800">
+                  <h4 className="text-sm font-semibold text-[#2C5282]">
                     AI Financial Advisor
                   </h4>
                   <p className="text-xs text-gray-500">
@@ -436,7 +435,7 @@ const AiFeaturesPage: React.FC = () => {
 
           {/* Footer */}
           <div className="mt-4">
-            <h3 className="text-lg font-bold text-black">Market Insight</h3>
+            <h3 className="text-lg font-bold text-[#2C5282]">Market Insight</h3>
             <p className="text-sm text-gray-600">
               Nifty 50 shows stable trends. Review your portfolio to stay
               aligned with your goals.

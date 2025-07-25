@@ -30,7 +30,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           {/* Company Column */}
           <div>
-            <h3 className="text-gray-900 font-semibold text-lg mb-6">
+            <h3 className="text-[#2C5282] font-semibold text-lg mb-6">
               Company
             </h3>
             <div className="space-y-4">
@@ -63,7 +63,7 @@ export function Footer() {
 
           {/* Products Column */}
           <div>
-            <h3 className="text-gray-900 font-semibold text-lg mb-6">
+            <h3 className="text-[#2C5282] font-semibold text-lg mb-6">
               Products
             </h3>
             <div className="space-y-4">
@@ -96,7 +96,7 @@ export function Footer() {
 
           {/* Support Column */}
           <div>
-            <h3 className="text-gray-900 font-semibold text-lg mb-6">
+            <h3 className="text-[#2C5282] font-semibold text-lg mb-6">
               Support
             </h3>
             <div className="space-y-4">
@@ -129,7 +129,7 @@ export function Footer() {
 
           {/* Legal Column */}
           <div>
-            <h3 className="text-gray-900 font-semibold text-lg mb-6">Legal</h3>
+            <h3 className="text-[#2C5282] font-semibold text-lg mb-6">Legal</h3>
             <div className="space-y-4">
               <Link
                 href="/privacy-policy"
@@ -162,7 +162,7 @@ export function Footer() {
         {/* Newsletter Subscription */}
         <div className="bg-gray-50 rounded-2xl p-8 mb-12">
           <div className="text-center mb-6">
-            <h3 className="text-2xl font-bold text-gray-900 mb-2">
+            <h3 className="text-2xl font-bold text-[#2C5282] mb-2">
               Connect with our Advisor
             </h3>
             <p className="text-gray-600">
@@ -186,7 +186,7 @@ export function Footer() {
               placeholder="Enter your email"
               className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
             />
-            <button className="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-8 py-3 rounded-lg transition-colors duration-200 whitespace-nowrap">
+            <button className="bg-yellow-400 hover:bg-yellow-500 text-[#2C5282] font-semibold px-8 py-3 rounded-lg transition-colors duration-200 whitespace-nowrap">
               Connect Now
             </button>
           </div>
@@ -200,7 +200,7 @@ export function Footer() {
             className="w-12 h-12 bg-gray-100 hover:bg-yellow-300 rounded-full flex items-center justify-center transition-all duration-300 group"
           >
             <svg
-              className="w-6 h-6 text-gray-600 group-hover:text-black transition-colors"
+              className="w-6 h-6 text-gray-600 group-hover:text-[#2C5282] transition-colors"
               fill="currentColor"
               viewBox="0 0 24 24"
             >
@@ -213,7 +213,7 @@ export function Footer() {
             className="w-12 h-12 bg-gray-100 hover:bg-yellow-300 rounded-full flex items-center justify-center transition-all duration-300 group"
           >
             <svg
-              className="w-6 h-6 text-gray-600 group-hover:text-black transition-colors"
+              className="w-6 h-6 text-gray-600 group-hover:text-[#2C5282] transition-colors"
               fill="currentColor"
               viewBox="0 0 24 24"
             >
@@ -226,7 +226,7 @@ export function Footer() {
             className="w-12 h-12 bg-gray-100 hover:bg-yellow-300 rounded-full flex items-center justify-center transition-all duration-300 group"
           >
             <svg
-              className="w-6 h-6 text-gray-600 group-hover:text-black transition-colors"
+              className="w-6 h-6 text-gray-600 group-hover:text-[#2C5282] transition-colors"
               fill="currentColor"
               viewBox="0 0 24 24"
             >
@@ -239,7 +239,7 @@ export function Footer() {
             className="w-12 h-12 bg-gray-100 hover:bg-yellow-300 rounded-full flex items-center justify-center transition-all duration-300 group"
           >
             <svg
-              className="w-6 h-6 text-gray-600 group-hover:text-black transition-colors"
+              className="w-6 h-6 text-gray-600 group-hover:text-[#2C5282] transition-colors"
               fill="currentColor"
               viewBox="0 0 24 24"
             >
@@ -252,7 +252,7 @@ export function Footer() {
             className="w-12 h-12 bg-gray-100 hover:bg-yellow-300 rounded-full flex items-center justify-center transition-all duration-300 group"
           >
             <svg
-              className="w-6 h-6 text-gray-600 group-hover:text-black transition-colors"
+              className="w-6 h-6 text-gray-600 group-hover:text-[#2C5282] transition-colors"
               fill="currentColor"
               viewBox="0 0 24 24"
             >
@@ -264,10 +264,10 @@ export function Footer() {
         {/* Bottom Section */}
         <div className="border-t border-gray-200 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="text-gray-500 text-sm mb-4 md:mb-0">
+            <div className="text-[#2C5282] text-sm mb-4 md:mb-0">
               Copyright © 2025 Springpad. All rights reserved.
             </div>
-            <div className="flex items-center space-x-6 text-sm text-gray-500">
+            <div className="flex items-center space-x-6 text-sm text-[#2C5282]">
               <span>🇮🇳 Made in India</span>
               <span>•</span>
               <span>SEBI Registered</span>

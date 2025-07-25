@@ -25,10 +25,10 @@ const HomePage = () => {
             style={{ transform: "scaley(1.1)" }}
             className="text-center text-3xl sm:text-3xl font-semibold leading-tight"
           >
-            <span className="bg-gradient-to-b from-neutral-800 via-neutral-700 to-neutral-600 bg-clip-text text-transparent mb-4 block">
+            <span className="bg-gradient-to-b from-[#2C5282] via-[#2C5282] to-[#1a3a5c] bg-clip-text text-transparent mb-4 block">
               Smarter Funds, Sharper Returns
             </span>
-            <span className="z-10 relative text-bold bg-gradient-to-b from-neutral-800 via-neutral-700 to-neutral-600 bg-clip-text text-transparent block">
+            <span className="z-10 relative text-bold bg-gradient-to-b from-[#2C5282] via-[#2C5282] to-[#1a3a5c] bg-clip-text text-transparent block">
               with AI Precision.
             </span>
           </h2>
@@ -56,15 +56,15 @@ const HomePage = () => {
               style={{ transform: "scaley(1.1)" }}
               className="text-center text-lg sm:text-2xl md:text-3xl lg:text-4xl xl:text-6xl 2xl:text-7xl font-semibold leading-tight"
             >
-              <span className="bg-gradient-to-b from-neutral-800 via-neutral-700 to-neutral-600 bg-clip-text text-transparent block sm:inline sm:mr-1 md:mr-2 lg:mr-4 xl:ml-[50px] xl:mr-[60px] 2xl:ml-[100px] 2xl:mr-[120px]">
+              <span className="bg-gradient-to-b from-[#2C5282] via-[#2C5282] to-[#1a3a5c] bg-clip-text text-transparent block sm:inline sm:mr-1 md:mr-2 lg:mr-4 xl:ml-[50px] xl:mr-[60px] 2xl:ml-[100px] 2xl:mr-[120px]">
                 Smarter Funds,
               </span>
-              <span className="bg-gradient-to-b from-neutral-800 via-neutral-700 to-neutral-600 bg-clip-text text-transparent block sm:inline sm:mr-1 md:mr-2 lg:mr-4 xl:mr-[30px] 2xl:mr-[60px]">
+              <span className="bg-gradient-to-b from-[#2C5282] via-[#2C5282] to-[#1a3a5c] bg-clip-text text-transparent block sm:inline sm:mr-1 md:mr-2 lg:mr-4 xl:mr-[30px] 2xl:mr-[60px]">
                 Sharper Returns
               </span>
               <br className="hidden sm:block" /> 
             
-              <span className="z-10 relative text-bold bg-gradient-to-b from-neutral-800 via-neutral-700 to-neutral-600 bg-clip-text text-transparent block mt-1 sm:mt-0">
+              <span className="z-10 relative text-bold bg-gradient-to-b from-[#2C5282] via-[#2C5282] to-[#1a3a5c] bg-clip-text text-transparent block mt-1 sm:mt-0">
                 with AI Precision.
               </span>
             </h2>

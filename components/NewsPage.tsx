@@ -109,7 +109,7 @@ export function NewsPage() {
           className="relative z-10 bg-white/90 backdrop-blur-lg border border-yellow-200 rounded-2xl shadow-2xl px-8 py-10 flex flex-col items-center"
         >
           <span className="block w-14 h-14 border-4 border-yellow-400 border-t-neutral-800 rounded-full animate-spin mb-4"></span>
-          <h2 className="text-lg font-bold text-neutral-800 tracking-wide">Loading Latest News...</h2>
+          <h2 className="text-lg font-bold text-[#2C5282] tracking-wide">Loading Latest News...</h2>
         </motion.div>
       </div>
     );
@@ -131,7 +131,7 @@ export function NewsPage() {
         transition={{ duration: 0.6 }}
         className="relative z-20 text-center px-4"
       >
-        <h1 className="text-3xl md:text-4xl font-bold text-neutral-800 mb-2">
+        <h1 className="text-3xl md:text-4xl font-bold text-[#2C5282] mb-2">
           News Highlights
         </h1>
         <p className="text-gray-600 font-medium text-lg mb-6">
@@ -175,7 +175,7 @@ export function NewsPage() {
             
             {/* Content */}
             <div className="relative z-10 flex-1 flex flex-col px-5 py-4">
-              <h3 className="font-bold text-neutral-800 text-base md:text-lg mb-2 line-clamp-2">
+              <h3 className="font-bold text-[#2C5282] text-base md:text-lg mb-2 line-clamp-2">
                 {article.title}
               </h3>
               <p className="text-gray-600 text-sm mb-4 line-clamp-3 flex-1">
@@ -185,7 +185,7 @@ export function NewsPage() {
                 <span className="text-xs text-gray-500 font-semibold">
                   {formatDate(article.publishedAt)}
                 </span>
-                <span className="inline-block bg-yellow-300 hover:bg-yellow-400 text-neutral-800 font-bold px-3 py-1 rounded-full text-xs shadow-lg hover:shadow-xl transition-all duration-200 cursor-pointer">
+                <span className="inline-block bg-yellow-300 hover:bg-yellow-400 text-[#2C5282] font-bold px-3 py-1 rounded-full text-xs shadow-lg hover:shadow-xl transition-all duration-200 cursor-pointer">
                   Read More →
                 </span>
               </div>

@@ -127,7 +127,7 @@ export default function EPFCalculator() {
   };
 
   return (
-    <div className="relative min-h-screen bg-white text-neutral-800 pt-18">
+    <div className="relative min-h-screen bg-white text-[#2C5282] pt-18">
       <Navbar />
 
       <div className="max-w-6xl mx-auto px-4 py-16">

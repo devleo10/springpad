@@ -4,27 +4,27 @@ import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
-// Dummy feature data with images instead of icons
+// Security feature data matching the design
 const features = [
   {
-    title: "What’s Moving Your Portfolio?",
-    description: "Real-time explainable impact summaries",
-    image: "/graph.png",
+    title: "Verified By Verisign",
+    description: "",
+    image: "/verification.png",
   },
   {
-    title: "Post-Tax XIRR & Cash-in-Hand Returns",
-    description: "See true net performance",
-    image: "/light.png",
+    title: "No Money Can Be Moved",
+    description: "",
+    image: "/secure-money-2.png",
   },
   {
-    title: "Smart Tax Harvesting + What-If Simulations",
-    description: "Optimize LTCG exemptions",
-    image: "/calculator.png",
+    title: "Password Encryption",
+    description: "",
+    image: "/password.png",
   },
   {
-    title: "Automated FIFO-Based Tax Matching Engine",
-    description: "Accurate STCG/LTCG tracking",
-    image: "/money.png",
+    title: "Bank Level Security",
+    description: "",
+    image: "/bank-level-security.png",
   },
 ];
 
@@ -37,71 +37,69 @@ const Feature = ({
   description: string;
   image: string;
 }) => (
-  <motion.div
-    transition={{ type: "spring", stiffness: 300, damping: 20 }}
-    className="relative flex flex-col items-center gap-3 p-6 bg-white/60 backdrop-blur-md rounded-2xl border border-yellow-100 group overflow-hidden transition-all duration-300 ease-in-out hover:border-yellow-300 hover:shadow-2xl shadow-xl"
-  >
-    {/* Gradient overlay on hover */}
-    <div className="absolute inset-0 bg-gradient-to-br from-yellow-50 via-yellow-25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl pointer-events-none" />
-
-    {/* Replacing icon with image */}
-    <div className="z-10 w-14 h-14 bg-gradient-to-br from-yellow-200 to-yellow-400 rounded-xl flex items-center justify-center shadow-lg mb-2 group-hover:scale-110 transition-all ease-in-out duration-300">
+  <div className="flex flex-col items-center text-center space-y-4">
+    {/* Feature illustration */}
+    <div className="w-32 h-32 mb-4">
       <Image
         src={image}
         alt={title}
-        width={28}
-        height={28}
-        className="object-contain"
+        width={128}
+        height={128}
+        className="object-contain w-full h-full"
       />
     </div>
-
-    <h3 className="z-10 font-semibold text-neutral-800 text-base md:text-lg text-center">
+    
+    {/* Feature title */}
+    <h3 className="text-lg font-semibold text-[#2C5282]">
       {title}
     </h3>
-    <p className="z-10 text-sm text-gray-700 text-center">{description}</p>
-
-    <div className="z-0 absolute -top-4 -right-4 w-16 h-16 bg-yellow-100 opacity-20 rounded-full blur-2xl pointer-events-none group-hover:opacity-40 transition-opacity duration-300" />
-  </motion.div>
+  </div>
 );
 
 const FeaturePage = () => {
   return (
-    <motion.section
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.8 }}
-      className="pb-32 relative bg-white overflow-hidden"
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-16 bg-gray-50">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-3xl font-bold text-neutral-800">
-            Why Choose Our Mutual Fund Platform?
+        <div className="text-center mb-16">
+          <h1 className="text-4xl md:text-5xl font-bold text-[#2C5282] mb-4">
+            Reason To Invest With Us
+          </h1>
+          <h2 className="text-xl md:text-2xl text-[#2C5282] font-medium">
+            Trust Us, Your Savings Are In Safe Hands
           </h2>
-          <p className="mt-2 text-neutral-500 text-sm sm:text-base max-w-2xl mx-auto">
-            Everything you need to grow your investments smartly, securely, and
-            efficiently.
-          </p>
-        </motion.div>
+        </div>
 
         {/* Features Grid */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6"
-        >
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
           {features.map((feature, index) => (
             <Feature key={index} {...feature} />
           ))}
-        </motion.div>
+        </div>
+
+        {/* Description */}
+        <div className="text-center mb-12">
+          <p className="text-gray-600 text-lg max-w-4xl mx-auto leading-relaxed">
+            We value the trust you place in us that's why, we are committed to keeping highest standards for securing
+            transactions and customer confidentiality
+          </p>
+        </div>
+
+        {/* Call to Action Buttons */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8">
+          <button className="bg-[#F59E0B] hover:bg-[#D97706] text-white px-8 py-4 rounded-full font-semibold text-lg transition-colors duration-200 shadow-lg">
+            Start Investing with us
+          </button>
+          
+          <div className="flex items-center gap-4">
+            <span className="text-gray-500 text-lg">- OR -</span>
+            <button className="bg-[#F59E0B] hover:bg-[#D97706] text-white px-8 py-4 rounded-full font-semibold text-lg transition-colors duration-200 shadow-lg">
+              Get Call Back
+            </button>
+          </div>
+        </div>
       </div>
-    </motion.section>
+    </section>
   );
 };
 

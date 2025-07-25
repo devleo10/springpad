@@ -78,8 +78,8 @@ export default function TopPerformingFunds() {
         {/* Header and Category Filter */}
         <div className="flex flex-col md:flex-row justify-between gap-6 items-start md:items-center">
           <div>
-            <h1 className="text-3xl md:text-4xl font-bold text-neutral-800 bg-clip-text mb-2">
-              Top Performing Funds
+                        <h1 className="text-3xl md:text-4xl font-bold text-[#2C5282] bg-clip-text mb-2">
+              Top Performing Mutual Funds
             </h1>
             <p className="text-gray-600 text-sm">
               Discover the best investment opportunities
@@ -149,7 +149,7 @@ export default function TopPerformingFunds() {
                     {fund.logo}
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-sm font-semibold text-gray-800 mb-1 leading-tight">
+                    <h3 className="text-sm font-semibold text-[#2C5282] mb-1 leading-tight">
                       {fund.name}
                     </h3>
                     <span className="text-[10px] px-2 py-1 rounded-md bg-orange-400 text-white font-semibold inline-block">
@@ -165,13 +165,13 @@ export default function TopPerformingFunds() {
                       <p className="text-[10px] text-gray-500">
                         📅 Launch Date
                       </p>
-                      <p className="font-bold text-gray-900">
+                      <p className="font-bold text-[#2C5282]">
                         {fund.launchDate}
                       </p>
                     </div>
                     <div className="bg-orange-50/60 rounded p-2 border">
                       <p className="text-[10px] text-gray-500">💰 AUM (Cr)</p>
-                      <p className="font-bold text-gray-900">₹{fund.aum}</p>
+                      <p className="font-bold text-[#2C5282]">₹{fund.aum}</p>
                     </div>
                   </div>
 
@@ -193,7 +193,7 @@ export default function TopPerformingFunds() {
                     </div>
                   </div>
 
-                  <button className="w-full mt-3 bg-yellow-300 hover:bg-yellow-400 text-black font-bold py-2 rounded-lg shadow-sm transition">
+                  <button className="w-full mt-3 bg-yellow-300 hover:bg-yellow-400 text-[#2C5282] font-bold py-2 rounded-lg shadow-sm transition">
                     Invest Now
                   </button>
                 </div>

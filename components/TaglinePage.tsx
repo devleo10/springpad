@@ -27,7 +27,7 @@ export default function TaglinePage() {
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         {/* Left Side */}
         <div className="space-y-8">
-          <h1 className="text-3xl md:text-3xl lg:text-4xl text-neutral-800 mb-8 font-bold">
+          <h1 className="text-3xl md:text-3xl lg:text-4xl text-[#2C5282] mb-8 font-bold">
             It&apos;s Always A{" "}
             <span className="animated-underline font-semibold text-yellow-500">
               Good Time To Invest
@@ -57,7 +57,7 @@ export default function TaglinePage() {
                 </div>
 
                 {/* Title */}
-                <div className="z-10 font-semibold text-neutral-800 text-base md:text-lg text-center tracking-wide">
+                <div className="z-10 font-semibold text-[#2C5282] text-base md:text-lg text-center tracking-wide">
                   {title}
                 </div>
 
@@ -80,8 +80,8 @@ export default function TaglinePage() {
               className="relative rounded-3xl shadow-2xl"
             />
           </div>
-          <button className="px-8 py-3 bg-yellow-300 hover:bg-yellow-400 text-neutral-800 rounded-xl font-bold text-lg shadow-lg transition-all duration-300">
-            Know More
+                    <button className="px-8 py-3 bg-yellow-300 hover:bg-yellow-400 text-[#2C5282] rounded-xl font-bold text-lg shadow-lg transition-all duration-300">
+            Explore Our Calculators →
           </button>
         </div>
       </div>

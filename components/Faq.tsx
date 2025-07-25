@@ -58,14 +58,10 @@ export function Faq() {
   return (
     <section className="px-4 max-w-6xl mx-auto bg-white pb-32">
       <div className="text-center mb-16">
-        <h2 className="text-4xl font-bold text-gray-900 mb-4">
-          Frequently <span className="text-yellow-500">Asked</span> Questions
+                <h2 className="text-4xl font-bold text-[#2C5282] mb-4">
+          Frequently Asked Questions
         </h2>
-        <p className="text-gray-600 text-lg max-w-2xl mx-auto leading-relaxed">
-          Get answers to common questions about mutual fund investments, our
-          platform features, and how SpringPad can help you build wealth through
-          smart mutual fund investing.
-        </p>
+        <p className="text-gray-600 text-lg max-w-2xl mx-auto leading-relaxed" />
       </div>
 
       <div className="bg-gray-50 p-8 rounded-3xl shadow-sm space-y-4">
@@ -78,7 +74,7 @@ export function Faq() {
               onClick={() => toggle(index)}
               className="flex justify-between items-center w-full text-left group"
             >
-              <span className="font-semibold text-lg text-gray-900 group-hover:text-yellow-500 transition-colors duration-200">
+              <span className="font-semibold text-lg text-[#2C5282] group-hover:text-yellow-500 transition-colors duration-200">
                 {faq.question}
               </span>
               <span className="bg-yellow-100 p-2 rounded-full transition-all duration-200 group-hover:bg-yellow-400 group-hover:text-white">
@@ -91,7 +87,7 @@ export function Faq() {
             </button>
             {openIndex === index && (
               <div className="mt-6 pt-4 border-t border-gray-200">
-                <p className="text-gray-700 text-base leading-relaxed">
+                <p className="text-[#2C5282] text-base leading-relaxed">
                   {faq.answer}
                 </p>
               </div>

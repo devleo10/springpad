@@ -26,7 +26,7 @@ export function Navbar() {
         {/* Logo */}
         <Link
           href="/"
-          className="flex items-center space-x-2 text-black hover:opacity-80 transition-opacity"
+          className="flex items-center space-x-2 text-[#2C5282] hover:opacity-80 transition-opacity"
         >
           <Image
             src="/logo.png"
@@ -45,8 +45,8 @@ export function Navbar() {
               href={item.href}
               className={`text-sm px-4 py-2 rounded-xl font-medium transition-all duration-200 ${
                 pathname === item.href
-                  ? "bg-yellow-200 text-black"
-                  : "text-gray-700 hover:text-black hover:bg-gray-100/80"
+                  ? "bg-yellow-200 text-[#2C5282]"
+                  : "text-gray-700 hover:text-[#2C5282] hover:bg-gray-100/80"
               }`}
             >
               {item.name}
@@ -58,13 +58,13 @@ export function Navbar() {
         <div className="hidden md:flex items-center space-x-2">
           <Link
             href="/login"
-            className="text-sm px-4 py-2 rounded-xl text-gray-700 hover:text-black hover:bg-gray-100/80 transition-all duration-200 font-medium"
+            className="text-sm px-4 py-2 rounded-xl text-gray-700 hover:text-[#2C5282] hover:bg-gray-100/80 transition-all duration-200 font-medium"
           >
             Login
           </Link>
           <Link
             href="/signup"
-            className="text-sm px-5 py-2 rounded-xl bg-yellow-300 hover:bg-yellow-400 text-black transition-all duration-200 shadow-md hover:shadow-lg font-semibold"
+            className="text-sm px-5 py-2 rounded-xl bg-yellow-300 hover:bg-yellow-400 text-[#2C5282] transition-all duration-200 shadow-md hover:shadow-lg font-semibold"
           >
             Sign Up
           </Link>
@@ -97,7 +97,7 @@ export function Navbar() {
           <Link
             key={`mobile-${idx}`}
             href={item.href}
-            className="block py-3 px-4 text-sm text-gray-700 hover:text-black hover:bg-gray-100/80 rounded-xl transition-all duration-200 font-medium"
+            className="block py-3 px-4 text-sm text-gray-700 hover:text-[#2C5282] hover:bg-gray-100/80 rounded-xl transition-all duration-200 font-medium"
             onClick={() => setIsMobileMenuOpen(false)}
           >
             {item.name}
@@ -106,14 +106,14 @@ export function Navbar() {
         <div className="pt-2 border-t border-gray-200/50 space-y-2">
           <Link
             href="/login"
-            className="block py-3 px-4 text-sm text-gray-700 hover:text-black hover:bg-gray-100/80 rounded-xl transition-all duration-200 font-medium"
+            className="block py-3 px-4 text-sm text-gray-700 hover:text-[#2C5282] hover:bg-gray-100/80 rounded-xl transition-all duration-200 font-medium"
             onClick={() => setIsMobileMenuOpen(false)}
           >
             Login
           </Link>
           <Link
             href="/signup"
-            className="block py-3 px-4 text-sm text-center bg-yellow-500 hover:bg-yellow-600 text-black rounded-xl transition-all duration-200 font-semibold shadow-md"
+            className="block py-3 px-4 text-sm text-center bg-yellow-500 hover:bg-yellow-600 text-[#2C5282] rounded-xl transition-all duration-200 font-semibold shadow-md"
             onClick={() => setIsMobileMenuOpen(false)}
           >
             Sign Up

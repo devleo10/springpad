@@ -65,7 +65,7 @@ const calculatorSections = [
 
 export default function CalculatorsPage() {
   return (
-    <div className="min-h-screen bg-white text-neutral-800 pt-20">
+    <div className="min-h-screen bg-white text-[#2C5282] pt-20">
       <Navbar />
 
       <div className="max-w-6xl mx-auto px-4 py-16">
