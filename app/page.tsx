@@ -9,6 +9,7 @@ import { Faq } from "@/components/Faq";
 import TaglinePage from "@/components/TaglinePage";
 import TopPerformingFunds from "@/components/topPerformingFunds";
 import { NewsPage } from "@/components/NewsPage";
+import InterestCalculator from "@/components/InterestCalculator";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Navbar />
       <HomePage />
       <TaglinePage />
+      <InterestCalculator/>
       {/* <BentoPage /> */}
       <FeaturePage />
       <AiFeaturesPage />
