@@ -14,7 +14,7 @@ export function Navbar() {
     { name: "About", href: "/about" },
     { name: "Calculators", href: "/calculators" },
     { name: "Mutual Fund", href: "/mutual-funds" },
-    { name: "Mutual MF Research", href: "/mutual-funds-research" },
+    { name: "MF Research", href: "/mf-research" },
     { name: "Goals", href: "/goals" },
     { name: "Contact", href: "/contact" },
   ];
