@@ -40,9 +40,9 @@ const ContactPage = () => {
         <div className="w-full max-w-6xl mx-auto relative z-10 px-4">
           {/* Header Section */}
           <div className="text-center mb-12 w-full">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 leading-tight">
+            <h1 className="text-4xl md:text-5xl font-bold text-[#2C5282] mb-4 leading-tight">
               We&apos;ve been waiting{" "}
-              <span className="text-yellow-600">for you.</span>
+              <span className="animated-underline font-semibold text-yellow-500">for you.</span>
             </h1>
 
             <p className="text-gray-600 text-lg mb-8">
@@ -198,9 +198,9 @@ const ContactPage = () => {
                 {/* Submit Button */}
                 <Button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-200 transform hover:scale-[1.02] hover:shadow-lg mt-8"
+                  className="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-[#2C5282] font-semibold py-4 px-6 rounded-xl transition-all duration-200 transform hover:scale-[1.02] hover:shadow-lg mt-8"
                 >
-                  Submit
+                  Submit Request →
                 </Button>
               </form>
             </div>
