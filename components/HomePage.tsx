@@ -13,7 +13,7 @@ const HomePage = () => {
       // Initial state: Hide AI elements and position them at the very top of the screen
       gsap.set([aiRefMobile.current, aiRefDesktop.current], {
         opacity: 0,
-        y: -window.innerHeight // Drop from the very top of the viewport
+        y: typeof window !== "undefined" ? -window.innerHeight : -100 // Safe for SSR
       });
 
       // Timeline for the animation sequence
@@ -83,7 +83,7 @@ const HomePage = () => {
               <span
                 ref={aiRefMobile}
                 className="inline-block px-2 py-1 rounded-md"
-                style={{ opacity: 0, transform: `translateY(-${window.innerHeight}px)` }}
+                style={{ opacity: 0, transform: `translateY(-100px)` }}
               >
                 AI{" "}
               </span>
@@ -129,7 +129,7 @@ const HomePage = () => {
               <span
                 ref={aiRefDesktop}
                 className="bg-gradient-to-b from-[#2C5282] via-[#2C5282] to-[#1a3a5c] bg-clip-text text-transparent inline-block px-2 py-1 rounded-md"
-                style={{ opacity: 0, transform: `translateY(-${window.innerHeight}px)` }}
+                style={{ opacity: 0, transform: `translateY(-100px)` }}
               >
                 AI{" "}
               </span>
