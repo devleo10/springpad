@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { Card } from "@/components/ui/Card";
+import { Input } from "@/components/ui/Input";
 import {
   FaWallet,
   FaCalculator,
@@ -12,6 +14,9 @@ import {
   FaCoffee,
   FaCar,
   FaHome,
+  FaChartLine,
+  FaShieldAlt,
+  FaPiggyBank,
 } from "react-icons/fa";
 
 interface ExpenseItem {
@@ -253,8 +258,9 @@ export default function SpendingLessCalculator() {
           {/* Expenses Management */}
           <div className="lg:col-span-2 space-y-6">
             {/* Add New Expense */}
-            <div className="bg-gray-50 p-6 rounded-lg">
-              <h2 className="text-xl font-semibold mb-4">
+            <Card>
+              <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                <FaPlus className="text-blue-500" />
                 Add Expense to Reduce
               </h2>
               <div className="grid grid-cols-1 gap-4">
@@ -263,13 +269,12 @@ export default function SpendingLessCalculator() {
                     <label className="block text-sm font-medium mb-2">
                       Expense Name
                     </label>
-                    <input
+                    <Input
                       type="text"
                       value={newExpense.name}
                       onChange={(e) =>
                         setNewExpense({ ...newExpense, name: e.target.value })
                       }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
                       placeholder="e.g., Coffee, Uber rides"
                     />
                   </div>
@@ -301,7 +306,7 @@ export default function SpendingLessCalculator() {
                     <label className="block text-sm font-medium mb-2">
                       Current Amount (₹)
                     </label>
-                    <input
+                    <Input
                       type="number"
                       value={newExpense.currentAmount || ""}
                       onChange={(e) =>
@@ -310,15 +315,14 @@ export default function SpendingLessCalculator() {
                           currentAmount: Number(e.target.value),
                         })
                       }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                      min="0"
+                      min={0}
                     />
                   </div>
                   <div>
                     <label className="block text-sm font-medium mb-2">
                       Reduced Amount (₹)
                     </label>
-                    <input
+                    <Input
                       type="number"
                       value={newExpense.reducedAmount || ""}
                       onChange={(e) =>
@@ -327,8 +331,7 @@ export default function SpendingLessCalculator() {
                           reducedAmount: Number(e.target.value),
                         })
                       }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                      min="0"
+                      min={0}
                       max={newExpense.currentAmount}
                     />
                   </div>
@@ -361,18 +364,21 @@ export default function SpendingLessCalculator() {
                   Add Expense
                 </button>
               </div>
-            </div>
+            </Card>
 
             {/* Expenses List */}
-            <div className="bg-white border border-gray-200 rounded-lg">
-              <h2 className="text-xl font-semibold p-6 border-b border-gray-200">
+            <Card>
+              <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                <FaPiggyBank className="text-green-500" />
                 Your Expense Reductions
               </h2>
-              <div className="divide-y divide-gray-200">
+              <div className="space-y-4">
                 {expenses.map((expense) => (
                   <div
                     key={expense.id}
-                    className={`p-4 ${getCategoryColor(expense.category)}`}
+                    className={`p-4 rounded-lg border-2 ${getCategoryColor(
+                      expense.category
+                    )}`}
                   >
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-3">
@@ -386,7 +392,7 @@ export default function SpendingLessCalculator() {
                       </div>
                       <button
                         onClick={() => removeExpense(expense.id)}
-                        className="text-red-500 hover:text-red-700"
+                        className="text-red-500 hover:text-red-700 p-1"
                       >
                         <FaTimes />
                       </button>
@@ -396,7 +402,7 @@ export default function SpendingLessCalculator() {
                         <label className="block text-xs text-gray-600 mb-1">
                           Current
                         </label>
-                        <input
+                        <Input
                           type="number"
                           value={expense.currentAmount}
                           onChange={(e) =>
@@ -406,14 +412,14 @@ export default function SpendingLessCalculator() {
                               Number(e.target.value)
                             )
                           }
-                          className="w-full px-2 py-1 border border-gray-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-yellow-500"
+                          className="text-sm"
                         />
                       </div>
                       <div>
                         <label className="block text-xs text-gray-600 mb-1">
                           Reduced
                         </label>
-                        <input
+                        <Input
                           type="number"
                           value={expense.reducedAmount}
                           onChange={(e) =>
@@ -423,7 +429,7 @@ export default function SpendingLessCalculator() {
                               Number(e.target.value)
                             )
                           }
-                          className="w-full px-2 py-1 border border-gray-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-yellow-500"
+                          className="text-sm"
                         />
                       </div>
                       <div>
@@ -441,20 +447,59 @@ export default function SpendingLessCalculator() {
                   </div>
                 ))}
                 {expenses.length === 0 && (
-                  <div className="p-8 text-center text-gray-500">
-                    No expenses added yet. Add some expenses you want to reduce
-                    above.
+                  <div className="text-center py-8 text-gray-500">
+                    <FaShieldAlt className="mx-auto text-4xl mb-4 text-gray-300" />
+                    <p>
+                      No expenses added yet. Add some expenses you want to
+                      reduce above.
+                    </p>
                   </div>
                 )}
               </div>
-            </div>
+            </Card>
+
+            {/* Information Section */}
+            <Card>
+              <h3 className="text-lg font-semibold mb-3">
+                Smart Spending Tips
+              </h3>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h4 className="font-medium mb-2">
+                    Common Areas to Reduce Spending
+                  </h4>
+                  <ul className="space-y-1 text-sm text-gray-700">
+                    <li>• Daily coffee and dining out expenses</li>
+                    <li>• Unused subscriptions and memberships</li>
+                    <li>• Impulse shopping and non-essential purchases</li>
+                    <li>• Premium brands when generics work equally well</li>
+                    <li>
+                      • Transportation costs (carpooling, public transport)
+                    </li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-medium mb-2">Investment Strategy</h4>
+                  <ul className="space-y-1 text-sm text-gray-700">
+                    <li>
+                      • Automate investments to avoid spending saved money
+                    </li>
+                    <li>• Start with safe options like SIPs in index funds</li>
+                    <li>• Gradually increase investment amounts</li>
+                    <li>• Track your progress monthly</li>
+                    <li>• Reinvest returns for compound growth</li>
+                  </ul>
+                </div>
+              </div>
+            </Card>
           </div>
 
           {/* Calculation Section */}
           <div className="space-y-6">
             {/* Investment Parameters */}
-            <div className="bg-gray-50 p-6 rounded-lg">
-              <h2 className="text-xl font-semibold mb-4">
+            <Card>
+              <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                <FaChartLine className="text-purple-500" />
                 Investment Parameters
               </h2>
               <div className="space-y-4">
@@ -462,31 +507,35 @@ export default function SpendingLessCalculator() {
                   <label className="block text-sm font-medium mb-2">
                     Expected Investment Return (%)
                   </label>
-                  <input
+                  <Input
                     type="number"
                     value={investmentReturn}
                     onChange={(e) =>
                       setInvestmentReturn(Number(e.target.value))
                     }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                    min="1"
-                    max="30"
-                    step="0.5"
+                    min={1}
+                    max={30}
+                    step={0.5}
                   />
+                  <p className="text-xs text-gray-500 mt-1">
+                    Typical equity funds: 10-15%
+                  </p>
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium mb-2">
                     Investment Time Period (Years)
                   </label>
-                  <input
+                  <Input
                     type="number"
                     value={timePeriod}
                     onChange={(e) => setTimePeriod(Number(e.target.value))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                    min="1"
-                    max="40"
+                    min={1}
+                    max={40}
                   />
+                  <p className="text-xs text-gray-500 mt-1">
+                    Longer periods benefit more from compounding
+                  </p>
                 </div>
 
                 <button
@@ -498,114 +547,155 @@ export default function SpendingLessCalculator() {
                   Calculate Savings
                 </button>
               </div>
-            </div>
+            </Card>
 
             {/* Results */}
             {result && (
-              <div className="bg-gradient-to-br from-green-50 to-blue-50 p-6 rounded-lg">
-                <h2 className="text-xl font-semibold mb-4">Savings Impact</h2>
-                <div className="space-y-4">
-                  <div className="bg-white p-4 rounded-lg shadow-sm">
-                    <h3 className="text-sm font-medium text-gray-600">
-                      Daily Savings
-                    </h3>
-                    <p className="text-xl font-bold text-green-600">
-                      {formatCurrency(Number(result.dailySavings))}
-                    </p>
-                  </div>
+              <>
+                <Card>
+                  <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                    <FaWallet className="text-green-500" />
+                    Savings Impact
+                  </h2>
+                  <div className="space-y-4">
+                    <div className="bg-gradient-to-r from-green-50 to-green-100 p-4 rounded-lg border border-green-200">
+                      <h3 className="text-sm font-medium text-green-800 mb-1">
+                        Daily Savings
+                      </h3>
+                      <p className="text-xl font-bold text-green-600">
+                        {formatCurrency(Number(result.dailySavings))}
+                      </p>
+                    </div>
 
-                  <div className="bg-white p-4 rounded-lg shadow-sm">
-                    <h3 className="text-sm font-medium text-gray-600">
-                      Monthly Savings
-                    </h3>
-                    <p className="text-xl font-bold text-blue-600">
-                      {formatCurrency(Number(result.monthlySavings))}
-                    </p>
-                  </div>
+                    <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-4 rounded-lg border border-blue-200">
+                      <h3 className="text-sm font-medium text-blue-800 mb-1">
+                        Monthly Savings
+                      </h3>
+                      <p className="text-xl font-bold text-blue-600">
+                        {formatCurrency(Number(result.monthlySavings))}
+                      </p>
+                    </div>
 
-                  <div className="bg-white p-4 rounded-lg shadow-sm">
-                    <h3 className="text-sm font-medium text-gray-600">
-                      Annual Savings
-                    </h3>
-                    <p className="text-xl font-bold text-purple-600">
-                      {formatLakhs(Number(result.annualSavings))}
-                    </p>
-                  </div>
+                    <div className="bg-gradient-to-r from-purple-50 to-purple-100 p-4 rounded-lg border border-purple-200">
+                      <h3 className="text-sm font-medium text-purple-800 mb-1">
+                        Annual Savings
+                      </h3>
+                      <p className="text-xl font-bold text-purple-600">
+                        {formatLakhs(Number(result.annualSavings))}
+                      </p>
+                    </div>
 
-                  <div className="bg-white p-4 rounded-lg shadow-sm border-2 border-yellow-300">
-                    <h3 className="text-sm font-medium text-gray-600">
-                      Future Value ({timePeriod} years)
-                    </h3>
-                    <p className="text-2xl font-bold text-yellow-600">
-                      {formatLakhs(Number(result.futureValue))}
-                    </p>
-                    <p className="text-xs text-gray-500 mt-1">
-                      If invested at {investmentReturn}% annual return
-                    </p>
+                    <div className="bg-gradient-to-r from-yellow-50 to-yellow-100 p-4 rounded-lg border-2 border-yellow-300">
+                      <h3 className="text-sm font-medium text-yellow-800 mb-1">
+                        Future Value ({timePeriod} years)
+                      </h3>
+                      <p className="text-2xl font-bold text-yellow-600">
+                        {formatLakhs(Number(result.futureValue))}
+                      </p>
+                      <p className="text-xs text-yellow-700 mt-1">
+                        If invested at {investmentReturn}% annual return
+                      </p>
+                    </div>
                   </div>
+                </Card>
 
-                  <div className="bg-white p-4 rounded-lg shadow-sm">
-                    <h3 className="text-sm font-medium text-gray-600 mb-2">
-                      Expense-wise Breakdown
-                    </h3>
-                    <div className="space-y-2">
-                      {result.expenseBreakdown.map((expense, index) => (
-                        <div
-                          key={index}
-                          className="flex justify-between items-center text-sm"
-                        >
-                          <span className="font-medium">{expense.name}</span>
+                <Card>
+                  <h3 className="text-lg font-semibold mb-3">
+                    Expense-wise Breakdown
+                  </h3>
+                  <div className="space-y-3">
+                    {result.expenseBreakdown.map((expense, index) => (
+                      <div
+                        key={index}
+                        className="bg-gradient-to-r from-gray-50 to-gray-100 p-3 rounded-lg border"
+                      >
+                        <div className="flex justify-between items-start">
+                          <div className="flex items-center gap-2">
+                            {getCategoryIcon(expense.category)}
+                            <span className="font-medium text-sm">
+                              {expense.name}
+                            </span>
+                          </div>
                           <div className="text-right">
-                            <div className="text-green-600">
+                            <div className="text-green-600 font-semibold text-sm">
                               ₹{Number(expense.savings).toLocaleString()}/year
                             </div>
                             <div className="text-xs text-gray-500">
                               {formatLakhs(Number(expense.futureValue))} future
+                              value
                             </div>
                           </div>
                         </div>
-                      ))}
+                      </div>
+                    ))}
+                  </div>
+                </Card>
+
+                <Card>
+                  <h3 className="text-lg font-semibold mb-3">
+                    Investment Summary
+                  </h3>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600">
+                        Monthly Investment:
+                      </span>
+                      <span className="font-semibold">
+                        {formatCurrency(Number(result.monthlySavings))}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600">
+                        Expected Return:
+                      </span>
+                      <span className="font-semibold">
+                        {investmentReturn}% p.a.
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600">
+                        Investment Period:
+                      </span>
+                      <span className="font-semibold">{timePeriod} years</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600">
+                        Total Contributions:
+                      </span>
+                      <span className="font-semibold">
+                        {formatLakhs(Number(result.annualSavings) * timePeriod)}
+                      </span>
+                    </div>
+                    <div className="border-t pt-3 mt-3">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-gray-600">
+                          Wealth Multiplier:
+                        </span>
+                        <span className="font-bold text-green-600">
+                          {(
+                            Number(result.futureValue) /
+                            (Number(result.annualSavings) * timePeriod)
+                          ).toFixed(1)}
+                          x
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
+                </Card>
+              </>
             )}
 
             {!result && (
-              <div className="bg-gray-50 p-6 rounded-lg text-center text-gray-500">
-                Add some expenses and click calculate to see your potential
-                savings
-              </div>
+              <Card>
+                <div className="text-center py-8 text-gray-500">
+                  <FaShieldAlt className="mx-auto text-4xl mb-4 text-gray-300" />
+                  <p>
+                    Add some expenses and click &quot;Calculate Savings&quot; to
+                    see your potential savings.
+                  </p>
+                </div>
+              </Card>
             )}
-          </div>
-        </div>
-
-        {/* Information Section */}
-        <div className="mt-12 bg-blue-50 p-6 rounded-lg">
-          <h3 className="text-lg font-semibold mb-3">Smart Spending Tips</h3>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div>
-              <h4 className="font-medium mb-2">
-                Common Areas to Reduce Spending
-              </h4>
-              <ul className="space-y-1 text-sm text-gray-700">
-                <li>• Daily coffee and dining out expenses</li>
-                <li>• Unused subscriptions and memberships</li>
-                <li>• Impulse shopping and non-essential purchases</li>
-                <li>• Premium brands when generics work equally well</li>
-                <li>• Transportation costs (carpooling, public transport)</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-medium mb-2">Investment Strategy</h4>
-              <ul className="space-y-1 text-sm text-gray-700">
-                <li>• Automate investments to avoid spending saved money</li>
-                <li>• Start with safe options like SIPs in index funds</li>
-                <li>• Gradually increase investment amounts</li>
-                <li>• Track your progress monthly</li>
-                <li>• Reinvest returns for compound growth</li>
-              </ul>
-            </div>
           </div>
         </div>
       </div>
