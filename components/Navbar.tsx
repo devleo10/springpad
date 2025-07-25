@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -84,6 +84,21 @@ export function Navbar() {
   ];
 
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const closeDropdownTimeout = React.useRef<NodeJS.Timeout | null>(null);
+
+  const handleDropdownEnter = (name: string) => {
+    if (closeDropdownTimeout.current) {
+      clearTimeout(closeDropdownTimeout.current);
+      closeDropdownTimeout.current = null;
+    }
+    setOpenDropdown(name);
+  };
+
+  const handleDropdownLeave = () => {
+    closeDropdownTimeout.current = setTimeout(() => {
+      setOpenDropdown(null);
+    }, 120); // 120ms delay before closing
+  };
 
   // Helper for nested dropdown rendering
   const renderDropdown = (children: NavItem[]) => (
@@ -150,11 +165,11 @@ export function Navbar() {
               <div
                 key={`nav-dd-${idx}`}
                 className="relative"
-                onMouseEnter={() => setOpenDropdown(item.name)}
-                onMouseLeave={() => setOpenDropdown(null)}
+                onMouseEnter={() => handleDropdownEnter(item.name)}
+                onMouseLeave={handleDropdownLeave}
                 tabIndex={0}
-                onFocus={() => setOpenDropdown(item.name)}
-                onBlur={() => setOpenDropdown(null)}
+                onFocus={() => handleDropdownEnter(item.name)}
+                onBlur={handleDropdownLeave}
               >
                 <button
                   className={`flex items-center gap-1 text-sm px-4 py-2 rounded-xl font-medium transition-all duration-200 ${
