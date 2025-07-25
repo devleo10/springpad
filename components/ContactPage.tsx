@@ -29,7 +29,7 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white relative overflow-hidden mt-16">
+    <div className="min-h-screen bg-white relative overflow-hidden pt-16">
       {/* Main Content */}
       <div className="relative z-10 flex items-center justify-center min-h-screen px-4 py-12">
         {/* Main Background Circle - Large yellow circle positioned behind the form */}
