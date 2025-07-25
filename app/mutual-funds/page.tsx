@@ -168,8 +168,10 @@ export default function MutualFundsPage() {
 
       {/* Content Sections */}
       {selectedTab === "overview" && (
-        <div className="py-16 bg-gray-50">
-          <div className="max-w-6xl mx-auto px-4">
+        <div className="py-16 bg-gray-50 relative">
+          {/* Blur effect div that blends white to gray-50 */}
+          <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-white via-white/70 to-transparent backdrop-blur-sm"></div>
+          <div className="max-w-6xl mx-auto px-4 relative z-10">
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div>
                 <h2 className="text-4xl font-bold mb-6">
@@ -881,8 +883,10 @@ export default function MutualFundsPage() {
       )}
 
       {/* Taxation Section */}
-      <div className="py-16 bg-blue-50">
-        <div className="max-w-6xl mx-auto px-4">
+      <div className="py-16 bg-blue-50 relative">
+        {/* Blur effect div that blends gray-50 with bg-blue-50 */}
+        <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-gray-50 via-gray-50/70 to-transparent backdrop-blur-sm"></div>
+        <div className="max-w-6xl mx-auto px-4 relative z-10">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold mb-4">
               Taxation of Mutual Funds
