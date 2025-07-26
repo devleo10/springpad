@@ -1,7 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import AuthModal from "./AuthModal";
+import { LoginModal } from "./LoginModal";
+import { SignupModal } from "./SignupModal";
+
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -17,8 +19,7 @@ interface NavItem {
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
-  const [authModalOpen, setAuthModalOpen] = useState(false);
-  const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
+
 
   const navItems: NavItem[] = [
     { name: "About", href: "/about" },
@@ -92,6 +93,8 @@ export function Navbar() {
 
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const closeDropdownTimeout = React.useRef<NodeJS.Timeout | null>(null);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isSignupOpen, setIsSignupOpen] = useState(false);
 
   const handleDropdownEnter = (name: string) => {
     if (closeDropdownTimeout.current) {
@@ -219,16 +222,17 @@ export function Navbar() {
           </div>
 
           {/* Auth Buttons (Desktop) */}
+          {/* Auth Buttons (Desktop) - modal logic */}
           <div className="hidden md:flex items-center space-x-2">
             <button
               className="text-sm px-4 py-2 rounded-xl text-gray-700 hover:text-[#2C5282] hover:bg-gray-100/80 transition-all duration-200 font-medium"
-              onClick={() => { setAuthMode('login'); setAuthModalOpen(true); }}
+              onClick={() => setIsLoginOpen(true)}
             >
               Login
             </button>
             <button
               className="text-sm px-5 py-2 rounded-xl bg-yellow-300 hover:bg-yellow-400 text-[#2C5282] transition-all duration-200 shadow-md hover:shadow-lg font-semibold"
-              onClick={() => { setAuthMode('signup'); setAuthModalOpen(true); }}
+              onClick={() => setIsSignupOpen(true)}
             >
               Sign Up
             </button>
@@ -295,20 +299,21 @@ export function Navbar() {
           <div className="pt-2 border-t border-gray-200/50 space-y-2">
             <button
               className="block w-full py-3 px-4 text-sm text-gray-700 hover:text-[#2C5282] hover:bg-gray-100/80 rounded-xl transition-all duration-200 font-medium text-left"
-              onClick={() => { setAuthMode('login'); setAuthModalOpen(true); setIsMobileMenuOpen(false); }}
+              onClick={() => { setIsMobileMenuOpen(false); setIsLoginOpen(true); }}
             >
               Login
             </button>
             <button
               className="block w-full py-3 px-4 text-sm text-center bg-yellow-500 hover:bg-yellow-600 text-[#2C5282] rounded-xl transition-all duration-200 font-semibold shadow-md"
-              onClick={() => { setAuthMode('signup'); setAuthModalOpen(true); setIsMobileMenuOpen(false); }}
+              onClick={() => { setIsMobileMenuOpen(false); setIsSignupOpen(true); }}
             >
               Sign Up
             </button>
           </div>
         </div>
       </nav>
-      <AuthModal isOpen={authModalOpen} onClose={() => setAuthModalOpen(false)} />
+      <LoginModal open={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
+      <SignupModal open={isSignupOpen} onClose={() => setIsSignupOpen(false)} />
     </>
   );
 }
