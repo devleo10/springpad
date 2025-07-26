@@ -7,16 +7,50 @@ export default function SignupPage({ hideLogo = false }: { hideLogo?: boolean })
   const [authMode, setAuthMode] = useState<'email' | 'mobile'>('email');
   const [mobileStep, setMobileStep] = useState<'enter' | 'otp'>('enter');
   const [mobile, setMobile] = useState('');
-  const handleMobileSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setMobileStep('otp');
-  };
-  const handleMobileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setMobile(e.target.value);
-  };
+  const [name, setName] = useState('');
+  const [otp, setOtp] = useState('');
+  const [password, setPassword] = useState('');
+  const [isRequestingOtp, setIsRequestingOtp] = useState(false);
+  const [otpSent, setOtpSent] = useState(false);
+  const [error, setError] = useState('');
+
   React.useEffect(() => {
-    if (authMode === 'mobile') setMobileStep('enter');
+    setMobileStep('enter');
+    setOtp('');
+    setPassword('');
+    setError('');
+    setOtpSent(false);
+    setIsRequestingOtp(false);
   }, [authMode]);
+
+  const handleGetOtp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsRequestingOtp(true);
+    setError('');
+    // Simulate OTP request
+    setTimeout(() => {
+      setOtpSent(true);
+      setMobileStep('otp');
+      setIsRequestingOtp(false);
+    }, 1000);
+  };
+
+  const handleResendOtp = () => {
+    setOtp('');
+    setError('');
+    setIsRequestingOtp(true);
+    // Simulate resend
+    setTimeout(() => {
+      setIsRequestingOtp(false);
+    }, 1000);
+  };
+
+  const handleBack = () => {
+    setMobileStep('enter');
+    setOtp('');
+    setPassword('');
+    setError('');
+  };
   
   if (hideLogo) {
     // Modal version - compact form only
@@ -40,64 +74,64 @@ export default function SignupPage({ hideLogo = false }: { hideLogo?: boolean })
             Mobile
           </button>
         </div>
-        <form className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Name</label>
-            <input type="text" placeholder="Enter your name" className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#ffb400]" required />
-          </div>
-          {authMode === 'email' ? (
-            <>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Email</label>
-                <input type="email" placeholder="Enter your email" className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#ffb400]" required />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Password</label>
-                <input type="password" placeholder="Enter password" className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#ffb400]" required />
-              </div>
-              <button type="submit" className="w-full bg-[#ffb400] hover:bg-[#ff8c00] text-white font-semibold py-2.5 rounded-lg transition-colors">Sign Up</button>
-            </>
-          ) : (
-            <>
-              {mobileStep === 'enter' && (
-                <form onSubmit={handleMobileSubmit} className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">Mobile Number</label>
-                    <input
-                      type="tel"
-                      placeholder="Enter your mobile number"
-                      className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#ffb400]"
-                      pattern="[0-9]{10}"
-                      maxLength={10}
-                      required
-                      value={mobile}
-                      onChange={handleMobileChange}
-                    />
-                  </div>
-                  <button type="submit" className="w-full bg-[#ffb400] hover:bg-[#ff8c00] text-white font-semibold py-2.5 rounded-lg transition-colors">Submit</button>
-                </form>
-              )}
-              {mobileStep === 'otp' && (
-                <>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">Mobile Number</label>
-                    <input
-                      type="tel"
-                      value={mobile}
-                      disabled
-                      className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2 bg-gray-100 cursor-not-allowed"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">OTP</label>
-                    <input type="text" placeholder="Enter OTP" className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#ffb400]" maxLength={6} required />
-                  </div>
-                  <button type="submit" className="w-full bg-[#ffb400] hover:bg-[#ff8c00] text-white font-semibold py-2.5 rounded-lg transition-colors">Sign Up</button>
-                </>
-              )}
-            </>
-          )}
-        </form>
+        {authMode === 'email' ? (
+          <form className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Name</label>
+              <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="Enter your name" className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#ffb400]" required />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Email</label>
+              <input type="email" placeholder="Enter your email" className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#ffb400]" required />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Password</label>
+              <input type="password" placeholder="Enter password" className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#ffb400]" required />
+            </div>
+            <button type="submit" className="w-full bg-[#ffb400] hover:bg-[#ff8c00] text-white font-semibold py-2.5 rounded-lg transition-colors">Sign Up</button>
+          </form>
+        ) : (
+          <>
+            {mobileStep === 'enter' && (
+              <form className="space-y-4" onSubmit={handleGetOtp}>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Name</label>
+                  <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="Enter your name" className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#ffb400]" required />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Mobile Number</label>
+                  <input type="tel" value={mobile} onChange={e => setMobile(e.target.value)} placeholder="Enter your mobile number" className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#ffb400]" pattern="[0-9]{10}" maxLength={10} required />
+                </div>
+                <button type="submit" className="w-full bg-[#ffb400] hover:bg-[#ff8c00] text-white font-semibold py-2.5 rounded-lg transition-colors" disabled={isRequestingOtp || !name || !/^\d{10}$/.test(mobile)}>
+                  {isRequestingOtp ? 'Sending OTP...' : 'Get OTP'}
+                </button>
+                {error && <div className="text-red-500 text-sm mt-1">{error}</div>}
+              </form>
+            )}
+            {mobileStep === 'otp' && (
+              <form className="space-y-4" onSubmit={e => { e.preventDefault(); /* handle sign up with OTP */ }}>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Mobile Number</label>
+                  <input type="tel" value={mobile} disabled className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2 bg-gray-100 cursor-not-allowed" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">OTP</label>
+                  <input type="text" value={otp} onChange={e => setOtp(e.target.value)} placeholder="Enter OTP" className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#ffb400]" maxLength={6} required />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Password</label>
+                  <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Enter password" className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#ffb400]" required />
+                </div>
+                <div className="flex gap-2">
+                  <button type="button" className="flex-1 bg-gray-200 text-gray-700 font-semibold py-2.5 rounded-lg" onClick={handleBack}>Back</button>
+                  <button type="button" className="flex-1 bg-[#ffb400] hover:bg-[#ff8c00] text-white font-semibold py-2.5 rounded-lg" onClick={handleResendOtp} disabled={isRequestingOtp}>{isRequestingOtp ? 'Resending...' : 'Resend OTP'}</button>
+                </div>
+                <button type="submit" className="w-full bg-[#ffb400] hover:bg-[#ff8c00] text-white font-semibold py-2.5 rounded-lg transition-colors mt-2">Sign Up</button>
+                {error && <div className="text-red-500 text-sm mt-1">{error}</div>}
+              </form>
+            )}
+          </>
+        )}
         <div className="flex items-center my-4">
           <div className="flex-grow h-px bg-gray-200" />
           <span className="mx-3 text-gray-400 text-sm">or</span>
@@ -139,64 +173,64 @@ export default function SignupPage({ hideLogo = false }: { hideLogo?: boolean })
               Mobile
             </button>
           </div>
-          <form className="space-y-5">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Name</label>
-              <input type="text" placeholder="Enter your name" className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#ffb400]" required />
-            </div>
-            {authMode === 'email' ? (
-              <>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Email</label>
-                  <input type="email" placeholder="Enter your email" className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#ffb400]" required />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Password</label>
-                  <input type="password" placeholder="Enter password" className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#ffb400]" required />
-                </div>
-                <button type="submit" className="w-full bg-[#ffb400] hover:bg-[#ff8c00] text-white font-semibold py-3 rounded-lg transition-colors">Sign Up</button>
-              </>
-            ) : (
-              <>
-                {mobileStep === 'enter' && (
-                  <form onSubmit={handleMobileSubmit} className="space-y-5">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700">Mobile Number</label>
-                      <input
-                        type="tel"
-                        placeholder="Enter your mobile number"
-                        className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#ffb400]"
-                        pattern="[0-9]{10}"
-                        maxLength={10}
-                        required
-                        value={mobile}
-                        onChange={handleMobileChange}
-                      />
-                    </div>
-                    <button type="submit" className="w-full bg-[#ffb400] hover:bg-[#ff8c00] text-white font-semibold py-3 rounded-lg transition-colors">Submit</button>
-                  </form>
-                )}
-                {mobileStep === 'otp' && (
-                  <>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700">Mobile Number</label>
-                      <input
-                        type="tel"
-                        value={mobile}
-                        disabled
-                        className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2 bg-gray-100 cursor-not-allowed"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700">OTP</label>
-                      <input type="text" placeholder="Enter OTP" className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#ffb400]" maxLength={6} required />
-                    </div>
-                    <button type="submit" className="w-full bg-[#ffb400] hover:bg-[#ff8c00] text-white font-semibold py-3 rounded-lg transition-colors">Sign Up</button>
-                  </>
-                )}
-              </>
-            )}
-          </form>
+          {authMode === 'email' ? (
+            <form className="space-y-5">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Name</label>
+                <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="Enter your name" className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#ffb400]" required />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Email</label>
+                <input type="email" placeholder="Enter your email" className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#ffb400]" required />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Password</label>
+                <input type="password" placeholder="Enter password" className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#ffb400]" required />
+              </div>
+              <button type="submit" className="w-full bg-[#ffb400] hover:bg-[#ff8c00] text-white font-semibold py-3 rounded-lg transition-colors">Sign Up</button>
+            </form>
+          ) : (
+            <>
+              {mobileStep === 'enter' && (
+                <form className="space-y-5" onSubmit={handleGetOtp}>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Name</label>
+                    <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="Enter your name" className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#ffb400]" required />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Mobile Number</label>
+                    <input type="tel" value={mobile} onChange={e => setMobile(e.target.value)} placeholder="Enter your mobile number" className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#ffb400]" pattern="[0-9]{10}" maxLength={10} required />
+                  </div>
+                  <button type="submit" className="w-full bg-[#ffb400] hover:bg-[#ff8c00] text-white font-semibold py-3 rounded-lg transition-colors" disabled={isRequestingOtp || !name || !/^\d{10}$/.test(mobile)}>
+                    {isRequestingOtp ? 'Sending OTP...' : 'Get OTP'}
+                  </button>
+                  {error && <div className="text-red-500 text-sm mt-1">{error}</div>}
+                </form>
+              )}
+              {mobileStep === 'otp' && (
+                <form className="space-y-5" onSubmit={e => { e.preventDefault(); /* handle sign up with OTP */ }}>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Mobile Number</label>
+                    <input type="tel" value={mobile} disabled className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2 bg-gray-100 cursor-not-allowed" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">OTP</label>
+                    <input type="text" value={otp} onChange={e => setOtp(e.target.value)} placeholder="Enter OTP" className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#ffb400]" maxLength={6} required />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Password</label>
+                    <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Enter password" className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#ffb400]" required />
+                  </div>
+                  <div className="flex gap-2">
+                    <button type="button" className="flex-1 bg-gray-200 text-gray-700 font-semibold py-2.5 rounded-lg" onClick={handleBack}>Back</button>
+                    <button type="button" className="flex-1 bg-[#ffb400] hover:bg-[#ff8c00] text-white font-semibold py-2.5 rounded-lg" onClick={handleResendOtp} disabled={isRequestingOtp}>{isRequestingOtp ? 'Resending...' : 'Resend OTP'}</button>
+                  </div>
+                  <button type="submit" className="w-full bg-[#ffb400] hover:bg-[#ff8c00] text-white font-semibold py-3 rounded-lg transition-colors mt-2">Sign Up</button>
+                  {error && <div className="text-red-500 text-sm mt-1">{error}</div>}
+                </form>
+              )}
+            </>
+          )}
           <div className="flex items-center my-6">
             <div className="flex-grow h-px bg-gray-200" />
             <span className="mx-3 text-gray-400 text-sm">or</span>

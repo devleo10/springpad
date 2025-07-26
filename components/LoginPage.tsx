@@ -46,8 +46,8 @@ export default function LoginPage({ hideLogo = false }: { hideLogo?: boolean }) 
                 <input type="tel" placeholder="Enter your mobile number" className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#ffb400]" pattern="[0-9]{10}" maxLength={10} required />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">OTP</label>
-                <input type="text" placeholder="Enter OTP" className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#ffb400]" maxLength={6} required />
+                <label className="block text-sm font-medium text-gray-700">Password</label>
+                <input type="password" placeholder="Enter password" className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#ffb400]" required />
               </div>
             </>
           )}

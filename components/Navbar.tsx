@@ -308,7 +308,7 @@ export function Navbar() {
           </div>
         </div>
       </nav>
-      <AuthModal open={authModalOpen} onClose={() => setAuthModalOpen(false)} mode={authMode} setMode={setAuthMode} />
+      <AuthModal isOpen={authModalOpen} onClose={() => setAuthModalOpen(false)} />
     </>
   );
 }
