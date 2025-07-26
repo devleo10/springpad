@@ -10,7 +10,6 @@ import {
   FaCalculator,
   FaChartLine,
   FaShieldAlt,
-  FaPiggyBank,
   FaArrowDown,
 } from "react-icons/fa";
 

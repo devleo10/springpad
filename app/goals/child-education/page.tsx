@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import Image from "next/image";
 
 export default function ChildEducationGoal() {
   const [currentCost, setCurrentCost] = useState(0);
@@ -19,11 +20,11 @@ export default function ChildEducationGoal() {
       <Navbar />
       <div className="max-w-2xl mx-auto px-4 py-16">
         <div className="flex items-center gap-3 mb-6">
-          <img src="/goals/child-education.png" alt="Child's Education" className="w-16 h-16 object-cover rounded" />
-          <h1 className="text-3xl font-bold">Child's Education Goal Calculator</h1>
+          <Image src="/goals/child-education.png" alt="Child&apos;s Education" width={64} height={64} className="w-16 h-16 object-cover rounded" />
+          <h1 className="text-3xl font-bold">Child&apos;s Education Goal Calculator</h1>
         </div>
         <p className="text-gray-600 mb-8">
-          Estimate the future cost of your child's education by factoring in inflation and your time horizon.
+          Estimate the future cost of your child&apos;s education by factoring in inflation and your time horizon.
         </p>
         <div className="bg-white rounded-lg shadow p-6">
           <div className="mb-4">

@@ -1,6 +1,7 @@
 "use client";
 import React from 'react';
 import Link from 'next/link';
+import Image from "next/image";
 
 const goals = [
   { name: "Dream Home", path: "/goals/dream-home", image: "/goals/dream-home.png" },
@@ -18,7 +19,7 @@ export default function GoalsPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {goals.map(goal => (
           <Link key={goal.name} href={goal.path} className="block border rounded-lg shadow hover:shadow-lg transition p-4 bg-white">
-            <img src={goal.image} alt={goal.name} className="w-full h-40 object-cover rounded mb-4" />
+            <Image src={goal.image} alt={goal.name} width={320} height={160} className="w-full h-40 object-cover rounded mb-4" />
             <h2 className="text-xl font-semibold text-center">{goal.name}</h2>
           </Link>
         ))}

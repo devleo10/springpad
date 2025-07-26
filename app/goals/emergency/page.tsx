@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import Image from "next/image";
 
 export default function EmergencyGoal() {
   const [monthlyExpense, setMonthlyExpense] = useState(0);
@@ -17,7 +18,7 @@ export default function EmergencyGoal() {
       <Navbar />
       <div className="max-w-2xl mx-auto px-4 py-16">
         <div className="flex items-center gap-3 mb-6">
-          <img src="/goals/emergency.png" alt="Emergency Fund" className="w-16 h-16 object-cover rounded" />
+          <Image src="/goals/emergency.png" alt="Emergency Fund" width={64} height={64} className="w-16 h-16 object-cover rounded" />
           <h1 className="text-3xl font-bold">Emergency Fund Calculator</h1>
         </div>
         <p className="text-gray-600 mb-8">

@@ -1,4 +1,6 @@
+
 "use client";
+import Image from "next/image";
 
 import React, { useState } from "react";
 import { FaHome, FaChartLine } from "react-icons/fa";
@@ -35,7 +37,7 @@ export default function DreamHomeGoal() {
         <div className="grid md:grid-cols-2 gap-8">
           {/* Input Card */}
           <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
-            <img src="/goals/dream-home.png" alt="Dream Home" className="w-full h-40 object-cover rounded mb-6" />
+            <Image src="/goals/dream-home.png" alt="Dream Home" width={400} height={160} className="w-full h-40 object-cover rounded mb-6" />
             <div className="mb-4">
               <label className="block text-sm font-medium mb-2">Current Home Cost (₹)</label>
               <input
@@ -90,11 +92,12 @@ export default function DreamHomeGoal() {
                   {formatCurrency(futureValue)}
                 </div>
                 <p className="text-gray-600">This is the estimated cost of your dream home after {years} years at {inflation}% inflation.</p>
+                <p className="text-gray-600">This is the estimated cost of your dream home after&nbsp;{years}&nbsp;years at&nbsp;{inflation}&nbsp;% inflation.</p>
               </div>
             ) : (
               <div className="bg-gray-50 p-8 rounded-xl border border-gray-100 shadow text-center text-gray-400 flex flex-col items-center justify-center h-full">
                 <FaHome className="text-4xl mb-4" />
-                <p>Enter your details and click "Calculate" to see your future home cost.</p>
+                <p>Enter your details and click &quot;Calculate&quot; to see your future home cost.</p>
               </div>
             )}
           </div>
