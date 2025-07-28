@@ -82,7 +82,7 @@ export function InterestCalculator() {
                   step="500"
                   value={monthlyInvestment}
                   onChange={handleSliderChange}
-                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider focus:outline-none"
                 />
                 <div className="flex justify-between text-sm text-[#2C5282] mt-3 px-1">
                   <span>₹500</span>
@@ -118,7 +118,7 @@ export function InterestCalculator() {
                   </div>
                 </div>
                 
-                <div className="bg-yellow-400 text-black font-semibold py-2 px-4 rounded-full text-sm">
+                <div className="bg-[#2C5282] text-white font-semibold py-2 px-4 rounded-full text-sm">
                   @{(option.return * 100).toFixed(0)}% Return
                 </div>
               </div>
@@ -157,7 +157,7 @@ export function InterestCalculator() {
 
       <style jsx>{`
         .slider {
-          background: linear-gradient(to right, #f59e0b 0%, #f59e0b ${((monthlyInvestment - 500) / (100000 - 500)) * 100}%, #e5e7eb ${((monthlyInvestment - 500) / (100000 - 500)) * 100}%, #e5e7eb 100%);
+          background: linear-gradient(to right, #2C5282 0%, #2C5282 ${((monthlyInvestment - 500) / (100000 - 500)) * 100}%, #e5e7eb ${((monthlyInvestment - 500) / (100000 - 500)) * 100}%, #e5e7eb 100%);
           transition: background 0.1s ease-out;
           will-change: background;
         }
@@ -167,22 +167,20 @@ export function InterestCalculator() {
           width: 24px;
           height: 24px;
           border-radius: 50%;
-          background: #f59e0b;
+          background: #2C5282;
           cursor: pointer;
-          box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
-          border: 2px solid #ffffff;
+          box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
           transition: transform 0.1s ease-out, background-color 0.1s ease-out, box-shadow 0.1s ease-out;
           will-change: transform;
         }
 
         .slider::-webkit-slider-thumb:hover {
-          background: #d97706;
-          box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+        
+          box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
           transform: scale3d(1.1, 1.1, 1);
         }
 
         .slider::-webkit-slider-thumb:active {
-          background: #b45309;
           transform: scale3d(1.05, 1.05, 1);
         }
 
@@ -190,22 +188,22 @@ export function InterestCalculator() {
           width: 24px;
           height: 24px;
           border-radius: 50%;
-          background: #f59e0b;
+          background: #2563eb;
           cursor: pointer;
           border: 2px solid #ffffff;
-          box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+          box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
           transition: transform 0.1s ease-out, background-color 0.1s ease-out, box-shadow 0.1s ease-out;
           will-change: transform;
         }
 
         .slider::-moz-range-thumb:hover {
-          background: #d97706;
-          box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+          background: #1d4ed8;
+          box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
           transform: scale3d(1.1, 1.1, 1);
         }
 
         .slider::-moz-range-thumb:active {
-          background: #b45309;
+          background: #1e40af;
           transform: scale3d(1.05, 1.05, 1);
         }
 
@@ -227,11 +225,11 @@ export function InterestCalculator() {
         }
 
         .slider:focus::-webkit-slider-thumb {
-          box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2), 0 2px 8px rgba(245, 158, 11, 0.3);
+          box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2), 0 2px 8px rgba(37, 99, 235, 0.3);
         }
 
         .slider:focus::-moz-range-thumb {
-          box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2), 0 2px 8px rgba(245, 158, 11, 0.3);
+          box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2), 0 2px 8px rgba(37, 99, 235, 0.3);
         }
 
         @media (prefers-reduced-motion: reduce) {

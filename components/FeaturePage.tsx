@@ -92,8 +92,8 @@ const FeaturePage = () => {
         {/* Header */}
         <div className="text-center mb-20">
           <div className="inline-block">
-            <span className="bg-yellow-400 text-black px-6 py-2 rounded-full text-sm font-semibold mb-6 inline-block shadow-lg">
-              Why Choose Us
+            <span className="bg-[#2C5282] text-white px-6 py-2 rounded-full text-sm font-semibold mb-6 inline-block shadow-lg">
+              Why Choose Us?
             </span>
           </div>
           <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-[#2C5282] to-[#1E3A8A] bg-clip-text text-transparent mb-6 leading-tight">
