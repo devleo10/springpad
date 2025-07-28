@@ -35,8 +35,9 @@ export function PointerHighlight({
     }
 
     return () => {
-      if (containerRef.current) {
-        resizeObserver.unobserve(containerRef.current);
+      const ref = containerRef.current;
+      if (ref) {
+        resizeObserver.unobserve(ref);
       }
     };
   }, []);

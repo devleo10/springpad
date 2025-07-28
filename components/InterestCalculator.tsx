@@ -54,7 +54,7 @@ export function InterestCalculator() {
       ...option,
       maturityAmount: calculateMaturityAmount(monthlyInvestment, option.return, 25)
     }));
-  }, [monthlyInvestment, calculateMaturityAmount]);
+  }, [monthlyInvestment, calculateMaturityAmount, investmentOptions]);
 
   return (
     <div className="pb-32 bg-white px-4">
@@ -102,7 +102,7 @@ export function InterestCalculator() {
 
         {/* Investment Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-          {investmentResults.map((option, index) => (
+          {investmentResults.map((option) => (
             <div key={option.name} className="relative bg-white/60 backdrop-blur-md rounded-2xl border border-yellow-100 shadow-xl p-6 transform-gpu hover:scale-105 transition-all duration-300 ease-in-out hover:border-yellow-300 hover:shadow-2xl group overflow-hidden will-change-transform">
               {/* Hover Overlay Gradient */}
               <div className="absolute inset-0 bg-gradient-to-br from-yellow-50 via-yellow-25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl pointer-events-none" />

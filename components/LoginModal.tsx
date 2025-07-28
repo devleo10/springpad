@@ -28,8 +28,12 @@ export const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
       if (!res.ok) throw new Error(data.message || 'Login failed');
       // Save token, redirect, etc.
       onClose();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Login failed');
+      }
     } finally {
       setLoading(false);
     }

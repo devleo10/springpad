@@ -30,7 +30,7 @@ export const SignupModal: React.FC<SignupModalProps> = ({ open, onClose }) => {
     setVerifySuccess('');
     setVerifyError('');
     try {
-      let body: any = { name, password };
+      const body: Record<string, string> = { name, password };
       if (mode === "mobile") {
         body.mobile = mobile;
       } else {
@@ -48,8 +48,12 @@ export const SignupModal: React.FC<SignupModalProps> = ({ open, onClose }) => {
         setShowVerify(true);
       }
       setName(''); setEmail(''); setMobile(''); setPassword('');
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Signup failed');
+      }
     } finally {
       setLoading(false);
     }
@@ -72,8 +76,12 @@ export const SignupModal: React.FC<SignupModalProps> = ({ open, onClose }) => {
       if (!res.ok) throw new Error(data.message || 'Verification failed');
       setVerifySuccess('Email verified successfully! You can now log in.');
       setShowVerify(false);
-    } catch (err: any) {
-      setVerifyError(err.message);
+    } catch (err) {
+      if (err instanceof Error) {
+        setVerifyError(err.message);
+      } else {
+        setVerifyError('Verification failed');
+      }
     } finally {
       setLoading(false);
     }

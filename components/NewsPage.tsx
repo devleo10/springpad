@@ -59,30 +59,18 @@ export function NewsPage() {
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        // Using NewsAPI - you'll need to get your own API key
-        // For demo purposes, we'll use sample data
         setLoading(true);
-        
-        // Simulate API call delay
         await new Promise(resolve => setTimeout(resolve, 1000));
-        
-        // In a real implementation, you would use:
-        // const response = await fetch(`https://newsapi.org/v2/top-headlines?country=us&apiKey=YOUR_API_KEY`);
-        // const data = await response.json();
-        // setArticles(data.articles);
-        
-        // Using sample data for demonstration
         setArticles(sampleNews);
         setLoading(false);
-      } catch (err) {
+      } catch {
         setError('Failed to fetch news');
-        setArticles(sampleNews); // Fallback to sample data
+        setArticles(sampleNews);
         setLoading(false);
       }
     };
-
     fetchNews();
-  }, []);
+  }, [sampleNews]);
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
