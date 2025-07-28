@@ -62,9 +62,12 @@ export const SignupModal: React.FC<SignupModalProps> = ({ open, onClose }) => {
     setVerifyError('');
     setLoading(true);
     try {
-      // The user should paste the token from their email link
-      const url = `${backendUrl}/api/auth/verify-email?token=${encodeURIComponent(verifyToken)}`;
-      const res = await fetch(url);
+      // Send email and OTP as JSON in POST body
+      const res = await fetch(`${backendUrl}/api/auth/verify-email`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, otp: verifyToken }),
+      });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Verification failed');
       setVerifySuccess('Email verified successfully! You can now log in.');
