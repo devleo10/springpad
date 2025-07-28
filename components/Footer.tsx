@@ -64,32 +64,32 @@ export function Footer() {
           {/* Products Column */}
           <div>
             <h3 className="text-[#2C5282] font-semibold text-lg mb-6">
-              Products
+              Knowledge
             </h3>
             <div className="space-y-4">
               <Link
-                href="/calculators"
+                href="/blog"
                 className="block text-gray-600 hover:text-yellow-500 transition-colors duration-200"
               >
-                Financial Calculators
+                Blog
               </Link>
               <Link
-                href="/stock-market"
+                href="/news"
                 className="block text-gray-600 hover:text-yellow-500 transition-colors duration-200"
               >
-                AI Stock Analysis
+                News
               </Link>
               <Link
-                href="/portfolio"
+                href="/nri-corner"
                 className="block text-gray-600 hover:text-yellow-500 transition-colors duration-200"
               >
-                Portfolio Management
+                Nri Corner
               </Link>
               <Link
-                href="/retirement-planning"
+                href="/commission-disclosures"
                 className="block text-gray-600 hover:text-yellow-500 transition-colors duration-200"
               >
-                Retirement Planning
+                Disclosures
               </Link>
             </div>
           </div>

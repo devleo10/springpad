@@ -1,6 +1,6 @@
 "use client";
 
-import AboutPage from '@/components/AboutPage'
+import CommissionDisclosuresPage from '@/components/CommisionDisclosuresPage';
 import { Footer } from '@/components/Footer'
 import { Navbar } from '@/components/Navbar'
 import React from 'react'
@@ -8,9 +8,9 @@ import React from 'react'
 function page() {
   return (
     <div>
-      <Navbar />
-      <AboutPage />
-      <Footer />
+        <Navbar />
+        <CommissionDisclosuresPage />
+        <Footer />
     </div>
   )
 }
