@@ -1,14 +1,14 @@
-"use client"
+"use client";
 
-import VerifyEmailPage from '@/components/VerifyEmailPage'
-import React from 'react'
+import VerifyEmailPage from "@/components/VerifyEmailPage";
+import React from "react";
 
 function page() {
   return (
     <div>
-      <VerifyEmailPage/>
+      <VerifyEmailPage />
     </div>
-  )
+  );
 }
 
-export default page
+export default page;

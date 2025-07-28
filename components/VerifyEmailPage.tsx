@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { getAuth, sendEmailVerification, onAuthStateChanged, User } from "firebase/auth";
+import {
+  getAuth,
+  sendEmailVerification,
+  onAuthStateChanged,
+  User,
+} from "firebase/auth";
 import { app } from "../lib/firebase";
 
 export default function VerifyEmailPage() {
@@ -29,7 +34,9 @@ export default function VerifyEmailPage() {
       }
 
       // If user signed up with Google or other provider, redirect to dashboard
-      const hasPasswordProvider = currentUser.providerData.some(p => p.providerId === 'password');
+      const hasPasswordProvider = currentUser.providerData.some(
+        (p) => p.providerId === "password"
+      );
       if (!hasPasswordProvider) {
         router.push("/dashboard");
         return;
@@ -49,7 +56,7 @@ export default function VerifyEmailPage() {
         await user.reload();
         const auth = getAuth(app);
         const refreshedUser = auth.currentUser;
-        
+
         if (refreshedUser?.emailVerified) {
           router.push("/dashboard");
         }
@@ -62,17 +69,17 @@ export default function VerifyEmailPage() {
 
     // Check every 3 seconds
     const interval = setInterval(checkVerification, 3000);
-    
+
     return () => clearInterval(interval);
   }, [user, router]);
 
   const handleResendEmail = async () => {
     if (!user) return;
-    
+
     setIsResending(true);
     setResendSuccess("");
     setResendError("");
-    
+
     try {
       await sendEmailVerification(user);
       setResendSuccess("Verification email sent! Check your inbox.");
@@ -86,17 +93,19 @@ export default function VerifyEmailPage() {
 
   const handleManualCheck = async () => {
     if (!user) return;
-    
+
     setCheckingVerification(true);
     try {
       await user.reload();
       const auth = getAuth(app);
       const refreshedUser = auth.currentUser;
-      
+
       if (refreshedUser?.emailVerified) {
         router.push("/dashboard");
       } else {
-        setResendError("Email not verified yet. Please check your inbox and click the verification link.");
+        setResendError(
+          "Email not verified yet. Please check your inbox and click the verification link."
+        );
       }
     } catch (error) {
       console.error("Error checking verification:", error);
@@ -141,9 +150,7 @@ export default function VerifyEmailPage() {
             <p className="text-gray-600 text-sm">
               We&apos;ve sent a verification link to
             </p>
-            <p className="text-[#2C5282] font-semibold">
-              {user.email}
-            </p>
+            <p className="text-[#2C5282] font-semibold">{user.email}</p>
           </div>
 
           {/* Verification Status */}
@@ -152,7 +159,9 @@ export default function VerifyEmailPage() {
               {checkingVerification ? (
                 <>
                   <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-[#2C5282]"></div>
-                  <span className="text-sm text-gray-600">Checking verification status...</span>
+                  <span className="text-sm text-gray-600">
+                    Checking verification status...
+                  </span>
                 </>
               ) : (
                 <>
@@ -161,13 +170,16 @@ export default function VerifyEmailPage() {
                     <div className="rounded-full bg-[#2C5282] h-2 w-2 animation-delay-75"></div>
                     <div className="rounded-full bg-[#2C5282] h-2 w-2 animation-delay-150"></div>
                   </div>
-                  <span className="text-sm text-gray-600">Waiting for verification...</span>
+                  <span className="text-sm text-gray-600">
+                    Waiting for verification...
+                  </span>
                 </>
               )}
             </div>
-            
+
             <p className="text-sm text-gray-500 mb-6">
-              Click the link in your email to verify your account. This page will automatically redirect you once verified.
+              Click the link in your email to verify your account. This page
+              will automatically redirect you once verified.
             </p>
           </div>
 
@@ -178,7 +190,9 @@ export default function VerifyEmailPage() {
               disabled={checkingVerification}
               className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#2C5282] hover:bg-[#2A4F7D] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2C5282] disabled:opacity-50 transition-all"
             >
-              {checkingVerification ? "Checking..." : "I&apos;ve verified my email"}
+              {checkingVerification
+                ? "Checking..."
+                : "I&apos;ve verified my email"}
             </button>
 
             <button
@@ -207,7 +221,7 @@ export default function VerifyEmailPage() {
           <div className="mt-8 text-center">
             <p className="text-xs text-gray-500">
               Didn&apos;t receive an email? Check your spam folder or{" "}
-              <button 
+              <button
                 onClick={handleResendEmail}
                 className="text-[#2C5282] hover:text-[#2A4F7D] underline"
                 disabled={isResending}

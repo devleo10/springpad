@@ -111,15 +111,19 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     const auth = getAuth(app);
     try {
       if (loginEmail && loginPassword) {
-        const result = await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
-        
+        const result = await signInWithEmailAndPassword(
+          auth,
+          loginEmail,
+          loginPassword
+        );
+
         // Check if email is verified
         if (!result.user.emailVerified) {
           onClose();
           router.push("/verify-email");
           return;
         }
-        
+
         onClose();
         router.push("/dashboard");
       } else {
