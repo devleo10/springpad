@@ -7,7 +7,16 @@ declare global {
 }
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithPhoneNumber, RecaptchaVerifier, createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  signInWithPhoneNumber,
+  RecaptchaVerifier,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { app } from "../lib/firebase";
 
 interface AuthModalProps {
@@ -44,9 +53,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   const [verifyToken, setVerifyToken] = useState("");
   const [verifySuccess, setVerifySuccess] = useState("");
   const [verifyError, setVerifyError] = useState("");
-
-  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "";
-  const googleClientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || "";
 
   // Google Auth handler (Firebase)
   const handleGoogleAuth = async () => {
@@ -105,7 +111,15 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     const auth = getAuth(app);
     try {
       if (loginEmail && loginPassword) {
-        await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
+        const result = await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
+        
+        // Check if email is verified
+        if (!result.user.emailVerified) {
+          onClose();
+          router.push("/verify-email");
+          return;
+        }
+        
         onClose();
         router.push("/dashboard");
       } else {
@@ -137,22 +151,33 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         if (!window.recaptchaVerifier) {
           window.recaptchaVerifier = new RecaptchaVerifier(
             auth,
-            'recaptcha-container',
-            { size: 'invisible' }
+            "recaptcha-container",
+            { size: "invisible" }
           );
           await window.recaptchaVerifier.render();
         }
         const phoneNumber = `+91${signupMobile}`;
-        const confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, window.recaptchaVerifier);
+        const confirmationResult = await signInWithPhoneNumber(
+          auth,
+          phoneNumber,
+          window.recaptchaVerifier
+        );
         window.confirmationResult = confirmationResult;
         setSignupSuccess("OTP sent to your mobile. Please verify.");
         setShowVerify(true);
       } else {
         // Email signup: create user and send verification email
-        const userCredential = await createUserWithEmailAndPassword(auth, signupEmail, signupPassword);
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          signupEmail,
+          signupPassword
+        );
         await sendEmailVerification(userCredential.user);
-        setSignupSuccess("Verification email sent. Please check your inbox.");
-        setShowVerify(true);
+        setSignupSuccess(
+          "Signup successful! Please check your email to verify."
+        );
+        onClose();
+        router.push("/verify-email");
       }
     } catch (err) {
       if (err instanceof Error) {
@@ -170,7 +195,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     setVerifySuccess("");
     setVerifyError("");
     setSignupLoading(true);
-    const auth = getAuth(app);
     try {
       if (signupMode === "mobile") {
         // Verify OTP for mobile
@@ -182,14 +206,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           onClose();
           router.push("/dashboard");
         } else {
-          setVerifyError("No OTP confirmation found. Please try signing up again.");
+          setVerifyError(
+            "No OTP confirmation found. Please try signing up again."
+          );
         }
-      } else {
-        // For email, just ask user to check their inbox, but also redirect
-        setVerifySuccess("Please check your email and click the verification link.");
-        setShowVerify(false);
-        onClose();
-        router.push("/dashboard");
       }
     } catch (err) {
       if (err instanceof Error) {
@@ -342,36 +362,36 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               </button>
             </form>
           ) : (
-            <form onSubmit={handleVerifyEmail} className="space-y-4">
-              <div className="flex flex-col gap-2">
-                <label className="block text-sm font-medium text-gray-700">
-                  {signupMode === "mobile"
-                    ? "Enter OTP sent to your mobile"
-                    : "Paste verification token from your email"}
-                </label>
-                <input
-                  type="text"
-                  placeholder={signupMode === "mobile" ? "Enter OTP" : "Enter verification token"}
-                  className="w-full border border-gray-300 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 rounded-lg px-3 py-2 outline-none transition-all"
-                  value={verifyToken}
-                  onChange={(e) => setVerifyToken(e.target.value)}
-                  required
-                />
-              </div>
-              {verifyError && (
-                <div className="text-red-500 text-sm">{verifyError}</div>
-              )}
-              {verifySuccess && (
-                <div className="text-green-600 text-sm">{verifySuccess}</div>
-              )}
-              <button
-                type="submit"
-                className="w-full bg-yellow-500 hover:bg-yellow-600 text-[#2C5282] font-semibold py-2 rounded-lg transition-all"
-                disabled={signupLoading}
-              >
-                {signupLoading ? "Verifying..." : "Verify Email"}
-              </button>
-            </form>
+            signupMode === "mobile" && (
+              <form onSubmit={handleVerifyEmail} className="space-y-4">
+                <div className="flex flex-col gap-2">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Enter OTP sent to your mobile
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Enter OTP"
+                    className="w-full border border-gray-300 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 rounded-lg px-3 py-2 outline-none transition-all"
+                    value={verifyToken}
+                    onChange={(e) => setVerifyToken(e.target.value)}
+                    required
+                  />
+                </div>
+                {verifyError && (
+                  <div className="text-red-500 text-sm">{verifyError}</div>
+                )}
+                {verifySuccess && (
+                  <div className="text-green-600 text-sm">{verifySuccess}</div>
+                )}
+                <button
+                  type="submit"
+                  className="w-full bg-yellow-500 hover:bg-yellow-600 text-[#2C5282] font-semibold py-2 rounded-lg transition-all"
+                  disabled={signupLoading}
+                >
+                  {signupLoading ? "Verifying..." : "Verify OTP"}
+                </button>
+              </form>
+            )
           )
         ) : (
           <form onSubmit={handleLoginSubmit} className="space-y-4">
