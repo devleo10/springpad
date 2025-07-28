@@ -1,5 +1,5 @@
-import React from 'react';
-import Link from 'next/link';
+import React from "react";
+import Link from "next/link";
 
 export default function DashboardPage() {
   return (
@@ -13,14 +13,18 @@ export default function DashboardPage() {
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
           <div className="px-4 py-6 sm:px-0">
             <div className="border-4 border-dashed border-gray-200 rounded-lg h-96 flex items-center justify-center">
-              <span className="text-gray-400">Your demo dashboard content goes here.</span>
+              <span className="text-gray-400">
+                Your demo dashboard content goes here.
+              </span>
             </div>
           </div>
         </div>
       </main>
       <footer className="bg-white shadow-inner mt-auto">
         <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-500">
-          <Link href="/" className="text-blue-500 hover:underline">Go back to Home</Link>
+          <Link href="/" className="text-blue-500 hover:underline">
+            Go back to Home
+          </Link>
         </div>
       </footer>
     </div>
