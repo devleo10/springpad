@@ -1,6 +1,14 @@
+// Extend window for recaptchaVerifier and confirmationResult
+declare global {
+  interface Window {
+    recaptchaVerifier?: import("firebase/auth").RecaptchaVerifier;
+    confirmationResult?: import("firebase/auth").ConfirmationResult;
+  }
+}
 import React, { useState } from "react";
-import { auth, googleProvider } from "@/lib/firebase";
-import { signInWithPopup } from "firebase/auth";
+import { useRouter } from "next/navigation";
+import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithPhoneNumber, RecaptchaVerifier, createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword } from "firebase/auth";
+import { app } from "../lib/firebase";
 
 interface AuthModalProps {
   open: boolean;
@@ -13,6 +21,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   onClose,
   initialTab = "signup",
 }) => {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState<"login" | "signup">(initialTab);
 
   // Login form states
@@ -37,6 +46,33 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   const [verifyError, setVerifyError] = useState("");
 
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "";
+  const googleClientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || "";
+
+  // Google Auth handler (Firebase)
+  const handleGoogleAuth = async () => {
+    setLoginError("");
+    setSignupError("");
+    setLoginLoading(true);
+    setSignupLoading(true);
+    try {
+      const auth = getAuth(app);
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
+      onClose();
+      router.push("/dashboard");
+    } catch (err) {
+      if (err instanceof Error) {
+        setLoginError(err.message);
+        setSignupError(err.message);
+      } else {
+        setLoginError("Google sign-in failed");
+        setSignupError("Google sign-in failed");
+      }
+    } finally {
+      setLoginLoading(false);
+      setSignupLoading(false);
+    }
+  };
 
   // Prevent body scroll when modal is open
   React.useEffect(() => {
@@ -66,35 +102,21 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     e.preventDefault();
     setLoginLoading(true);
     setLoginError("");
+    const auth = getAuth(app);
     try {
-      // Only email login supported with Firebase
-      if (!loginEmail || !loginPassword) {
-        throw new Error("Email and password are required");
+      if (loginEmail && loginPassword) {
+        await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
+        onClose();
+        router.push("/dashboard");
+      } else {
+        setLoginError("Please enter both email and password.");
       }
-      const { signInWithEmailAndPassword } = await import("firebase/auth");
-      await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
-      onClose();
     } catch (err) {
       if (err instanceof Error) {
         setLoginError(err.message);
       } else {
         setLoginError("Login failed");
       }
-    } finally {
-      setLoginLoading(false);
-    }
-  };
-
-  // Google Sign In
-  const handleGoogleSignIn = async () => {
-    setLoginLoading(true);
-    setLoginError("");
-    try {
-      const result = await signInWithPopup(auth, googleProvider);
-      // You can access user info here: result.user
-      onClose();
-    } catch (err) {
-      setLoginError("Google sign-in failed");
     } finally {
       setLoginLoading(false);
     }
@@ -108,25 +130,30 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     setShowVerify(false);
     setVerifySuccess("");
     setVerifyError("");
+    const auth = getAuth(app);
     try {
-      // Only email signup supported with Firebase
-      if (signupMode === "email") {
-        if (!signupEmail || !signupPassword) {
-          throw new Error("Email and password are required");
+      if (signupMode === "mobile") {
+        // Phone signup: send OTP
+        if (!window.recaptchaVerifier) {
+          window.recaptchaVerifier = new RecaptchaVerifier(
+            auth,
+            'recaptcha-container',
+            { size: 'invisible' }
+          );
+          await window.recaptchaVerifier.render();
         }
-        const { createUserWithEmailAndPassword, sendEmailVerification, updateProfile } = await import("firebase/auth");
-        const userCredential = await createUserWithEmailAndPassword(auth, signupEmail, signupPassword);
-        await updateProfile(userCredential.user, { displayName: name });
-        await sendEmailVerification(userCredential.user);
-        setSignupSuccess("Signup successful! Please verify your email.");
+        const phoneNumber = `+91${signupMobile}`;
+        const confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, window.recaptchaVerifier);
+        window.confirmationResult = confirmationResult;
+        setSignupSuccess("OTP sent to your mobile. Please verify.");
         setShowVerify(true);
       } else {
-        setSignupError("Mobile signup is not supported with Firebase Auth by default.");
+        // Email signup: create user and send verification email
+        const userCredential = await createUserWithEmailAndPassword(auth, signupEmail, signupPassword);
+        await sendEmailVerification(userCredential.user);
+        setSignupSuccess("Verification email sent. Please check your inbox.");
+        setShowVerify(true);
       }
-      setName("");
-      setSignupEmail("");
-      setSignupMobile("");
-      setSignupPassword("");
     } catch (err) {
       if (err instanceof Error) {
         setSignupError(err.message);
@@ -143,12 +170,33 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     setVerifySuccess("");
     setVerifyError("");
     setSignupLoading(true);
+    const auth = getAuth(app);
     try {
-      // Firebase automatically sends verification email, user must click the link in their email
-      setVerifySuccess("Please check your email and click the verification link. After verifying, you can log in.");
-      setShowVerify(false);
+      if (signupMode === "mobile") {
+        // Verify OTP for mobile
+        if (window.confirmationResult) {
+          await window.confirmationResult.confirm(verifyToken);
+          setVerifySuccess("Mobile verified successfully! You can now log in.");
+          setShowVerify(false);
+          window.confirmationResult = undefined;
+          onClose();
+          router.push("/dashboard");
+        } else {
+          setVerifyError("No OTP confirmation found. Please try signing up again.");
+        }
+      } else {
+        // For email, just ask user to check their inbox, but also redirect
+        setVerifySuccess("Please check your email and click the verification link.");
+        setShowVerify(false);
+        onClose();
+        router.push("/dashboard");
+      }
     } catch (err) {
-      setVerifyError("Verification failed");
+      if (err instanceof Error) {
+        setVerifyError(err.message);
+      } else {
+        setVerifyError("Verification failed");
+      }
     } finally {
       setSignupLoading(false);
     }
@@ -197,6 +245,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         </div>
 
         {/* Tab Content */}
+        <div id="recaptcha-container"></div>
         {activeTab === "signup" ? (
           !showVerify ? (
             <form onSubmit={handleSignupSubmit} className="space-y-4">
@@ -296,11 +345,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             <form onSubmit={handleVerifyEmail} className="space-y-4">
               <div className="flex flex-col gap-2">
                 <label className="block text-sm font-medium text-gray-700">
-                  Paste verification token from your email
+                  {signupMode === "mobile"
+                    ? "Enter OTP sent to your mobile"
+                    : "Paste verification token from your email"}
                 </label>
                 <input
                   type="text"
-                  placeholder="Enter verification token"
+                  placeholder={signupMode === "mobile" ? "Enter OTP" : "Enter verification token"}
                   className="w-full border border-gray-300 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 rounded-lg px-3 py-2 outline-none transition-all"
                   value={verifyToken}
                   onChange={(e) => setVerifyToken(e.target.value)}
@@ -384,6 +435,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           <button
             className="w-full flex items-center justify-center gap-2 bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 font-medium py-2 rounded-lg shadow-sm transition-all"
             disabled={signupLoading || loginLoading}
+            onClick={handleGoogleAuth}
           >
             <svg className="w-5 h-5" viewBox="0 0 48 48">
               <g>
