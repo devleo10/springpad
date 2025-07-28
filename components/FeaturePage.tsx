@@ -134,11 +134,7 @@ const FeaturePage = () => {
         <div className="text-center mb-16">
           <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-white/20 max-w-5xl mx-auto">
             <div className="flex items-center justify-center mb-6">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-1 bg-yellow-400 rounded-full"></div>
-                <div className="w-4 h-1 bg-yellow-500 rounded-full"></div>
-                <div className="w-2 h-1 bg-yellow-600 rounded-full"></div>
-              </div>
+             
             </div>
             <p className="text-gray-700 text-lg leading-relaxed">
               We value the trust you place in us. That&apos;s why we are
