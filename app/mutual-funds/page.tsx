@@ -127,7 +127,7 @@ export default function MutualFundsPage() {
                 Learn how they work and discover their benefits.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button className="bg-yellow-500 hover:bg-yellow-600 text-white px-8 py-3 rounded-lg font-semibold transition-colors">
+                <button className="bg-yellow-400 hover:bg-yellow-500 text-white px-8 py-3 rounded-lg font-semibold transition-colors">
                   Start Investing
                 </button>
                 <button className="border-2 border-white hover:bg-white hover:text-[#2C5282] text-white px-8 py-3 rounded-lg font-semibold transition-colors">
@@ -155,7 +155,7 @@ export default function MutualFundsPage() {
                 onClick={() => setSelectedTab(tab.id)}
                 className={`px-6 py-3 rounded-lg font-semibold transition-colors ${
                   selectedTab === tab.id
-                    ? "bg-yellow-500 text-white"
+                    ? "bg-yellow-400 text-white"
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                 }`}
               >
@@ -806,7 +806,7 @@ export default function MutualFundsPage() {
                   <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <div className="text-yellow-600 text-2xl">{step.icon}</div>
                   </div>
-                  <div className="w-8 h-8 bg-yellow-500 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-sm font-bold">
+                  <div className="w-8 h-8 bg-yellow-400 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-sm font-bold">
                     {step.step}
                   </div>
                   <h3 className="text-lg font-semibold mb-2">{step.title}</h3>
@@ -954,7 +954,7 @@ export default function MutualFundsPage() {
       </div>
 
       {/* Call to Action */}
-      <div className="py-16 bg-gradient-to-r from-yellow-400 to-yellow-500 text-white">
+      <div className="py-8 bg-gradient-to-br from-slate-800 via-slate-900 to-blue-900 text-white">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-4xl font-bold mb-4">
             Ready to Start Your Mutual Fund Journey?
@@ -964,10 +964,10 @@ export default function MutualFundsPage() {
             financial goals
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-white text-yellow-600 hover:bg-gray-100 px-8 py-3 rounded-lg font-semibold transition-colors">
+            <button className="bg-yellow-400 hover:bg-yellow-500 text-white px-8 py-3 rounded-lg font-semibold transition-colors">
               Start SIP Today
             </button>
-            <button className="border-2 border-white hover:bg-white hover:text-yellow-600 text-white px-8 py-3 rounded-lg font-semibold transition-colors">
+            <button className="border-2 border-white hover:bg-white hover:text-[#2C5282] text-white px-8 py-3 rounded-lg font-semibold transition-colors">
               Explore Funds
             </button>
           </div>
