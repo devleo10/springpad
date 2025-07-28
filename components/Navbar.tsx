@@ -1,14 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import { LoginModal } from "./LoginModal";
-import { SignupModal } from "./SignupModal";
+import { AuthModal } from "./AuthModal";
 
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X, ChevronDown } from "lucide-react";
-
 
 interface NavItem {
   name: string;
@@ -20,7 +18,6 @@ export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
 
-
   const navItems: NavItem[] = [
     { name: "About", href: "/about" },
     {
@@ -31,36 +28,84 @@ export function Navbar() {
           name: "Investment",
           href: "/calculators#investment",
           children: [
-            { name: "Become Crorepati Calculator", href: "/calculators/become-crorepati-calculator" },
-            { name: "SIP Return Calculator", href: "/calculators/sip-return-calculator" },
-            { name: "Retirement Planning Calculator", href: "/calculators/retirement-planning-calculator" },
+            {
+              name: "Become Crorepati Calculator",
+              href: "/calculators/become-crorepati-calculator",
+            },
+            {
+              name: "SIP Return Calculator",
+              href: "/calculators/sip-return-calculator",
+            },
+            {
+              name: "Retirement Planning Calculator",
+              href: "/calculators/retirement-planning-calculator",
+            },
             { name: "SWP Calculator", href: "/calculators/swp-calculator" },
             { name: "EMI Calculator", href: "/calculators/emi-calculator" },
-            { name: "SIP Step-up Calculator", href: "/calculators/sip-step-up-calculator" },
+            {
+              name: "SIP Step-up Calculator",
+              href: "/calculators/sip-step-up-calculator",
+            },
           ],
         },
         {
           name: "Goal Planning",
           href: "/calculators#goal-planning",
           children: [
-            { name: "Goal Setting Calculator", href: "/calculators/goal-setting-calculator" },
-            { name: "Composite Financial Goal Calculator", href: "/calculators/composite-financial-goal-calculator" },
-            { name: "Children Education Planner", href: "/calculators/children-education-planner" },
-            { name: "Human Life Value Calculator", href: "/calculators/human-life-value-calculator" },
-            { name: "Dream Home Calculator", href: "/calculators/dream-home-calculator" },
-            { name: "Wealth Creation Calculator", href: "/calculators/wealth-creation-calculator" },
-            { name: "Child's Wedding Calculator", href: "/calculators/child-s-wedding-calculator" },
-            { name: "Emergency Fund Calculator", href: "/calculators/emergency-fund-calculator" },
+            {
+              name: "Goal Setting Calculator",
+              href: "/calculators/goal-setting-calculator",
+            },
+            {
+              name: "Composite Financial Goal Calculator",
+              href: "/calculators/composite-financial-goal-calculator",
+            },
+            {
+              name: "Children Education Planner",
+              href: "/calculators/children-education-planner",
+            },
+            {
+              name: "Human Life Value Calculator",
+              href: "/calculators/human-life-value-calculator",
+            },
+            {
+              name: "Dream Home Calculator",
+              href: "/calculators/dream-home-calculator",
+            },
+            {
+              name: "Wealth Creation Calculator",
+              href: "/calculators/wealth-creation-calculator",
+            },
+            {
+              name: "Child's Wedding Calculator",
+              href: "/calculators/child-s-wedding-calculator",
+            },
+            {
+              name: "Emergency Fund Calculator",
+              href: "/calculators/emergency-fund-calculator",
+            },
           ],
         },
         {
           name: "Financial Tools",
           href: "/calculators#financial-tools",
           children: [
-            { name: "Asset Allocation Calculator", href: "/calculators/asset-allocation-calculator" },
-            { name: "Networth Calculator", href: "/calculators/networth-calculator" },
-            { name: "Compounding Calculator", href: "/calculators/compounding-calculator" },
-            { name: "Spending Less Calculator", href: "/calculators/spending-less-calculator" },
+            {
+              name: "Asset Allocation Calculator",
+              href: "/calculators/asset-allocation-calculator",
+            },
+            {
+              name: "Networth Calculator",
+              href: "/calculators/networth-calculator",
+            },
+            {
+              name: "Compounding Calculator",
+              href: "/calculators/compounding-calculator",
+            },
+            {
+              name: "Spending Less Calculator",
+              href: "/calculators/spending-less-calculator",
+            },
             { name: "PPF Calculator", href: "/calculators/ppf-calculator" },
             { name: "EPF Calculator", href: "/calculators/epf-calculator" },
           ],
@@ -82,8 +127,14 @@ export function Navbar() {
       children: [
         { name: "Dream Home", href: "/goals/dream-home-calculator" },
         { name: "Wealth Creation", href: "/goals/wealth-creation-calculator" },
-        { name: "Retirement Planning", href: "/goals/retirement-planning-calculator" },
-        { name: "Child's Education", href: "/goals/children-education-calculator" },
+        {
+          name: "Retirement Planning",
+          href: "/goals/retirement-planning-calculator",
+        },
+        {
+          name: "Child's Education",
+          href: "/goals/children-education-calculator",
+        },
         { name: "Child's Wedding", href: "/goals/child-s-wedding-calculator" },
         { name: "Emergency Fund", href: "/goals/emergency-fund-calculator" },
       ],
@@ -93,8 +144,10 @@ export function Navbar() {
 
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const closeDropdownTimeout = React.useRef<NodeJS.Timeout | null>(null);
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
-  const [isSignupOpen, setIsSignupOpen] = useState(false);
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const [authInitialTab, setAuthInitialTab] = useState<"login" | "signup">(
+    "signup"
+  );
 
   const handleDropdownEnter = (name: string) => {
     if (closeDropdownTimeout.current) {
@@ -113,7 +166,7 @@ export function Navbar() {
   // Helper for nested dropdown rendering
   const renderDropdown = (children: NavItem[]) => (
     <div className="bg-white rounded-xl shadow-lg border border-gray-100 py-2 px-2 animate-fade-in">
-      {children.map((child, cidx) => (
+      {children.map((child, cidx) =>
         child.children ? (
           <div key={`nav-dd-group-${cidx}`} className="group relative">
             <Link
@@ -146,7 +199,7 @@ export function Navbar() {
             {child.name}
           </Link>
         )
-      ))}
+      )}
     </div>
   );
 
@@ -171,7 +224,9 @@ export function Navbar() {
           {/* Desktop Links */}
           <div className="hidden md:flex items-center lg:space-x-1">
             {navItems.map((item, idx) => {
-              const hasDropdown = ["Calculators", "MF Research", "Goals"].includes(item.name) && item.children;
+              const hasDropdown =
+                ["Calculators", "MF Research", "Goals"].includes(item.name) &&
+                item.children;
               return hasDropdown ? (
                 <div
                   key={`nav-dd-${idx}`}
@@ -222,19 +277,15 @@ export function Navbar() {
           </div>
 
           {/* Auth Buttons (Desktop) */}
-          {/* Auth Buttons (Desktop) - modal logic */}
           <div className="hidden md:flex items-center space-x-2">
             <button
-              className="text-sm px-4 py-2 rounded-xl text-gray-700 hover:text-[#2C5282] hover:bg-gray-100/80 transition-all duration-200 font-medium"
-              onClick={() => setIsLoginOpen(true)}
-            >
-              Login
-            </button>
-            <button
               className="text-sm px-5 py-2 rounded-xl bg-yellow-300 hover:bg-yellow-400 text-[#2C5282] transition-all duration-200 shadow-md hover:shadow-lg font-semibold"
-              onClick={() => setIsSignupOpen(true)}
+              onClick={() => {
+                setAuthInitialTab("signup");
+                setIsAuthOpen(true);
+              }}
             >
-              Sign Up
+              Get Started
             </button>
           </div>
 
@@ -262,9 +313,11 @@ export function Navbar() {
           }`}
         >
           {navItems.map((item, idx) => {
-            const hasDropdown = ["Calculators", "MF Research", "Goals"].includes(item.name) && item.children;
+            const hasDropdown =
+              ["Calculators", "MF Research", "Goals"].includes(item.name) &&
+              item.children;
             return hasDropdown ? (
-              <div key={`mobile-dd-${idx}`}> 
+              <div key={`mobile-dd-${idx}`}>
                 <Link
                   href={item.href}
                   className="block py-3 px-4 text-sm text-gray-700 hover:text-[#2C5282] hover:bg-gray-100/80 rounded-xl transition-all duration-200 font-medium"
@@ -298,22 +351,23 @@ export function Navbar() {
           })}
           <div className="pt-2 border-t border-gray-200/50 space-y-2">
             <button
-              className="block w-full py-3 px-4 text-sm text-gray-700 hover:text-[#2C5282] hover:bg-gray-100/80 rounded-xl transition-all duration-200 font-medium text-left"
-              onClick={() => { setIsMobileMenuOpen(false); setIsLoginOpen(true); }}
-            >
-              Login
-            </button>
-            <button
               className="block w-full py-3 px-4 text-sm text-center bg-yellow-500 hover:bg-yellow-600 text-[#2C5282] rounded-xl transition-all duration-200 font-semibold shadow-md"
-              onClick={() => { setIsMobileMenuOpen(false); setIsSignupOpen(true); }}
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                setAuthInitialTab("signup");
+                setIsAuthOpen(true);
+              }}
             >
-              Sign Up
+              Get Started
             </button>
           </div>
         </div>
       </nav>
-      <LoginModal open={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
-      <SignupModal open={isSignupOpen} onClose={() => setIsSignupOpen(false)} />
+      <AuthModal
+        open={isAuthOpen}
+        onClose={() => setIsAuthOpen(false)}
+        initialTab={authInitialTab}
+      />
     </>
   );
 }
