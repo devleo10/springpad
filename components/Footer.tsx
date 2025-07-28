@@ -138,10 +138,10 @@ export function Footer() {
                 Privacy Policy
               </Link>
               <Link
-                href="/terms"
+                href="/terms-of-use"
                 className="block text-gray-600 hover:text-yellow-500 transition-colors duration-200"
               >
-                Terms of Service
+                Terms of Use
               </Link>
               <Link
                 href="/refund-policy"
