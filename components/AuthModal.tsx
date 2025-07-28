@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { auth, googleProvider } from "@/lib/firebase";
+import { signInWithPopup } from "firebase/auth";
 
 interface AuthModalProps {
   open: boolean;
@@ -65,18 +67,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     setLoginLoading(true);
     setLoginError("");
     try {
-      const res = await fetch(`${backendUrl}/api/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: loginEmail,
-          mobile: loginMobile,
-          password: loginPassword,
-        }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Login failed");
-      // Save token, redirect, etc.
+      // Only email login supported with Firebase
+      if (!loginEmail || !loginPassword) {
+        throw new Error("Email and password are required");
+      }
+      const { signInWithEmailAndPassword } = await import("firebase/auth");
+      await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
       onClose();
     } catch (err) {
       if (err instanceof Error) {
@@ -84,6 +80,21 @@ export const AuthModal: React.FC<AuthModalProps> = ({
       } else {
         setLoginError("Login failed");
       }
+    } finally {
+      setLoginLoading(false);
+    }
+  };
+
+  // Google Sign In
+  const handleGoogleSignIn = async () => {
+    setLoginLoading(true);
+    setLoginError("");
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      // You can access user info here: result.user
+      onClose();
+    } catch (err) {
+      setLoginError("Google sign-in failed");
     } finally {
       setLoginLoading(false);
     }
@@ -98,24 +109,19 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     setVerifySuccess("");
     setVerifyError("");
     try {
-      const body: Record<string, string> = { name, password: signupPassword };
-      if (signupMode === "mobile") {
-        body.mobile = signupMobile;
-      } else {
-        body.email = signupEmail;
-      }
-      const res = await fetch(`${backendUrl}/api/auth/signup`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Signup failed");
-      setSignupSuccess(
-        "Signup successful! Please verify your email or mobile."
-      );
+      // Only email signup supported with Firebase
       if (signupMode === "email") {
+        if (!signupEmail || !signupPassword) {
+          throw new Error("Email and password are required");
+        }
+        const { createUserWithEmailAndPassword, sendEmailVerification, updateProfile } = await import("firebase/auth");
+        const userCredential = await createUserWithEmailAndPassword(auth, signupEmail, signupPassword);
+        await updateProfile(userCredential.user, { displayName: name });
+        await sendEmailVerification(userCredential.user);
+        setSignupSuccess("Signup successful! Please verify your email.");
         setShowVerify(true);
+      } else {
+        setSignupError("Mobile signup is not supported with Firebase Auth by default.");
       }
       setName("");
       setSignupEmail("");
@@ -138,21 +144,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     setVerifyError("");
     setSignupLoading(true);
     try {
-      const res = await fetch(`${backendUrl}/api/auth/verify-email`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: signupEmail, otp: verifyToken }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Verification failed");
-      setVerifySuccess("Email verified successfully! You can now log in.");
+      // Firebase automatically sends verification email, user must click the link in their email
+      setVerifySuccess("Please check your email and click the verification link. After verifying, you can log in.");
       setShowVerify(false);
     } catch (err) {
-      if (err instanceof Error) {
-        setVerifyError(err.message);
-      } else {
-        setVerifyError("Verification failed");
-      }
+      setVerifyError("Verification failed");
     } finally {
       setSignupLoading(false);
     }
