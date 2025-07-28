@@ -55,7 +55,7 @@ export default function AboutPage() {
 
       {/* Hero Section */}
       <div className="p-6">
-        <div className="relative bg-gradient-to-br from-slate-800 via-slate-900 to-blue-900 text-white py-20 rounded-3xl">
+        <div className="relative bg-gradient-to-br from-slate-800 via-slate-900 to-blue-900 text-white py-10 rounded-3xl">
           <div className="absolute inset-0 opacity-10"></div>
           <div className="relative max-w-6xl mx-auto px-4">
             <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -79,29 +79,15 @@ export default function AboutPage() {
                 </div>
               </div>
               <div className="relative">
-                <div className="bg-white bg-opacity-10 rounded-3xl p-8 backdrop-blur-sm">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-white bg-opacity-20 p-4 rounded-xl">
-                      <div className="h-8 w-8 bg-yellow-400 rounded mb-2"></div>
-                      <div className="text-sm">Portfolio Growth</div>
-                      <div className="text-2xl font-bold">+24.5%</div>
-                    </div>
-                    <div className="bg-white bg-opacity-20 p-4 rounded-xl">
-                      <div className="h-8 w-8 bg-green-400 rounded mb-2"></div>
-                      <div className="text-sm">Risk Score</div>
-                      <div className="text-2xl font-bold">7.2/10</div>
-                    </div>
-                    <div className="bg-white bg-opacity-20 p-4 rounded-xl col-span-2">
-                      <div className="h-16 bg-gradient-to-r from-yellow-400 to-green-400 rounded mb-2 flex items-end justify-around p-2">
-                        <div className="bg-white bg-opacity-50 w-3 h-8 rounded"></div>
-                        <div className="bg-white bg-opacity-50 w-3 h-12 rounded"></div>
-                        <div className="bg-white bg-opacity-50 w-3 h-6 rounded"></div>
-                        <div className="bg-white bg-opacity-50 w-3 h-14 rounded"></div>
-                        <div className="bg-white bg-opacity-50 w-3 h-10 rounded"></div>
-                      </div>
-                      <div className="text-sm">Monthly Performance</div>
-                    </div>
-                  </div>
+                <div className="flex justify-center items-center">
+                  <Image
+                    src="/plant.jpg"
+                    alt="SpringPad Financial Growth"
+                    width={600}
+                    height={500}
+                    className="object-contain drop-shadow-2xl rounded-3xl"
+                    priority
+                  />
                 </div>
               </div>
             </div>
