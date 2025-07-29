@@ -1,4 +1,3 @@
-
 "use client"
 
 import React from "react";
@@ -177,7 +176,7 @@ const faqs = [
 ];
 
 export default function FinancialFaqPage() {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const [openIndex, setOpenIndex] = useState<number | null>(null); // Set default to null to avoid first question being expanded
 
   const toggle = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -186,7 +185,7 @@ export default function FinancialFaqPage() {
   return (
     <>
       <Navbar />
-      <section className="px-4 max-w-6xl mx-auto bg-white pb-32">
+      <section className="pt-20 px-4 max-w-6xl mx-auto bg-white pb-32"> {/* Added pt-20 to push content below the navbar */}
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold text-[#2C5282] mb-8 text-center leading-tight">
             What is <span className="text-yellow-500">Financial Planning?</span>
