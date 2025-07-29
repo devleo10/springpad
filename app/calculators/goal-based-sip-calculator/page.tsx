@@ -6,12 +6,12 @@ import { Footer } from "@/components/Footer";
 import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import {
-  FaChartPie,
-  FaCalculator,
-  FaBullseye,
   FaChartLine,
-  FaRupeeSign,
+  FaCalculator,
+  FaShieldAlt,
+  FaArrowUp,
   FaLightbulb,
+  FaPiggyBank,
 } from "react-icons/fa";
 import {
   XAxis,
@@ -352,7 +352,7 @@ export default function GoalBasedSIPCalculatorPage() {
       <div className="max-w-6xl mx-auto px-4 py-16">
         {/* Header */}
         <header className="flex items-center gap-3 mb-6">
-          <FaBullseye className="text-yellow-500 text-2xl" />
+          <FaChartLine className="text-yellow-500 text-2xl" />
           <h1 className="text-3xl font-bold">Goal Based SIP Calculator</h1>
         </header>
 
@@ -365,7 +365,7 @@ export default function GoalBasedSIPCalculatorPage() {
         <section className="mb-8">
           <Card>
             <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-              <FaRupeeSign className="text-green-500" />
+              <FaPiggyBank className="text-green-500" />
               Goal Planning Details
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -480,6 +480,45 @@ export default function GoalBasedSIPCalculatorPage() {
 
         {result && summaryData ? (
           <>
+            {/* Results Grid */}
+            <section className="grid lg:grid-cols-4 gap-6 mb-8">
+              <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-6 rounded-lg border border-blue-200 transform hover:scale-105 transition-transform duration-200">
+                <h3 className="text-sm font-medium text-blue-800 mb-2">
+                  Required Monthly SIP
+                </h3>
+                <p className="text-xl font-bold text-blue-600">
+                  {formatCurrency(Number(result.requiredSIP))}
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-r from-green-50 to-green-100 p-6 rounded-lg border border-green-200 transform hover:scale-105 transition-transform duration-200">
+                <h3 className="text-sm font-medium text-green-800 mb-2">
+                  Target Amount
+                </h3>
+                <p className="text-xl font-bold text-green-600">
+                  {formatCurrency(Number(result.targetAmount))}
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-r from-purple-50 to-purple-100 p-6 rounded-lg border border-purple-200 transform hover:scale-105 transition-transform duration-200">
+                <h3 className="text-sm font-medium text-purple-800 mb-2">
+                  Total Investment
+                </h3>
+                <p className="text-xl font-bold text-purple-600">
+                  {formatCurrency(Number(result.totalInvestment))}
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-r from-yellow-50 to-yellow-100 p-6 rounded-lg border border-yellow-200 transform hover:scale-105 transition-transform duration-200">
+                <h3 className="text-sm font-medium text-yellow-800 mb-2">
+                  Total Returns
+                </h3>
+                <p className="text-xl font-bold text-yellow-600">
+                  {formatCurrency(Number(result.totalReturns))}
+                </p>
+              </div>
+            </section>
+
             {/* Chart and Summary Section */}
             <section className="grid lg:grid-cols-3 gap-8 mb-8 lg:items-stretch">
               <div className="lg:col-span-2">
@@ -590,21 +629,21 @@ export default function GoalBasedSIPCalculatorPage() {
               <div className="h-full">
                 <Card className="h-full flex flex-col">
                   <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                    <FaBullseye className="text-green-500" />
+                    <FaArrowUp className="text-green-500" />
                     Goal Summary & Analysis
                   </h3>
 
                   {/* Goal Summary */}
                   <div className="mb-6">
                     <h4 className="font-medium mb-3 text-blue-600">
-                      Investment Requirements
+                      Investment Details
                     </h4>
                     <div className="space-y-3">
                       <div className="flex justify-between items-center">
                         <span className="text-sm text-gray-600">
                           Required Monthly SIP:
                         </span>
-                        <span className="font-bold text-lg text-blue-600">
+                        <span className="font-semibold">
                           {formatCurrency(Number(result.requiredSIP) || 0)}
                         </span>
                       </div>
@@ -612,8 +651,16 @@ export default function GoalBasedSIPCalculatorPage() {
                         <span className="text-sm text-gray-600">
                           Target Amount:
                         </span>
-                        <span className="font-semibold text-green-600">
+                        <span className="font-semibold">
                           {formatCurrency(Number(targetAmount) || 0)}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-gray-600">
+                          Expected Return:
+                        </span>
+                        <span className="font-semibold">
+                          {expectedReturn || "0"}% p.a.
                         </span>
                       </div>
                       <div className="flex justify-between items-center">
@@ -626,10 +673,10 @@ export default function GoalBasedSIPCalculatorPage() {
                       </div>
                       <div className="flex justify-between items-center">
                         <span className="text-sm text-gray-600">
-                          Expected Return:
+                          Total Installments:
                         </span>
                         <span className="font-semibold">
-                          {expectedReturn || "0"}% p.a.
+                          {(Number(timePeriod) || 0) * 12}
                         </span>
                       </div>
                       <div className="border-t pt-3 mt-3">
@@ -645,117 +692,40 @@ export default function GoalBasedSIPCalculatorPage() {
                     </div>
                   </div>
 
-                  {/* Goal Achievability */}
+                  {/* Key Goal Principles */}
                   <div className="flex-1">
                     <h4 className="font-medium mb-3 text-green-600">
-                      Goal Achievability
+                      Key Goal Principles
                     </h4>
                     <div className="space-y-3">
-                      <div
-                        className={`p-3 rounded-lg border ${
-                          summaryData.achievabilityScore === "High"
-                            ? "bg-gradient-to-r from-green-50 to-green-100 border-green-200"
-                            : summaryData.achievabilityScore === "Moderate"
-                            ? "bg-gradient-to-r from-yellow-50 to-yellow-100 border-yellow-200"
-                            : "bg-gradient-to-r from-red-50 to-red-100 border-red-200"
-                        }`}
-                      >
-                        <h5
-                          className={`font-medium text-sm mb-1 ${
-                            summaryData.achievabilityScore === "High"
-                              ? "text-green-700"
-                              : summaryData.achievabilityScore === "Moderate"
-                              ? "text-yellow-700"
-                              : "text-red-700"
-                          }`}
-                        >
-                          Achievability: {summaryData.achievabilityScore}
+                      <div className="bg-gradient-to-r from-green-50 to-green-100 p-3 rounded-lg border border-green-200">
+                        <h5 className="font-medium text-green-700 text-sm mb-1">
+                          Power of Compounding
                         </h5>
-                        <p
-                          className={`text-xs ${
-                            summaryData.achievabilityScore === "High"
-                              ? "text-green-600"
-                              : summaryData.achievabilityScore === "Moderate"
-                              ? "text-yellow-600"
-                              : "text-red-600"
-                          }`}
-                        >
-                          Required SIP:{" "}
-                          {formatCurrency(Number(result.requiredSIP))}
+                        <p className="text-xs text-green-600">
+                          Time is your biggest asset - start early!
                         </p>
                       </div>
-
                       <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-3 rounded-lg border border-blue-200">
                         <h5 className="font-medium text-blue-700 text-sm mb-1">
-                          Start Early Advantage
+                          Rupee Cost Averaging
                         </h5>
                         <p className="text-xs text-blue-600">
-                          Starting 5 years earlier can reduce monthly SIP by
-                          30-40%
+                          Reduces average cost through market volatility
                         </p>
                       </div>
-
                       <div className="bg-gradient-to-r from-purple-50 to-purple-100 p-3 rounded-lg border border-purple-200">
                         <h5 className="font-medium text-purple-700 text-sm mb-1">
-                          Stay Consistent
+                          Stay Disciplined
                         </h5>
                         <p className="text-xs text-purple-600">
-                          Regular investments compound over time
+                          Don&apos;t time the market, stay invested long-term
                         </p>
                       </div>
                     </div>
                   </div>
                 </Card>
               </div>
-            </section>
-
-            {/* Results Summary Cards */}
-            <section className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-              <Card className="text-center">
-                <h3 className="text-lg font-semibold mb-2 text-blue-600">
-                  Required Monthly SIP
-                </h3>
-                <p className="text-2xl font-bold text-blue-700">
-                  ₹{Number(result.requiredSIP).toLocaleString()}
-                </p>
-                <p className="text-sm text-gray-600 mt-2">
-                  To achieve your goal
-                </p>
-              </Card>
-
-              <Card className="text-center">
-                <h3 className="text-lg font-semibold mb-2 text-green-600">
-                  Target Amount
-                </h3>
-                <p className="text-2xl font-bold text-green-700">
-                  ₹{Number(result.targetAmount).toLocaleString()}
-                </p>
-                <p className="text-sm text-gray-600 mt-2">
-                  Your financial goal
-                </p>
-              </Card>
-
-              <Card className="text-center">
-                <h3 className="text-lg font-semibold mb-2 text-purple-600">
-                  Total Investment
-                </h3>
-                <p className="text-2xl font-bold text-purple-700">
-                  ₹{Number(result.totalInvestment).toLocaleString()}
-                </p>
-                <p className="text-sm text-gray-600 mt-2">Your contribution</p>
-              </Card>
-
-              <Card className="text-center">
-                <h3 className="text-lg font-semibold mb-2 text-orange-600">
-                  Total Returns
-                </h3>
-                <p className="text-2xl font-bold text-orange-700">
-                  ₹{Number(result.totalReturns).toLocaleString()}
-                </p>
-                <p className="text-sm text-gray-600 mt-2">
-                  Power of compounding
-                </p>
-              </Card>
             </section>
 
             {/* Formula Section */}
@@ -871,9 +841,9 @@ export default function GoalBasedSIPCalculatorPage() {
                     <ul className="space-y-2 text-sm text-gray-700">
                       {[
                         "Goal-oriented investment approach",
-                        "Disciplined monthly investments",
-                        "Rupee cost averaging reduces risk",
-                        "Power of compounding over time",
+                        "Monthly compounding for wealth creation",
+                        "Rupee cost averaging reduces volatility",
+                        "Disciplined investment approach",
                         "Flexibility to adjust targets",
                         "Clear timeline for achievement",
                       ].map((benefit, index) => (
@@ -909,16 +879,16 @@ export default function GoalBasedSIPCalculatorPage() {
             </section>
           </>
         ) : (
-          <section>
+          <section className="text-center py-16">
             <Card>
-              <div className="text-center py-12">
-                <FaChartPie className="text-6xl text-gray-300 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold mb-2 text-gray-600">
-                  Enter Your Goal Details
+              <div className="text-center py-12 text-gray-500">
+                <FaShieldAlt className="mx-auto text-5xl mb-6 text-gray-300" />
+                <h3 className="text-xl font-semibold mb-2">
+                  Ready to Calculate?
                 </h3>
-                <p className="text-gray-500">
-                  Fill in your target amount, time period, and expected returns
-                  to see the required monthly SIP
+                <p className="text-gray-600">
+                  Enter your goal details above and see your required SIP
+                  projections and growth visualization in real-time.
                 </p>
               </div>
             </Card>

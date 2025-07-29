@@ -615,6 +615,45 @@ export default function SipStepUpCalculator() {
 
         {result && summaryData ? (
           <>
+            {/* Results Grid */}
+            <section className="grid lg:grid-cols-4 gap-6 mb-8">
+              <div className="bg-gradient-to-r from-green-50 to-green-100 p-6 rounded-lg border border-green-200 transform hover:scale-105 transition-transform duration-200">
+                <h3 className="text-sm font-medium text-green-800 mb-2">
+                  Step-up SIP Value
+                </h3>
+                <p className="text-xl font-bold text-green-600">
+                  {formatCurrency(Number(result.stepUpSipValue))}
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-6 rounded-lg border border-blue-200 transform hover:scale-105 transition-transform duration-200">
+                <h3 className="text-sm font-medium text-blue-800 mb-2">
+                  Total Investment
+                </h3>
+                <p className="text-xl font-bold text-blue-600">
+                  {formatCurrency(Number(result.totalInvestment))}
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-r from-purple-50 to-purple-100 p-6 rounded-lg border border-purple-200 transform hover:scale-105 transition-transform duration-200">
+                <h3 className="text-sm font-medium text-purple-800 mb-2">
+                  Additional Wealth
+                </h3>
+                <p className="text-xl font-bold text-purple-600">
+                  {formatCurrency(Number(result.additionalWealth))}
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-r from-yellow-50 to-yellow-100 p-6 rounded-lg border border-yellow-200 transform hover:scale-105 transition-transform duration-200">
+                <h3 className="text-sm font-medium text-yellow-800 mb-2">
+                  Wealth Increase
+                </h3>
+                <p className="text-xl font-bold text-yellow-600">
+                  {summaryData.wealthIncrease}%
+                </p>
+              </div>
+            </section>
+
             {/* Chart and Summary Section */}
             <section className="grid lg:grid-cols-3 gap-8 mb-8 lg:items-stretch">
               <div className="lg:col-span-2">
