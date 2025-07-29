@@ -10,7 +10,8 @@ export function Input({ className = "", ...props }: InputProps) {
   return (
     <input
       {...props}
-      className={`w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-yellow-500 ${className}`}
+      className={`w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-yellow-500 select-text ${className}`}
+      style={{ userSelect: "text" }}
     />
   );
 }
