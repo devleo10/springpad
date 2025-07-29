@@ -348,7 +348,7 @@ export default function SipCalculator() {
         {/* Header */}
         <header className="flex items-center gap-3 mb-6">
           <FaChartLine className="text-yellow-500 text-2xl" />
-          <h1 className="text-3xl font-bold">SIP Return Calculator</h1>
+          <h1 className="text-3xl font-bold">SIP Calculator</h1>
         </header>
 
         <p className="text-gray-600 mb-8">
