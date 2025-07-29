@@ -11,6 +11,7 @@ import {
   FaArrowUp,
   FaShieldAlt,
   FaChartLine,
+  FaLightbulb,
 } from "react-icons/fa";
 import {
   XAxis,
@@ -626,11 +627,16 @@ export default function SipStepUpCalculator() {
                     <ResponsiveContainer width="100%" height="100%">
                       <AreaChart data={chartData}>
                         <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                        <XAxis dataKey="year" stroke="#666" fontSize={12} label={{
-                          value: "Years",
-                          position: "insideBottom",
-                          offset: -5,
-                        }}   />
+                        <XAxis
+                          dataKey="year"
+                          stroke="#666"
+                          fontSize={12}
+                          label={{
+                            value: "Years",
+                            position: "insideBottom",
+                            offset: -5,
+                          }}
+                        />
                         <YAxis
                           stroke="#666"
                           fontSize={12}
@@ -1062,7 +1068,8 @@ export default function SipStepUpCalculator() {
             {/* Information Section */}
             <section>
               <Card>
-                <h3 className="text-lg font-semibold mb-4">
+                <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                  <FaLightbulb className="text-yellow-500" />
                   Benefits of Step-up SIP
                 </h3>
                 <div className="grid md:grid-cols-2 gap-8">

@@ -9,9 +9,9 @@ import {
   FaChartPie,
   FaCalculator,
   FaBullseye,
-  FaShieldAlt,
   FaChartLine,
   FaRupeeSign,
+  FaLightbulb,
 } from "react-icons/fa";
 import {
   XAxis,
@@ -43,8 +43,6 @@ interface ChartDataPoint {
 
 // Constants
 const DEBOUNCE_DELAY = 800;
-const MIN_INVESTMENT = 500;
-const MAX_INVESTMENT = 1000000;
 const MIN_RETURN = 1;
 const MAX_RETURN = 30;
 const MIN_YEARS = 1;
@@ -861,7 +859,8 @@ export default function GoalBasedSIPCalculatorPage() {
             {/* Information Section */}
             <section>
               <Card>
-                <h3 className="text-lg font-semibold mb-4">
+                <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                  <FaLightbulb className="text-yellow-500" />
                   About Goal-Based SIP
                 </h3>
                 <div className="grid md:grid-cols-2 gap-8">

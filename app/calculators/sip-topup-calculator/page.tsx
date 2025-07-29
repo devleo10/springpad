@@ -11,6 +11,7 @@ import {
   FaPiggyBank,
   FaShieldAlt,
   FaArrowUp,
+  FaLightbulb,
 } from "react-icons/fa";
 import {
   XAxis,
@@ -640,10 +641,10 @@ export default function SipTopupCalculator() {
                           stroke="#666"
                           fontSize={12}
                           label={{
-                          value: "Years",
-                          position: "insideBottom",
-                          offset: -5,
-                        }}
+                            value: "Years",
+                            position: "insideBottom",
+                            offset: -5,
+                          }}
                         />
                         <YAxis
                           stroke="#666"
@@ -982,7 +983,8 @@ export default function SipTopupCalculator() {
             {/* Information Section */}
             <section>
               <Card>
-                <h3 className="text-lg font-semibold mb-4">
+                <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                  <FaLightbulb className="text-yellow-500" />
                   About SIP Top-up Strategy
                 </h3>
                 <div className="grid md:grid-cols-2 gap-8">

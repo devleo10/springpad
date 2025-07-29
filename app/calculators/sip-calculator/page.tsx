@@ -11,6 +11,7 @@ import {
   FaPiggyBank,
   FaShieldAlt,
   FaArrowUp,
+  FaLightbulb,
 } from "react-icons/fa";
 import {
   XAxis,
@@ -39,11 +40,11 @@ interface ChartDataPoint {
 // Constants
 const DEBOUNCE_DELAY = 800;
 const MIN_INVESTMENT = 500;
-const MAX_INVESTMENT = 1000000; 
+const MAX_INVESTMENT = 1000000;
 const MIN_RETURN = 1;
-const MAX_RETURN = 30; 
+const MAX_RETURN = 30;
 const MIN_YEARS = 1;
-const MAX_YEARS = 40; 
+const MAX_YEARS = 40;
 
 // Helper functions
 const formatCurrency = (amount: number): string => {
@@ -530,10 +531,10 @@ export default function SipCalculator() {
                           stroke="#666"
                           fontSize={12}
                           label={{
-                          value: "Years",
-                          position: "insideBottom",
-                          offset: -5,
-                        }}
+                            value: "Years",
+                            position: "insideBottom",
+                            offset: -5,
+                          }}
                         />
                         <YAxis
                           stroke="#666"
@@ -799,7 +800,8 @@ export default function SipCalculator() {
             {/* Information Section */}
             <section>
               <Card>
-                <h3 className="text-lg font-semibold mb-4">
+                <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                  <FaLightbulb className="text-yellow-500" />
                   About SIP Returns
                 </h3>
                 <div className="grid md:grid-cols-2 gap-8">
