@@ -20,8 +20,6 @@ import {
   ResponsiveContainer,
   AreaChart,
   Area,
-  LineChart,
-  Line,
 } from "recharts";
 
 // Types
@@ -53,7 +51,7 @@ const MAX_RETURN = 30;
 const MIN_YEARS = 1;
 const MAX_YEARS = 40;
 const MIN_STEP_UP = 1;
-const MAX_STEP_UP = 30;
+const MAX_STEP_UP = 50;
 
 // Helper functions
 const formatCurrency = (amount: number): string => {
@@ -626,11 +624,7 @@ export default function SipStepUpCalculator() {
                     <ResponsiveContainer width="100%" height="100%">
                       <AreaChart data={chartData}>
                         <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                        <XAxis dataKey="year" stroke="#666" fontSize={12} label={{
-                          value: "Years",
-                          position: "insideBottom",
-                          offset: -5,
-                        }}   />
+                        <XAxis dataKey="year" stroke="#666" fontSize={12} />
                         <YAxis
                           stroke="#666"
                           fontSize={12}
@@ -795,6 +789,39 @@ export default function SipStepUpCalculator() {
               </div>
             </section>
 
+            {/* Additional Wealth Created */}
+            <section className="mb-8">
+              <Card>
+                <div className="text-center">
+                  <h3 className="text-lg font-semibold mb-2 text-yellow-800">
+                    Additional Wealth Created
+                  </h3>
+                  <div className="bg-gradient-to-r from-yellow-50 to-orange-50 p-6 rounded-lg border-2 border-yellow-200">
+                    <p className="text-3xl font-bold text-yellow-600 mb-2">
+                      {formatCurrencyLakhs(Number(result.additionalWealth))}
+                    </p>
+                    <p className="text-sm text-yellow-700 mb-4">
+                      Extra wealth through step-up strategy
+                    </p>
+                    <div className="grid grid-cols-2 gap-4 text-sm">
+                      <div className="bg-white p-3 rounded border">
+                        <p className="text-yellow-600">Wealth Increase</p>
+                        <p className="font-bold text-yellow-800">
+                          {summaryData.wealthIncrease}%
+                        </p>
+                      </div>
+                      <div className="bg-white p-3 rounded border">
+                        <p className="text-yellow-600">Investment Increase</p>
+                        <p className="font-bold text-yellow-800">
+                          {summaryData.investmentIncrease}%
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            </section>
+
             {/* Comparison Cards */}
             <section className="grid md:grid-cols-2 gap-6 mb-8">
               <Card>
@@ -876,185 +903,52 @@ export default function SipStepUpCalculator() {
               </Card>
             </section>
 
-            {/* SIP Amount Progression Chart */}
-            <section className="mb-8">
-              <Card>
-                <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                  <FaArrowUp className="text-orange-500" />
-                  SIP Amount Progression Over Time
-                </h3>
-                <div className="h-64">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={chartData}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                      <XAxis
-                        dataKey="year"
-                        stroke="#666"
-                        fontSize={12}
-                        label={{
-                          value: "Years",
-                          position: "insideBottom",
-                          offset: -5,
-                        }}
-                      />
-                      <YAxis
-                        stroke="#666"
-                        fontSize={12}
-                        tickFormatter={(value) =>
-                          `₹${(value / 1000).toFixed(0)}K`
-                        }
-                      />
-                      <Tooltip
-                        formatter={(value: number) => [
-                          formatCurrency(value),
-                          "Monthly SIP Amount",
-                        ]}
-                        labelFormatter={(year) => `Year ${year}`}
-                        contentStyle={{
-                          backgroundColor: "#fff",
-                          border: "1px solid #e2e8f0",
-                          borderRadius: "8px",
-                          boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
-                        }}
-                      />
-                      <Line
-                        type="monotone"
-                        dataKey="sipAmount"
-                        stroke="#f59e0b"
-                        strokeWidth={3}
-                        dot={{ fill: "#f59e0b", strokeWidth: 2, r: 4 }}
-                        name="Monthly SIP Amount"
-                      />
-                    </LineChart>
-                  </ResponsiveContainer>
-                </div>
-                <div className="mt-4 text-center">
-                  <p className="text-sm text-gray-600">
-                    Your monthly SIP amount increases from{" "}
-                    <span className="font-semibold text-blue-600">
-                      {formatCurrency(Number(initialSip) || 0)}
-                    </span>{" "}
-                    to{" "}
-                    <span className="font-semibold text-green-600">
-                      {formatCurrency(
-                        (Number(initialSip) || 0) *
-                          Math.pow(
-                            1 + (Number(stepUpPercentage) || 0) / 100,
-                            (Number(timePeriod) || 0) - 1
-                          )
-                      )}
-                    </span>{" "}
-                    over {timePeriod || 0} years with {stepUpPercentage || 0}%
-                    annual increase
-                  </p>
-                </div>
-              </Card>
-            </section>
-
-            {/* Formula Section */}
+            {/* Year-wise Preview */}
             <section className="mb-8">
               <Card>
                 <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                  <FaCalculator className="text-purple-500" />
-                  Step-up SIP Calculation Formula
+                  <FaChartLine className="text-blue-500" />
+                  Year-wise SIP Amount Preview
                 </h3>
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <h4 className="font-medium mb-3 text-blue-600">
-                      Formula Used
-                    </h4>
-                    <div className="bg-gray-50 p-4 rounded-lg border font-mono text-sm">
-                      <div className="mb-2">
-                        <strong>
-                          Step-up SIP = Σ(Year SIP × Future Value Factor)
-                        </strong>
-                      </div>
-                      <div className="text-xs text-gray-600 space-y-1">
-                        <div>
-                          <strong>Year SIP</strong> = P × (1 + step%)^(year-1)
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 text-sm">
+                  {Array.from(
+                    { length: Math.min(Number(timePeriod) || 0, 10) },
+                    (_, i) => {
+                      const year = i + 1;
+                      const sipAmount =
+                        (Number(initialSip) || 0) *
+                        Math.pow(1 + (Number(stepUpPercentage) || 0) / 100, i);
+                      return (
+                        <div
+                          key={year}
+                          className="bg-gradient-to-br from-blue-50 to-blue-100 p-3 rounded border border-blue-200"
+                        >
+                          <p className="text-blue-600 font-medium">
+                            Year {year}
+                          </p>
+                          <p className="font-bold text-blue-800">
+                            {formatCurrency(sipAmount)}
+                          </p>
                         </div>
-                        <div>
-                          <strong>P</strong> = Initial Monthly SIP Amount
-                        </div>
-                        <div>
-                          <strong>step%</strong> = Annual Step-up Percentage
-                        </div>
-                        <div>
-                          <strong>r</strong> = Monthly Interest Rate
-                        </div>
-                        <div>
-                          <strong>FV Factor</strong> = ((1 + r)^months - 1) / r
-                          × (1 + r)
-                        </div>
-                      </div>
+                      );
+                    }
+                  )}
+                  {(Number(timePeriod) || 0) > 10 && (
+                    <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-3 rounded border border-purple-200">
+                      <p className="text-purple-600 font-medium">
+                        Year {Number(timePeriod) || 0}
+                      </p>
+                      <p className="font-bold text-purple-800">
+                        {formatCurrency(
+                          (Number(initialSip) || 0) *
+                            Math.pow(
+                              1 + (Number(stepUpPercentage) || 0) / 100,
+                              (Number(timePeriod) || 0) - 1
+                            )
+                        )}
+                      </p>
                     </div>
-                  </div>
-                  <div>
-                    <h4 className="font-medium mb-3 text-green-600">
-                      Your Calculation
-                    </h4>
-                    <div className="bg-green-50 p-4 rounded-lg border text-sm">
-                      <div className="space-y-2">
-                        <div className="flex justify-between">
-                          <span>Initial SIP (P):</span>
-                          <span className="font-semibold">
-                            ₹{Number(initialSip) || 0}
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Annual Step-up:</span>
-                          <span className="font-semibold">
-                            {Number(stepUpPercentage) || 0}%
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Annual Return:</span>
-                          <span className="font-semibold">
-                            {Number(expectedReturn) || 0}%
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Monthly Rate (r):</span>
-                          <span className="font-semibold">
-                            {((Number(expectedReturn) || 0) / 12).toFixed(3)}%
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Investment Period:</span>
-                          <span className="font-semibold">
-                            {Number(timePeriod) || 0} years
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Total Months:</span>
-                          <span className="font-semibold">
-                            {(Number(timePeriod) || 0) * 12}
-                          </span>
-                        </div>
-                        <div className="border-t pt-2 mt-2">
-                          <div className="flex justify-between font-bold">
-                            <span>Step-up SIP Value:</span>
-                            <span className="text-green-600">
-                              {result
-                                ? formatCurrency(Number(result.stepUpSipValue))
-                                : "₹0"}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
-                  <p className="text-sm text-blue-700">
-                    <strong>How it works:</strong> Step-up SIP calculates the
-                    future value by compounding each year&apos;s SIP amount
-                    separately. Each year, your SIP amount increases by the
-                    step-up percentage, and each amount earns returns for its
-                    remaining investment period. This creates a powerful
-                    compounding effect that significantly outperforms regular
-                    SIP over time.
-                  </p>
+                  )}
                 </div>
               </Card>
             </section>
@@ -1065,43 +959,25 @@ export default function SipStepUpCalculator() {
                 <h3 className="text-lg font-semibold mb-4">
                   Benefits of Step-up SIP
                 </h3>
-                <div className="grid md:grid-cols-2 gap-8">
+                <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <h4 className="font-medium mb-3 text-green-600">
-                      Key Advantages
-                    </h4>
-                    <ul className="space-y-2 text-sm text-gray-700">
-                      {[
-                        "Matches your growing income capacity",
-                        "Significantly boosts long-term wealth",
-                        "Maintains investment power against inflation",
-                        "Accelerates financial goal achievement",
-                        "Automatic feature available in most funds",
-                      ].map((benefit, index) => (
-                        <li key={index} className="flex items-start gap-2">
-                          <span className="text-green-500 mt-1">•</span>
-                          <span>{benefit}</span>
-                        </li>
-                      ))}
+                    <h4 className="font-medium mb-2">Key Advantages</h4>
+                    <ul className="space-y-1 text-sm text-gray-700">
+                      <li>• Matches your growing income capacity</li>
+                      <li>• Significantly boosts long-term wealth</li>
+                      <li>• Maintains investment power against inflation</li>
+                      <li>• Accelerates financial goal achievement</li>
+                      <li>• Automatic feature available in most funds</li>
                     </ul>
                   </div>
                   <div>
-                    <h4 className="font-medium mb-3 text-blue-600">
-                      Strategy Tips
-                    </h4>
-                    <ul className="space-y-2 text-sm text-gray-700">
-                      {[
-                        "Align step-up with salary increments",
-                        "Even 10% annual increase makes huge difference",
-                        "Benefits from rupee cost averaging",
-                        "Start with comfortable initial amount",
-                        "Review and adjust annually if needed",
-                      ].map((tip, index) => (
-                        <li key={index} className="flex items-start gap-2">
-                          <span className="text-blue-500 mt-1">•</span>
-                          <span>{tip}</span>
-                        </li>
-                      ))}
+                    <h4 className="font-medium mb-2">Strategy Tips</h4>
+                    <ul className="space-y-1 text-sm text-gray-700">
+                      <li>• Align step-up with salary increments</li>
+                      <li>• Even 10% annual increase makes huge difference</li>
+                      <li>• Benefits from rupee cost averaging</li>
+                      <li>• Start with comfortable initial amount</li>
+                      <li>• Review and adjust annually if needed</li>
                     </ul>
                   </div>
                 </div>

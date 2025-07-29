@@ -39,11 +39,11 @@ interface ChartDataPoint {
 // Constants
 const DEBOUNCE_DELAY = 800;
 const MIN_INVESTMENT = 500;
-const MAX_INVESTMENT = 10000000; // 1 Crore max
+const MAX_INVESTMENT = 1000000; 
 const MIN_RETURN = 1;
-const MAX_RETURN = 30;
+const MAX_RETURN = 30; 
 const MIN_YEARS = 1;
-const MAX_YEARS = 50;
+const MAX_YEARS = 40; 
 
 // Helper functions
 const formatCurrency = (amount: number): string => {
@@ -66,10 +66,21 @@ const calculateSipValue = (
     return monthlyAmount * totalMonths;
   }
 
+  // Prevent overflow for extreme values
+  const maxReasonableValue = 1e15; // 1000 trillion
+
   const compoundFactor = Math.pow(1 + monthlyRate, totalMonths);
-  return (
-    monthlyAmount * ((compoundFactor - 1) / monthlyRate) * (1 + monthlyRate)
-  );
+
+  // Check for overflow or unrealistic values
+  if (!isFinite(compoundFactor) || compoundFactor > 1e10) {
+    return maxReasonableValue;
+  }
+
+  const futureValue =
+    monthlyAmount * ((compoundFactor - 1) / monthlyRate) * (1 + monthlyRate);
+
+  // Cap at reasonable maximum to prevent display issues
+  return Math.min(futureValue, maxReasonableValue);
 };
 
 const isValidInput = (value: number | ""): boolean => {
@@ -302,16 +313,30 @@ export default function SipCalculator() {
   const summaryData = useMemo(() => {
     if (!result) return null;
 
-    const returnPercentage = (
-      (Number(result.totalReturns) / Number(result.totalInvestment)) *
-      100
+    const totalInvestment = Number(result.totalInvestment);
+    const totalReturns = Number(result.totalReturns);
+    const futureValue = Number(result.futureValue);
+
+    // Prevent division by zero and handle edge cases
+    if (totalInvestment === 0) {
+      return { returnPercentage: "0.0", wealthMultiplier: "1.0" };
+    }
+
+    const returnPercentage = ((totalReturns / totalInvestment) * 100).toFixed(
+      1
+    );
+    const wealthMultiplier = (futureValue / totalInvestment).toFixed(1);
+
+    // Cap unrealistic percentages for display
+    const cappedReturnPercentage = Math.min(
+      Number(returnPercentage),
+      9999
     ).toFixed(1);
 
-    const wealthMultiplier = (
-      Number(result.futureValue) / Number(result.totalInvestment)
-    ).toFixed(1);
-
-    return { returnPercentage, wealthMultiplier };
+    return {
+      returnPercentage: cappedReturnPercentage,
+      wealthMultiplier,
+    };
   }, [result]);
 
   return (
@@ -455,7 +480,7 @@ export default function SipCalculator() {
                 <h3 className="text-sm font-medium text-green-800 mb-2">
                   Future Value
                 </h3>
-                <p className="text-3xl font-bold text-green-600">
+                <p className="text-xl font-bold text-green-600">
                   {formatCurrency(Number(result.futureValue))}
                 </p>
               </div>
@@ -464,7 +489,7 @@ export default function SipCalculator() {
                 <h3 className="text-sm font-medium text-blue-800 mb-2">
                   Total Investment
                 </h3>
-                <p className="text-2xl font-bold text-blue-600">
+                <p className="text-xl font-bold text-blue-600">
                   {formatCurrency(Number(result.totalInvestment))}
                 </p>
               </div>
@@ -473,7 +498,7 @@ export default function SipCalculator() {
                 <h3 className="text-sm font-medium text-purple-800 mb-2">
                   Total Returns
                 </h3>
-                <p className="text-2xl font-bold text-purple-600">
+                <p className="text-xl font-bold text-purple-600">
                   {formatCurrency(Number(result.totalReturns))}
                 </p>
               </div>
@@ -482,7 +507,7 @@ export default function SipCalculator() {
                 <h3 className="text-sm font-medium text-yellow-800 mb-2">
                   Return Percentage
                 </h3>
-                <p className="text-2xl font-bold text-yellow-600">
+                <p className="text-xl font-bold text-yellow-600">
                   {summaryData.returnPercentage}%
                 </p>
               </div>
@@ -505,38 +530,45 @@ export default function SipCalculator() {
                           stroke="#666"
                           fontSize={12}
                           label={{
-                            value: "Years",
-                            position: "insideBottom",
-                            offset: -5,
-                          }}
+                          value: "Years",
+                          position: "insideBottom",
+                          offset: -5,
+                        }}
                         />
                         <YAxis
                           stroke="#666"
                           fontSize={12}
-                          tickFormatter={(value) =>
-                            `₹${(value / 100000).toFixed(0)}L`
-                          }
-                          label={{
-                            value: "Amount (₹)",
-                            angle: -90,
-                            position: "insideLeft",
+                          tickFormatter={(value) => {
+                            if (value >= 10000000) {
+                              return `₹${(value / 10000000).toFixed(1)}Cr`;
+                            } else if (value >= 100000) {
+                              return `₹${(value / 100000).toFixed(1)}L`;
+                            } else if (value >= 1000) {
+                              return `₹${(value / 1000).toFixed(1)}K`;
+                            } else {
+                              return `₹${value.toFixed(0)}`;
+                            }
                           }}
                         />
                         <Tooltip
-                          formatter={(value: number, name: string) => [
-                            formatCurrency(value),
-                            name === "totalInvestment"
-                              ? "Total Investment"
-                              : name === "totalReturns"
-                              ? "Total Returns"
-                              : "Future Value",
-                          ]}
+                          formatter={(value: number, name: string) => {
+                            if (name === "totalInvestment") {
+                              return [
+                                formatCurrency(value),
+                                "Total Investment",
+                              ];
+                            } else if (name === "totalReturns") {
+                              return [formatCurrency(value), "Total Returns"];
+                            }
+                            return [formatCurrency(value), name];
+                          }}
                           labelFormatter={(year) => `Year ${year}`}
                           contentStyle={{
                             backgroundColor: "#fff",
                             border: "1px solid #e2e8f0",
                             borderRadius: "8px",
                             boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+                            padding: "12px",
                           }}
                         />
                         <Area
