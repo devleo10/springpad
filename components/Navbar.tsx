@@ -49,44 +49,6 @@ export function Navbar() {
           ],
         },
         {
-          name: "Goal Planning",
-          href: "/calculators#goal-planning",
-          children: [
-            {
-              name: "Goal Setting Calculator",
-              href: "/calculators/goal-setting-calculator",
-            },
-            {
-              name: "Composite Financial Goal Calculator",
-              href: "/calculators/composite-financial-goal-calculator",
-            },
-            {
-              name: "Children Education Planner",
-              href: "/calculators/children-education-planner",
-            },
-            {
-              name: "Human Life Value Calculator",
-              href: "/calculators/human-life-value-calculator",
-            },
-            {
-              name: "Dream Home Calculator",
-              href: "/calculators/dream-home-calculator",
-            },
-            {
-              name: "Wealth Creation Calculator",
-              href: "/calculators/wealth-creation-calculator",
-            },
-            {
-              name: "Child's Wedding Calculator",
-              href: "/calculators/child-s-wedding-calculator",
-            },
-            {
-              name: "Emergency Fund Calculator",
-              href: "/calculators/emergency-fund-calculator",
-            },
-          ],
-        },
-        {
           name: "Financial Tools",
           href: "/calculators#financial-tools",
           children: [
@@ -127,16 +89,14 @@ export function Navbar() {
       children: [
         { name: "Dream Home", href: "/goals/dream-home-calculator" },
         { name: "Wealth Creation", href: "/goals/wealth-creation-calculator" },
-        {
-          name: "Retirement Planning",
-          href: "/goals/retirement-planning-calculator",
-        },
-        {
-          name: "Child's Education",
-          href: "/goals/children-education-calculator",
-        },
+        { name: "Retirement Planning", href: "/goals/retirement-planning-calculator" },
+        { name: "Child's Education", href: "/goals/children-education-calculator" },
         { name: "Child's Wedding", href: "/goals/child-s-wedding-calculator" },
         { name: "Emergency Fund", href: "/goals/emergency-fund-calculator" },
+        { name: "Goal Setting Calculator", href: "/calculators/goal-setting-calculator" },
+        { name: "Composite Financial Goal Calculator", href: "/calculators/composite-financial-goal-calculator" },
+        { name: "Children Education Planner", href: "/calculators/children-education-planner" },
+        { name: "Human Life Value Calculator", href: "/calculators/human-life-value-calculator" },
       ],
     },
     { name: "Contact", href: "/contact" },
