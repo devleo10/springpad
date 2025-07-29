@@ -834,11 +834,6 @@ export default function SipTopupCalculator() {
                         tickFormatter={(value) =>
                           `₹${(value / 1000).toFixed(0)}K`
                         }
-                        label={{
-                          value: "Monthly SIP Amount (₹)",
-                          angle: -90,
-                          position: "insideLeft",
-                        }}
                       />
                       <Tooltip
                         formatter={(value: number) => [
