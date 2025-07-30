@@ -25,11 +25,6 @@ export class PDFProcessor {
     }
   }
 
-  /**
-   * Clean and normalize extracted text
-   * @param text - Raw extracted text
-   * @returns string - Cleaned text
-   */
   private cleanText(text: string): string {
     return text
       .replace(/\n\s*\n/g, "\n") // Remove multiple newlines

@@ -1,23 +1,24 @@
 "use client";
 
 import Image from "next/image";
+import { Home, Palmtree, GraduationCap, Heart } from "lucide-react";
 
 const cards = [
   {
     title: "Dream Home",
-    imageSrc: "/house.png",
+    icon: Home,
   },
   {
     title: "Retirement",
-    imageSrc: "/beach.png",
+    icon: Palmtree,
   },
   {
     title: "Child's Education",
-    imageSrc: "/graduation.png",
+    icon: GraduationCap,
   },
   {
     title: "Child's Wedding",
-    imageSrc: "/icons/wedding.png",
+    icon: Heart,
   },
 ];
 
@@ -37,7 +38,7 @@ export default function TaglinePage() {
           </h1>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            {cards.map(({ title, imageSrc }, index) => (
+            {cards.map(({ title, icon: Icon }, index) => (
               <div
                 key={index}
                 className="relative flex flex-col items-center gap-3 p-6 bg-white/60 backdrop-blur-md rounded-2xl border border-yellow-100 group overflow-hidden transition-all duration-300 ease-in-out hover:border-yellow-300 hover:shadow-2xl shadow-xl"
@@ -45,15 +46,9 @@ export default function TaglinePage() {
                 {/* Hover Overlay Gradient */}
                 <div className="absolute inset-0 bg-gradient-to-br from-yellow-50 via-yellow-25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl pointer-events-none" />
 
-                {/* Image Box */}
+                {/* Icon Box */}
                 <div className="z-10 w-14 h-14 bg-gradient-to-br from-yellow-200 to-yellow-400 rounded-xl flex items-center justify-center shadow-lg mb-2 group-hover:scale-110 transition-all ease-in-out duration-300">
-                  <Image
-                    src={imageSrc}
-                    alt={title}
-                    width={32}
-                    height={32}
-                    className="w-8 h-8 object-contain"
-                  />
+                  <Icon size={32} className="text-[#2C5282]" />
                 </div>
 
                 {/* Title */}
@@ -80,7 +75,7 @@ export default function TaglinePage() {
               className="relative rounded-3xl shadow-2xl"
             />
           </div>
-                    <button className="px-8 py-3 bg-yellow-300 hover:bg-yellow-400 text-[#2C5282] rounded-xl font-bold text-lg shadow-lg transition-all duration-300">
+          <button className="px-8 py-3 bg-yellow-300 hover:bg-yellow-400 text-[#2C5282] rounded-xl font-bold text-lg shadow-lg transition-all duration-300">
             Explore Our Calculators →
           </button>
         </div>
