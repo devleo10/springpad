@@ -49,7 +49,7 @@ const AiFeaturesPage: React.FC = () => {
   return (
     <div className="pb-32 px-4 bg-white">
       <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold text-[#2C5282] leading-tight">
+        <h2 className="text-3xl font-bold text-[#2C5282] leading-tight">
           Experience Next-Gen Investing with AI
         </h2>
         <p className="mt-2 text-gray-500 text-sm max-w-2xl mx-auto">
@@ -151,7 +151,9 @@ const AiFeaturesPage: React.FC = () => {
             </div>
           </div>
           <div className="mt-4">
-            <h3 className="text-lg font-bold text-[#2C5282]">AI Chat Assistant</h3>
+            <h3 className="text-lg font-bold text-[#2C5282]">
+              AI Chat Assistant
+            </h3>
             <p className="text-sm text-gray-600">
               Get instant help and insights from our intelligent AI assistant
             </p>
@@ -165,8 +167,16 @@ const AiFeaturesPage: React.FC = () => {
             <div className="flex items-center justify-between pb-3 border-b border-gray-100">
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
-                  <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  <svg
+                    className="w-4 h-4 text-white"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                 </div>
                 <div>
@@ -174,7 +184,8 @@ const AiFeaturesPage: React.FC = () => {
                     Portfolio Health
                   </h4>
                   <p className="text-xs text-gray-500">
-                    Score: <span className="font-medium text-green-600">8.5/10</span>
+                    Score:{" "}
+                    <span className="font-medium text-green-600">8.5/10</span>
                   </p>
                 </div>
               </div>
@@ -187,25 +198,38 @@ const AiFeaturesPage: React.FC = () => {
                 {/* Health Score Section */}
                 <div className="bg-green-50 rounded-lg p-3 border border-green-100">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-medium text-green-700">Overall Health</span>
-                    <span className="text-sm font-bold text-green-600">Excellent</span>
+                    <span className="text-xs font-medium text-green-700">
+                      Overall Health
+                    </span>
+                    <span className="text-sm font-bold text-green-600">
+                      Excellent
+                    </span>
                   </div>
                   <div className="w-full bg-green-200 rounded-full h-1.5">
-                    <div className="bg-green-500 h-1.5 rounded-full" style={{ width: '85%' }}></div>
+                    <div
+                      className="bg-green-500 h-1.5 rounded-full"
+                      style={{ width: "85%" }}
+                    ></div>
                   </div>
                 </div>
 
                 {/* Risk Assessment */}
                 <div className="bg-yellow-50 rounded-lg p-3 border border-yellow-100">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-medium text-yellow-700">Risk Level</span>
-                    <span className="text-sm font-bold text-yellow-600">Moderate</span>
+                    <span className="text-xs font-medium text-yellow-700">
+                      Risk Level
+                    </span>
+                    <span className="text-sm font-bold text-yellow-600">
+                      Moderate
+                    </span>
                   </div>
                   <div className="flex gap-1">
-                    {[1,2,3,4,5].map((i) => (
-                      <div 
-                        key={i} 
-                        className={`w-3 h-3 rounded ${i <= 3 ? 'bg-yellow-500' : 'bg-yellow-200'}`}
+                    {[1, 2, 3, 4, 5].map((i) => (
+                      <div
+                        key={i}
+                        className={`w-3 h-3 rounded ${
+                          i <= 3 ? "bg-yellow-500" : "bg-yellow-200"
+                        }`}
                       ></div>
                     ))}
                   </div>
@@ -213,19 +237,27 @@ const AiFeaturesPage: React.FC = () => {
 
                 {/* Asset Allocation */}
                 <div className="bg-blue-50 rounded-lg p-3 border border-blue-100">
-                  <span className="text-xs font-medium text-blue-700 block mb-2">Asset Mix</span>
+                  <span className="text-xs font-medium text-blue-700 block mb-2">
+                    Asset Mix
+                  </span>
                   <div className="space-y-1">
                     <div className="flex justify-between items-center">
                       <span className="text-[10px] text-gray-600">Equity</span>
-                      <span className="text-[10px] font-bold text-blue-600">65%</span>
+                      <span className="text-[10px] font-bold text-blue-600">
+                        65%
+                      </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-[10px] text-gray-600">Debt</span>
-                      <span className="text-[10px] font-bold text-blue-600">25%</span>
+                      <span className="text-[10px] font-bold text-blue-600">
+                        25%
+                      </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-[10px] text-gray-600">Gold</span>
-                      <span className="text-[10px] font-bold text-blue-600">10%</span>
+                      <span className="text-[10px] font-bold text-blue-600">
+                        10%
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -233,12 +265,24 @@ const AiFeaturesPage: React.FC = () => {
                 {/* Performance */}
                 <div className="bg-purple-50 rounded-lg p-3 border border-purple-100">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-medium text-purple-700">1Y Returns</span>
+                    <span className="text-xs font-medium text-purple-700">
+                      1Y Returns
+                    </span>
                     <div className="flex items-center gap-1">
-                      <svg className="w-3 h-3 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L10 4.414 6.707 7.707a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                      <svg
+                        className="w-3 h-3 text-green-500"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L10 4.414 6.707 7.707a1 1 0 01-1.414 0z"
+                          clipRule="evenodd"
+                        />
                       </svg>
-                      <span className="text-sm font-bold text-purple-600">+18.2%</span>
+                      <span className="text-sm font-bold text-purple-600">
+                        +18.2%
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -248,9 +292,12 @@ const AiFeaturesPage: React.FC = () => {
 
           {/* Footer */}
           <div className="mt-4">
-            <h3 className="text-lg font-bold text-[#2C5282]">Portfolio Health Checkup</h3>
+            <h3 className="text-lg font-bold text-[#2C5282]">
+              Portfolio Health Checkup
+            </h3>
             <p className="text-sm text-gray-600">
-              Your portfolio shows excellent health with balanced diversification and strong performance.
+              Your portfolio shows excellent health with balanced
+              diversification and strong performance.
             </p>
           </div>
         </div>
