@@ -23,36 +23,36 @@ export function NewsPage() {
   // Sample news data as fallback
   const sampleNews: NewsArticle[] = [
     {
-      title: "Global Climate Summit Reaches Historic Agreement",
-      description: "World leaders unite on ambitious climate goals for the next decade, marking a turning point in environmental policy.",
-      url: "#",
-      urlToImage: "https://images.pexels.com/photos/87651/earth-blue-planet-globe-planet-87651.jpeg",
-      publishedAt: "2025-01-08T10:30:00Z",
-      source: { name: "Global News" }
-    },
-    {
-      title: "Revolutionary AI Breakthrough Changes Healthcare",
-      description: "New artificial intelligence system demonstrates unprecedented accuracy in early disease detection.",
-      url: "#",
-      urlToImage: "https://images.pexels.com/photos/356040/pexels-photo-356040.jpeg",
-      publishedAt: "2025-01-08T09:15:00Z",
-      source: { name: "Tech Daily" }
-    },
-    {
-      title: "Space Mission Discovers New Exoplanet",
-      description: "Scientists confirm the existence of a potentially habitable planet just 40 light-years from Earth.",
-      url: "#",
-      urlToImage: "https://images.pexels.com/photos/2156/sky-earth-space-working.jpg",
-      publishedAt: "2025-01-08T08:45:00Z",
-      source: { name: "Space Explorer" }
-    },
-    {
-      title: "Economic Markets Show Strong Recovery",
-      description: "Global markets continue upward trend as consumer confidence reaches five-year high.",
+      title: "Top Performing Mutual Funds Show Strong Returns in Q3",
+      description: "Several equity mutual funds delivered exceptional returns this quarter, with large-cap funds leading the charge amid market optimism.",
       url: "#",
       urlToImage: "https://images.pexels.com/photos/159888/pexels-photo-159888.jpeg",
-      publishedAt: "2025-01-08T07:30:00Z",
-      source: { name: "Financial Times" }
+      publishedAt: "2025-07-30T10:30:00Z",
+      source: { name: "Financial Express" }
+    },
+    {
+      title: "SIP Investments Hit Record High as Retail Participation Soars",
+      description: "Systematic Investment Plans continue to attract retail investors with monthly SIP contributions reaching an all-time high.",
+      url: "#",
+      urlToImage: "https://images.pexels.com/photos/3483098/pexels-photo-3483098.jpeg",
+      publishedAt: "2025-07-30T09:15:00Z",
+      source: { name: "Money Control" }
+    },
+    {
+      title: "SEBI Introduces New Guidelines for Mutual Fund Risk Assessment",
+      description: "Market regulator announces enhanced risk disclosure norms to help investors make better-informed mutual fund choices.",
+      url: "#",
+      urlToImage: "https://images.pexels.com/photos/6802042/pexels-photo-6802042.jpeg",
+      publishedAt: "2025-07-30T08:45:00Z",
+      source: { name: "Economic Times" }
+    },
+    {
+      title: "ESG Mutual Funds Gain Momentum Among Millennials",
+      description: "Environmental, Social, and Governance focused mutual funds see increased inflows as young investors prioritize sustainable investing.",
+      url: "#",
+      urlToImage: "https://images.pexels.com/photos/3483098/pexels-photo-3483098.jpeg",
+      publishedAt: "2025-07-30T07:30:00Z",
+      source: { name: "Business Standard" }
     }
   ];
 
@@ -60,17 +60,48 @@ export function NewsPage() {
     const fetchNews = async () => {
       try {
         setLoading(true);
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        setArticles(sampleNews);
+        
+        const url = 'https://yahoo-finance-api-data.p.rapidapi.com/search/news?keyword=mutual%20fund&limit=20';
+        const options = {
+          method: 'GET',
+          headers: {
+            'x-rapidapi-key': '4680039838msh59a8f9e29e2a917p16fb13jsn5f0b4083899e',
+            'x-rapidapi-host': 'yahoo-finance-api-data.p.rapidapi.com'
+          }
+        };
+
+        const response = await fetch(url, options);
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const result = await response.json();
+        
+        // Transform the API response to match our interface
+        const transformedArticles: NewsArticle[] = result.data.map((item: any) => ({
+          title: item.title || 'No title available',
+          description: item.summary || item.description || 'No description available',
+          url: item.link || '#',
+          urlToImage: item.thumbnail?.resolutions?.[0]?.url || 'https://images.pexels.com/photos/159888/pexels-photo-159888.jpeg',
+          publishedAt: item.providerPublishTime ? new Date(item.providerPublishTime * 1000).toISOString() : new Date().toISOString(),
+          source: {
+            name: item.publisher || 'Yahoo Finance'
+          }
+        }));
+
+        setArticles(transformedArticles);
+        setError(null);
         setLoading(false);
-      } catch {
-        setError('Failed to fetch news');
+      } catch (err) {
+        console.error('Error fetching news:', err);
+        setError('Failed to fetch news. Showing sample articles.');
         setArticles(sampleNews);
         setLoading(false);
       }
     };
     fetchNews();
-  }, [sampleNews]);
+  }, []);
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -120,10 +151,10 @@ export function NewsPage() {
         className="relative z-20 text-center px-4"
       >
         <h1 className="text-3xl md:text-4xl font-bold text-[#2C5282] mb-2">
-          News Highlights
+          Mutual Fund News
         </h1>
         <p className="text-gray-600 font-medium text-lg mb-6">
-          Breaking News • Live Updates • Global Coverage
+          Latest Updates • Market Insights • Investment Trends
         </p>
       </motion.header>
 
