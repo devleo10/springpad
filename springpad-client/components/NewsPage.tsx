@@ -14,6 +14,17 @@ interface NewsArticle {
     name: string;
   };
 }
+// Type for Yahoo Finance API news item
+type YahooNewsItem = {
+  title?: string;
+  link?: string;
+  summary?: string;
+  thumbnail?: {
+    resolutions: { url: string; tag: string; height: number; width: number }[];
+  };
+  providerPublishTime?: number;
+  publisher?: string;
+};
 
 export function NewsPage() {
   const [articles, setArticles] = useState<NewsArticle[]>([]);
@@ -49,26 +60,26 @@ export function NewsPage() {
       }
       
       // Transform the API response to match our interface
-      const transformedArticles: NewsArticle[] = result.data
-        .filter((item: any) => item.title && item.link) // Only include articles with title and link
-        .map((item: any) => {
+      const transformedArticles: NewsArticle[] = (result.data as YahooNewsItem[])
+        .filter((item) => item.title && item.link)
+        .map((item) => {
           // Extract the best quality image URL
           let imageUrl = 'https://images.pexels.com/photos/159888/pexels-photo-159888.jpeg'; // fallback
           if (item.thumbnail?.resolutions && item.thumbnail.resolutions.length > 0) {
             // Use the largest resolution available
-            const sortedResolutions = item.thumbnail.resolutions.sort((a: any, b: any) => 
+            const sortedResolutions = item.thumbnail.resolutions.sort((a, b) =>
               (b.width * b.height) - (a.width * a.height)
             );
             imageUrl = sortedResolutions[0].url;
           }
 
           return {
-            title: item.title,
+            title: item.title || '',
             description: item.summary || 'Read the full article for more details.',
-            url: item.link,
+            url: item.link || '#',
             urlToImage: imageUrl,
-            publishedAt: item.providerPublishTime ? 
-              new Date(item.providerPublishTime * 1000).toISOString() : 
+            publishedAt: item.providerPublishTime ?
+              new Date(item.providerPublishTime * 1000).toISOString() :
               new Date().toISOString(),
             source: {
               name: item.publisher || 'Yahoo Finance'
