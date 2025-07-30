@@ -97,4 +97,40 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     cursor: pointer;
   }
+
+  /* Marquee Animations */
+  .animate-marquee-left {
+    animation: marqueeLeft 40s linear infinite;
+  }
+
+  .animate-marquee-right {
+    animation: marqueeRight 40s linear infinite;
+  }
+
+  .pause-animation {
+    animation-play-state: paused;
+  }
+
+  @keyframes marqueeLeft {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+
+  @keyframes marqueeRight {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  /* Hover pause for better UX */
+  .hover\:pause-animation:hover {
+    animation-play-state: paused;
+  }
 }
