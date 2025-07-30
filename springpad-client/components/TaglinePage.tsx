@@ -27,7 +27,7 @@ export default function TaglinePage() {
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         {/* Left Side */}
         <div className="space-y-8">
-          <h1 className="text-3xl md:text-3xl lg:text-4xl text-[#2C5282] mb-8 font-bold">
+          <h1 className="text-3xl md:text-3xl lg:text-4xl text-[#2C5282] mb-8 font-bold leading-tight">
             It&apos;s Always A{" "}
             <span className="animated-underline font-semibold text-yellow-500">
               Good Time To Invest
