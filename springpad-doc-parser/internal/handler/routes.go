@@ -10,7 +10,6 @@ import (
 	"sync"
 
 	"github.com/gin-gonic/gin"
-	// "github.com/ledongthuc/pdf" // No longer needed, using UniPDF
 )
 
 func RegisterRoutes(r *gin.Engine) {
@@ -38,23 +37,44 @@ func UploadHandler(c *gin.Context) {
 		return
 	}
 
-	// Use UniPDF-based extraction
-	text, err := parser.ExtractTextFromPDF(filePath)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to extract text from PDF"})
+	// Get Gemini API key from environment
+	geminiAPIKey := os.Getenv("GEMINI_API_KEY")
+	if geminiAPIKey == "" {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Gemini API key not configured"})
 		return
 	}
 
-	log.Println("Extracted PDF text:\n" + text)
-
-	report, err := parser.ParseCAMSReportText(text)
+	// Use LangChain-based parser with Gemini
+	langchainParser, err := parser.NewLangchainParser(geminiAPIKey)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to parse report"})
+		log.Printf("Failed to initialize LangChain parser: %v", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to initialize AI parser"})
 		return
 	}
+
+	// Try multimodal parsing first (better for complex PDFs)
+	report, err := langchainParser.ParsePDFWithMultimodal(filePath)
+	if err != nil {
+		log.Printf("Multimodal parsing failed, trying text-based: %v", err)
+		// Fallback to text-based parsing
+		report, err = langchainParser.ParsePDFWithLangchain(filePath)
+		if err != nil {
+			log.Printf("Text-based parsing failed, trying chunked approach: %v", err)
+			// Final fallback to chunked parsing for large documents
+			report, err = langchainParser.ParsePDFWithChunking(filePath)
+			if err != nil {
+				log.Printf("All parsing methods failed: %v", err)
+				c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to parse PDF with AI"})
+				return
+			}
+		}
+	}
+
+	// Clean up temporary file
+	os.Remove(filePath)
 
 	// Print parsed data to the console for debugging
-	fmt.Printf("Parsed Data: %+v\n", report)
+	fmt.Printf("Parsed Data with LangChain + Gemini: %+v\n", report)
 
 	parsedReportMu.Lock()
 	parsedReport = report

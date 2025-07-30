@@ -7,7 +7,7 @@ toolchain go1.24.5
 require (
 	github.com/gin-gonic/gin v1.9.1
 	github.com/joho/godotenv v1.5.1
-	github.com/unidoc/unipdf/v3 v3.69.0
+	github.com/tmc/langchaingo v0.1.12
 )
 
 require (

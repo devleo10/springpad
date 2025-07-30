@@ -3,7 +3,6 @@ package main
 import (
 	"springpad-doc-parser/internal/config"
 	"springpad-doc-parser/internal/handler"
-
 	"github.com/gin-gonic/gin"
 )
 
