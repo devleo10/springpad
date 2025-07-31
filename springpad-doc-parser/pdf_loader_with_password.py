@@ -3,6 +3,7 @@ import re
 import json
 import tkinter as tk
 from tkinter import filedialog
+import sys
 
 # --- Personal Info Extraction (Provided by you) ---
 def extract_personal_info(text):
@@ -257,43 +258,18 @@ def extract_pdf_text(pdf_path, password=None):
 
 # --- Main script to handle user input and process PDF ---
 if __name__ == "__main__":
-    root = tk.Tk()
-    root.withdraw()  # Hide the main window
 
-    print("Please select the PDF file.")
-    pdf_path = filedialog.askopenfilename(
-        title="Select PDF Mutual Fund Statement",
-        filetypes=[("PDF files", "*.pdf")]
-    )
-
-    if not pdf_path:
-        print("No PDF file selected. Exiting.")
+    # Only process if a file path is provided as a command-line argument
+    if len(sys.argv) > 1:
+        pdf_path = sys.argv[1]
+        pdf_password = sys.argv[2] if len(sys.argv) > 2 else ""
+        result = extract_pdf_text(pdf_path, pdf_password)
+        if result:
+            for page_data in result:
+                structured_data = extract_structured_data(page_data['text'])
+                print(json.dumps(structured_data, ensure_ascii=False))
+                break
+        else:
+            print(json.dumps({"error": "Failed to extract text from the PDF."}))
     else:
-        pdf_password = ""
-        try:
-            # Check if the PDF is password protected without trying to open it yet
-            # This is a bit of a workaround as PyMuPDF's needs_pass can be slow or inconsistent
-            # The actual check will happen in extract_pdf_text
-            # For simplicity, we'll just ask for password if needed, or user can provide it
-            password_needed = input("Does the PDF require a password? (yes/no): ").lower()
-            if password_needed == 'yes':
-                pdf_password = input("Please enter the PDF password: ")
-            elif password_needed != 'no':
-                print("Invalid input. Assuming no password for now.")
-
-            result = extract_pdf_text(pdf_path, pdf_password)
-
-            if result:
-                for page_data in result:
-                    # Assuming the relevant data is on the first page or concatenated
-                    # For a single-page statement, just process the first page's text
-                    # If multiple pages, you might need to combine text or iterate
-                    structured_data = extract_structured_data(page_data['text'])
-                    print(json.dumps(structured_data, indent=2, ensure_ascii=False))
-                    # If you only expect one statement per PDF and it's all on page 1, you can break here:
-                    break
-            else:
-                print("Failed to extract text from the PDF. Please check the file path and password.")
-
-        except Exception as e:
-            print(f"An error occurred: {e}")
+        print(json.dumps({"error": "No PDF file path provided."}))
