@@ -2,13 +2,25 @@
 langchain
 langchain-core
 langchain_community
-
-# Google Gemini (PaLM) Integration
 langchain-google-genai
+
+# Google AI
 google-generativeai
 
-# Environment Variable Management
+# Environment and Configuration
 python-dotenv
+
+# Web Scraping and HTML Processing
 beautifulsoup4
 requests
+<<<<<<< HEAD
+
+# PDF Processing
+PyMuPDF
+
+# Standard library enhancements (usually included but explicit for clarity)
+# json - built-in
+# os - built-in
+=======
 fitz
+>>>>>>> 846bea409563308ebc5a954d8db1eae4a3f15302
