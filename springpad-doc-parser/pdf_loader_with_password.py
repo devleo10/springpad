@@ -8,49 +8,50 @@ from tkinter import filedialog
 def extract_personal_info(text):
     email = name = address = mobile = None
 
+
     # Try to find email and then work from there
     email_match = re.search(r"Email Id:\s*([^\n]+)", text, re.IGNORECASE)
     if email_match:
         email = email_match.group(1).strip()
-        # Find the block containing name and address, usually right after "Email Id:"
         email_idx = text.lower().find('email id:')
         if email_idx != -1:
-            # Look for the block starting after "Email Id:" and ending before "Mobile:" or a new section
-            # Adjust the search range to be more robust
             search_start = email_idx + len('Email Id:')
             block_end_mobile = text.find('Mobile:', search_start)
             block_end_pan = text.find('PAN:', search_start)
             block_end_folio = text.find('Folio No:', search_start)
-
-            # Determine the effective end of the personal info block
             possible_ends = [idx for idx in [block_end_mobile, block_end_pan, block_end_folio] if idx != -1]
             block_end = min(possible_ends) if possible_ends else len(text)
-
             personal_block_raw = text[search_start:block_end].strip()
             lines = [line.strip() for line in personal_block_raw.split('\n') if line.strip()]
 
-            # The name is usually the first non-email line after "Email Id:"
-            if len(lines) > 0:
-                # Filter out lines that might be part of the email ID or other labels
-                potential_name_lines = [line for line in lines if not line.lower().startswith('email id:') and not line.lower().startswith('mobile:')]
-                if potential_name_lines:
-                    name = potential_name_lines[0]
-                    # Address lines are after the name, up until "Mobile:" or end of block
-                    address_lines = []
-                    name_found = False
-                    for line in lines:
-                        if line == name:
-                            name_found = True
-                            continue
-                        if name_found and not line.lower().startswith('mobile:'):
-                            address_lines.append(line)
-                        elif name_found and line.lower().startswith('mobile:'):
-                            mobile_match = re.search(r"Mobile:\s*([^\n]+)", line, re.IGNORECASE)
-                            if mobile_match:
-                                mobile = mobile_match.group(1).strip()
-                            break # Stop once mobile is found
+            # Improved name extraction: skip lines that are email addresses or labels, pick first likely name
+            def is_email(s):
+                return re.match(r"[^@\s]+@[^@\s]+\.[^@\s]+", s)
 
-                    address = ', '.join(address_lines) if address_lines else None
+            potential_name_lines = [
+                line for line in lines
+                if not line.lower().startswith('email id:')
+                and not line.lower().startswith('mobile:')
+                and not is_email(line)
+                and not any(label in line.lower() for label in ['address', 'pan', 'kyc', 'folio', 'registrar', 'advisor'])
+            ]
+            if potential_name_lines:
+                name = potential_name_lines[0]
+                # Address lines are after the name, up until "Mobile:" or end of block
+                address_lines = []
+                name_found = False
+                for line in lines:
+                    if line == name:
+                        name_found = True
+                        continue
+                    if name_found and not line.lower().startswith('mobile:') and not is_email(line):
+                        address_lines.append(line)
+                    elif name_found and line.lower().startswith('mobile:'):
+                        mobile_match = re.search(r"Mobile:\s*([^\n]+)", line, re.IGNORECASE)
+                        if mobile_match:
+                            mobile = mobile_match.group(1).strip()
+                        break
+                address = ', '.join(address_lines) if address_lines else None
 
     # Fallback for mobile if not found in the block
     if not mobile:
@@ -80,21 +81,47 @@ def extract_structured_data(text):
     nav_date_match = re.search(r"NAV on (\d{2}-[A-Za-z]{3}-\d{4})", text)
 
     # Entities
-    mf_match = re.search(r"Mutual Fund\s+Cost Value.*\n([A-Z ]+)", text)
-    mutual_fund = mf_match.group(1).strip() if mf_match else "NAVI MF"
+    mf_match = re.search(r"Mutual Fund\s+Cost Value.*\n([A-Z0-9 &\-]+)", text)
+    mutual_fund = mf_match.group(1).strip() if mf_match else None
 
-    # Portfolio summary
-    psum_match = re.search(r"NAVI MF\s*\n([\d.,]+)\s*\n([\d.,]+)\s*\nTotal\s*\n([\d.,]+)\s*\n([\d.,]+)", text)
+    # Portfolio summary (extract multiple mutual funds)
+    # Look for lines like: FundName  cost  market (with possible spaces)
+    portfolio_summary = {}
+    total_cost = total_market = None
+    # Find the block containing the summary table
+    summary_block = re.search(r'(?:Portfolio Summary|Mutual Fund\s+Cost Value.*?)([\s\S]+?)(?:Total\s+[\d.,]+\s+[\d.,]+)', text, re.IGNORECASE)
+    if summary_block:
+        block = summary_block.group(1)
+        # Find all fund rows: FundName  cost  market
+        fund_rows = re.findall(r'([A-Za-z0-9 &\-]+)\s+([\d.,]+)\s+([\d.,]+)', block)
+        for fund, cost, market in fund_rows:
+            portfolio_summary[fund.strip()] = {
+                "cost_value": float(cost.replace(',', '')),
+                "market_value": float(market.replace(',', ''))
+            }
+    # Find the total row
+    total_row = re.search(r'Total\s+([\d.,]+)\s+([\d.,]+)', text)
+    if total_row:
+        total_cost = float(total_row.group(1).replace(',', ''))
+        total_market = float(total_row.group(2).replace(',', ''))
+    # If nothing found, fallback to previous logic for single fund
+    if not portfolio_summary:
+        psum_match = re.search(r'([A-Z0-9 &\-]+)\s*\n([\d.,]+)\s*\n([\d.,]+)\s*\nTotal\s*\n([\d.,]+)\s*\n([\d.,]+)', text)
+        if psum_match:
+            fund = psum_match.group(1).strip()
+            navimf_cost = float(psum_match.group(2).replace(',', ''))
+            navimf_market = float(psum_match.group(3).replace(',', ''))
+            total_cost = float(psum_match.group(4).replace(',', ''))
+            total_market = float(psum_match.group(5).replace(',', ''))
+            portfolio_summary[fund] = {
+                "cost_value": navimf_cost,
+                "market_value": navimf_market
+            }
 
-    navimf_cost = float(psum_match.group(1).replace(',', '')) if psum_match else None
-    navimf_market = float(psum_match.group(2).replace(',', '')) if psum_match else None
-    total_cost = float(psum_match.group(3).replace(',', '')) if psum_match else None
-    total_market = float(psum_match.group(4).replace(',', '')) if psum_match else None
 
-    # Mutual Fund Details
-    # Adjusted regex to capture fund name more accurately if it includes "PLFNIGDG-"
-    mfd = re.search(r"(PLFNIGDG-Navi Nifty 50 Index Fund - Direct Plan - Growth.*|Navi Nifty 50 Index Fund - Direct Plan - Growth.*)ISIN: ([A-Z0-9]+).*Advisor: ([A-Z]+).*Registrar : ([A-Z]+).*Folio No: ([0-9/]+)", text, re.DOTALL)
-    fund_name = mfd.group(1).strip() if mfd else "Navi Nifty 50 Index Fund - Direct Plan - Growth"
+    # Mutual Fund Details (generic extraction, not hardcoded to Navi)
+    mfd = re.search(r"([A-Za-z0-9 \-]+)\s*ISIN: ([A-Z0-9]+).*Advisor: ([A-Za-z ]+).*Registrar ?: ([A-Za-z ]+).*Folio No: ([0-9/]+)", text, re.DOTALL)
+    fund_name = mfd.group(1).strip() if mfd else None
     isin = mfd.group(2) if mfd else None
     advisor = mfd.group(3) if mfd else None
     registrar = mfd.group(4) if mfd else None
@@ -162,15 +189,12 @@ def extract_structured_data(text):
         },
         "personal_information": personal_info,
         "entities": {
-            "cams": "CAMS",
-            "kfintech": "KFintech",
+            "cams": None,  # Only fill if extracted from PDF
+            "kfintech": None,  # Only fill if extracted from PDF
             "mutual_fund": mutual_fund
         },
         "portfolio_summary": {
-            "NAVI MF": {
-                "cost_value": navimf_cost,
-                "market_value": navimf_market
-            },
+            **portfolio_summary,
             "total": {
                 "cost_value": total_cost,
                 "market_value": total_market
@@ -195,8 +219,8 @@ def extract_structured_data(text):
             "unit_balance": unit_balance
         },
         "financial_data": {
-            "nav_on_28_jul_2025": nav_on_date,
-            "market_value_on_28_jul_2025": market_value,
+            "nav_on_date": nav_on_date,
+            "market_value_on_date": market_value,
             "entry_load": entry_load,
             "exit_load": exit_load,
             "total_cost_value": total_cost_value,
