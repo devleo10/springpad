@@ -1,0 +1,92 @@
+Documents loaded: 1
+First document content length: 34683
+Result:
+```json
+[
+    {
+        "Scheme Name": "Nippon India Large Cap Fund - Direct Plan - Growth",
+        "Plan": "Direct Plan",
+        "Category Name": "Large Cap Fund",
+        "Crisil Rating": "5",
+        "AuM (Cr)": "43,828.60",
+        "1W": "-1.10%",
+        "1M": "-2.34%",
+        "3M": "4.28%",
+        "6M": "9.56%",
+        "YTD": "4.72%",
+        "1Y": "1.75%",
+        "2Y": "19.27%",
+        "3Y": "21.34%",
+        "5Y": "25.82%",
+        "10Y": "14.87%"
+    },
+    {
+        "Scheme Name": "Nippon India Large Cap Fund - Growth",
+        "Plan": "Regular",
+        "Category Name": "Large Cap Fund",
+        "Crisil Rating": "5",
+        "AuM (Cr)": "43,828.60",
+        "1W": "-1.12%",
+        "1M": "-2.42%",
+        "3M": "4.06%",
+        "6M": "9.09%",
+        "YTD": "4.20%",
+        "1Y": "0.86%",
+        "2Y": "18.24%",
+        "3Y": "20.30%",
+        "5Y": "24.76%",
+        "10Y": "13.81%"
+    },
+   {
+        "Scheme Name": "ICICI Prudential Large Cap Fund - Direct Plan - Growth",
+        "Plan": "Direct Plan",
+        "Category Name": "Large Cap Fund",
+        "Crisil Rating": "5",
+        "AuM (Cr)": "72,336.05",
+        "1W": "-0.37%",
+        "1M": "-1.55%",
+        "3M": "3.39%",
+        "6M": "8.95%",
+        "YTD": "6.07%",
+        "1Y": "2.35%",
+        "2Y": "19.69%",
+        "3Y": "19.68%",
+        "5Y": "22.65%",
+        "10Y": "14.82%"
+    },
+    {
+        "Scheme Name": "HDFC Large Cap Fund - Direct Plan - Growth",
+        "Plan": "Direct Plan",
+        "Category Name": "Large Cap Fund",
+        "Crisil Rating": "3",
+        "AuM (Cr)": "38,905.12",
+        "1W": "-0.77%",
+        "1M": "-2.08%",
+        "3M": "2.56%",
+        "6M": "7.01%",
+        "YTD": "4.18%",
+        "1Y": "-0.68%",
+        "2Y": "16.24%",
+        "3Y": "18.06%",
+        "5Y": "22.16%",
+        "10Y": "13.49%"
+    },
+    {
+        "Scheme Name": "WhiteOak Capital Large Cap Fund - Direct Plan - Growth",
+        "Plan": "Direct Plan",
+        "Category Name": "Large Cap Fund",
+        "Crisil Rating": "-",
+        "AuM (Cr)": "981.71",
+        "1W": "-1.44%",
+        "1M": "-2.28%",
+        "3M": "4.05%",
+        "6M": "9.36%",
+        "YTD": "4.26%",
+        "1Y": "5.12%",
+        "2Y": "20.76%",
+        "3Y": "-",
+        "5Y": "-",
+        "10Y": "-"
+    }
+]
+```

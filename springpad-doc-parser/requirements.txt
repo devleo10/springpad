@@ -9,3 +9,5 @@ google-generativeai
 
 # Environment Variable Management
 python-dotenv
+beautifulsoup4
+requests

@@ -1,0 +1,505 @@
+CAMSCASWS-31072512147 Version:V3.4 Live-1014
+Consolidated Account Statement
+01-Apr-2024 To 31-Mar-2025
+Page 1 of 3
+Email Id: akashlaha48@gmail.com
+Akash Laha
+Amlajora Kanksa Babnabera Barddhaman
+Barddhaman 713212
+West Bengal
+Bardhaman - 713212
+West Bengal
+India
+Mobile: +916296673240
+This Consolidated Account Statement is brought to you as an investor
+friendly initiative by CAMS and KFintech, and lists the transactions,
+balances and valuation of Mutual Funds in which you are holding
+investments. The consolidation has been carried out based on the email id
+entered by you. If you have not entered a PAN Number and if the email id
+is common to several members of your family, this statement will
+consolidate all those investments as well.
+If you find any folios missing from this consolidation, you have not
+registered your email id against those folios.
+This statement may not reflect the complete information on your DEMAT
+holdings. Please check with your DP for details on DEMAT holdings.
+Mutual Fund
+Cost Value
+(INR)
+Market Value
+(INR)
+PORTFOLIO SUMMARY
+      SBI Mutual Fund
+87,000.00
+101,932.03
+      Quant MF
+15,000.00
+12,572.46
+Total
+102,000.00
+114,504.49
+Date
+Amount
+NAV
+Units
+Transaction
+                     Unit
+(INR)
+(INR)
+Balance
+Quant MF
+PAN: BMTPL0829A
+KYC: OK  PAN: OK
+166IBDGG-quant Small Cap Fund - Direct Plan Growth - ISIN: INF966L01689(Advisor: INZ000208032)
+Registrar :
+KFINTECH
+Folio No: 51078850653 / 0
+AKASH LAHA
+ Nominee 1:
+ Nominee 2:
+ Nominee 3:
+ Opening Unit Balance: 0.000
+16-Jul-2024
+9,999.50
+296.4567
+33.730
+New Purchase
+33.730
+16-Jul-2024
+0.50
+*** Stamp Duty ***
+19-Jul-2024
+******Address Updated from CVL Data******
+04-Oct-2024
+4,999.75
+296.2753
+16.875
+Additional Purchase
+50.605
+04-Oct-2024
+0.25
+*** Stamp Duty ***
+NAV on 31-Mar-2025: INR 248.4430
+Market Value on 31-Mar-2025: INR 12,572.46
+Entry Load NIL, Exit Load - 1.00% if redeemed with in 365 days from the date of allotment.NIL if redeemed after 365 days from the date of allotment of units.
+Closing Unit Balance: 50.605
+Total Cost Value: 15,000.00
+SBI Mutual Fund
+PAN: BMTPL0829A
+KYC: OK  PAN: OK
+L081G-SBI Focused Fund - Regular Plan - Growth (formerly SBI Emerging Businesses Fund) (Non-Demat) - ISIN: INF200K01370(Advisor: SBI12403)
+Registrar : CAMS
+Folio No: 31599440 / 0
+Akash Laha
+ Nominee 1:
+Pranab Kumar Laha
+ Nominee 2:
+ Nominee 3:
+ Opening Unit Balance: 68.333
+22-Apr-2024
+999.95
+296.1159
+3.377
+Purchase - Systematic-Normal - Instalment 18/925
+71.710
+22-Apr-2024
+0.05
+*** Stamp Duty ***
+04-May-2024
+***Address Updated from KRA Data***
+21-May-2024
+999.95
+304.5589
+3.283
+Purchase - Systematic-Normal - Instalment 19/925
+74.993
+21-May-2024
+0.05
+*** Stamp Duty ***
+20-Jun-2024
+999.95
+318.9383
+3.135
+Purchase - Systematic-Normal - Instalment 20/925
+78.128
+20-Jun-2024
+0.05
+*** Stamp Duty ***
+18-Jul-2024
+***Address Updated from KRA Data***
+22-Jul-2024
+999.95
+328.2239
+3.047
+Purchase - Systematic-Normal - Instalment 21/925
+81.175
+22-Jul-2024
+0.05
+*** Stamp Duty ***
+20-Aug-2024
+999.95
+328.0884
+3.048
+Purchase - Systematic-Normal - Instalment 22/925
+84.223
+20-Aug-2024
+0.05
+*** Stamp Duty ***
+20-Sep-2024
+999.95
+344.4093
+2.903
+Purchase - Systematic-Normal - Instalment 23/925
+87.126
+20-Sep-2024
+0.05
+*** Stamp Duty ***
+21-Oct-2024
+999.95
+335.9470
+2.977
+Purchase - Systematic-Normal - Instalment 24/925
+90.103
+21-Oct-2024
+0.05
+*** Stamp Duty ***
+21-Nov-2024
+999.95
+320.7161
+3.118
+Purchase - Systematic-Normal - Instalment 25/925
+93.221
+21-Nov-2024
+0.05
+*** Stamp Duty ***
+20-Dec-2024
+999.95
+329.5857
+3.034
+Purchase - Systematic-Normal - Instalment 26/925
+96.255
+20-Dec-2024
+0.05
+*** Stamp Duty ***
+20-Jan-2025
+999.95
+327.5722
+3.053
+Purchase - Systematic-Normal - Instalment 27/925
+99.308
+CAMSCASWS-31072512147 Version:V3.4 Live-1014
+Consolidated Account Statement
+01-Apr-2024 To 31-Mar-2025
+Page 2 of 3
+Date
+Amount
+NAV
+Units
+Transaction
+                     Unit
+(INR)
+(INR)
+Balance
+20-Jan-2025
+0.05
+*** Stamp Duty ***
+20-Feb-2025
+999.95
+320.1373
+3.124
+Purchase - Systematic-Normal - Instalment 28/925
+102.432
+20-Feb-2025
+0.05
+*** Stamp Duty ***
+20-Mar-2025
+999.95
+320.3200
+3.122
+Purchase - Systematic-Normal - Instalment 29/925
+105.554
+20-Mar-2025
+0.05
+*** Stamp Duty ***
+NAV on 31-Mar-2025: INR 325.9750
+Market Value on 31-Mar-2025: INR 34,407.97
+Entry Load: N.A.; Exit Load - W.e.f. 24-Aug-2009: 1% if redeemed/ switched out within 1 year from the date of investment; NIL if redeemed/ switched after 1 year
+from the date of investment.  STT @ 0.001% is applicable at the time of redemption / switch. For applicability of exit load structure for specific transaction, please
+refer to Addendum issued from time to time. **Scheme name of "SBI Focused Equity Fund" has been changed to "SBI Focused Fund" with effect from 30th June 2025.
+W.e.f. 1st July 2020, Stamp Duty @ 0.005% is applicable on allotment of units.  As per SEBI guidelines, w.e.f. February 01, 2021, applicable NAV for allotment of units
+shall be based on time of receipt of transaction and funds available for utilization upto the cut-off time. TDS shall be deducted (wherever applicable) as per rates
+under New Tax Regime. Differential tax if any, should be evaluated by investor(s), basis relevant tax provisions.
+Closing Unit Balance: 105.554
+Total Cost Value: 29,000.00
+PAN: BMTPL0829A
+KYC: OK  PAN: OK
+L652G-SBI Multicap Fund - Regular Plan - Growth (Non-Demat) - ISIN: INF200KA15E8(Advisor: SBI12403)
+Registrar : CAMS
+Folio No: 31599440 / 0
+Akash Laha
+ Nominee 1:
+Pranab Kumar Laha
+ Nominee 2:
+ Nominee 3:
+ Opening Unit Balance: 1,477.826
+22-Apr-2024
+999.95
+14.0186
+71.330
+Purchase - Systematic -Normal - Instalment 18/925
+1,549.156
+22-Apr-2024
+0.05
+*** Stamp Duty ***
+21-May-2024
+999.95
+14.5099
+68.915
+Purchase - Systematic -Normal - Instalment 19/925
+1,618.071
+21-May-2024
+0.05
+*** Stamp Duty ***
+20-Jun-2024
+999.95
+15.4155
+64.867
+Purchase - Systematic -Normal - Instalment 20/925
+1,682.938
+20-Jun-2024
+0.05
+*** Stamp Duty ***
+22-Jul-2024
+999.95
+15.7889
+63.332
+Purchase - Systematic -Normal - Instalment 21/925
+1,746.270
+22-Jul-2024
+0.05
+*** Stamp Duty ***
+20-Aug-2024
+999.95
+16.1515
+61.911
+Purchase - Systematic -Normal - Instalment 22/925
+1,808.181
+20-Aug-2024
+0.05
+*** Stamp Duty ***
+20-Sep-2024
+999.95
+17.1346
+58.359
+Purchase - Systematic -Normal - Instalment 23/925
+1,866.540
+20-Sep-2024
+0.05
+*** Stamp Duty ***
+21-Oct-2024
+999.95
+16.7474
+59.708
+Purchase - Systematic -Normal - Instalment 24/925
+1,926.248
+21-Oct-2024
+0.05
+*** Stamp Duty ***
+21-Nov-2024
+999.95
+15.9243
+62.794
+Purchase - Systematic -Normal - Instalment 25/925
+1,989.042
+21-Nov-2024
+0.05
+*** Stamp Duty ***
+20-Dec-2024
+999.95
+16.4207
+60.896
+Purchase - Systematic -Normal - Instalment 26/925
+2,049.938
+20-Dec-2024
+0.05
+*** Stamp Duty ***
+20-Jan-2025
+999.95
+16.1491
+61.920
+Purchase - Systematic -Normal - Instalment 27/925
+2,111.858
+20-Jan-2025
+0.05
+*** Stamp Duty ***
+20-Feb-2025
+999.95
+15.2229
+65.687
+Purchase - Systematic -Normal - Instalment 28/925
+2,177.545
+20-Feb-2025
+0.05
+*** Stamp Duty ***
+20-Mar-2025
+999.95
+15.5882
+64.148
+Purchase - Systematic -Normal - Instalment 29/925
+2,241.693
+20-Mar-2025
+0.05
+*** Stamp Duty ***
+NAV on 31-Mar-2025: INR 15.7388
+Market Value on 31-Mar-2025: INR 35,281.56
+"Entry Load: N.A.; Exit Load - For exit within 1 year from the date of allotment: for 10% of units - NIL; For remaining units  - 1%.  For exit after 1 year from the date
+of allotment - NIL.
+For applicability of load structure, please refer to SAI / SID / KIM / Addendum issued from time to time.
+W.E.F. 01-June-2013 STT @0.001% is applicable at the time of redemption / switchover. W.e.f. 1st July 2020, Stamp Duty @ 0.005% is applicable on allotment of
+units.
+TDS shall be deducted (wherever applicable) as per rates under New Tax Regime. Differential tax if any, should be evaluated by investor(s), basis relevant tax
+provisions."
+Closing Unit Balance: 2,241.693
+Total Cost Value: 29,000.00
+PAN: BMTPL0829A
+KYC: OK  PAN: OK
+L346G-SBI Small Cap Fund Regular Growth (formerly SBI Small & Midcap Fund) (Non-Demat) - ISIN: INF200K01T28(Advisor: SBI12403)
+Registrar : CAMS
+Folio No: 31599440 / 0
+Akash Laha
+ Nominee 1:
+Pranab Kumar Laha
+ Nominee 2:
+ Nominee 3:
+ Opening Unit Balance: 135.595
+22-Apr-2024
+999.95
+156.6142
+6.385
+Purchase - Systematic-Normal - Instalment 18/925
+141.980
+22-Apr-2024
+0.05
+*** Stamp Duty ***
+21-May-2024
+999.95
+163.1345
+6.130
+Purchase - Systematic-Normal - Instalment 19/925
+148.110
+21-May-2024
+0.05
+*** Stamp Duty ***
+20-Jun-2024
+999.95
+175.3225
+5.703
+Purchase - Systematic-Normal - Instalment 20/925
+153.813
+20-Jun-2024
+0.05
+*** Stamp Duty ***
+22-Jul-2024
+999.95
+178.0915
+5.615
+Purchase - Systematic-Normal - Instalment 21/925
+159.428
+22-Jul-2024
+0.05
+*** Stamp Duty ***
+20-Aug-2024
+999.95
+179.9351
+5.557
+Purchase - Systematic-Normal - Instalment 22/925
+164.985
+20-Aug-2024
+0.05
+*** Stamp Duty ***
+20-Sep-2024
+999.95
+186.6559
+5.357
+Purchase - Systematic-Normal - Instalment 23/925
+170.342
+20-Sep-2024
+0.05
+*** Stamp Duty ***
+CAMSCASWS-31072512147 Version:V3.4 Live-1014
+Consolidated Account Statement
+01-Apr-2024 To 31-Mar-2025
+Page 3 of 3
+Date
+Amount
+NAV
+Units
+Transaction
+                     Unit
+(INR)
+(INR)
+Balance
+21-Oct-2024
+999.95
+183.9673
+5.435
+Purchase - Systematic-Normal - Instalment 24/925
+175.777
+21-Oct-2024
+0.05
+*** Stamp Duty ***
+21-Nov-2024
+999.95
+172.2585
+5.805
+Purchase - Systematic-Normal - Instalment 25/925
+181.582
+21-Nov-2024
+0.05
+*** Stamp Duty ***
+20-Dec-2024
+999.95
+179.0264
+5.585
+Purchase - Systematic-Normal - Instalment 26/925
+187.167
+20-Dec-2024
+0.05
+*** Stamp Duty ***
+20-Jan-2025
+999.95
+168.3664
+5.939
+Purchase - Systematic-Normal - Instalment 27/925
+193.106
+20-Jan-2025
+0.05
+*** Stamp Duty ***
+20-Feb-2025
+999.95
+152.3291
+6.564
+Purchase - Systematic-Normal - Instalment 28/925
+199.670
+20-Feb-2025
+0.05
+*** Stamp Duty ***
+20-Mar-2025
+999.95
+155.3273
+6.438
+Purchase - Systematic-Normal - Instalment 29/925
+206.108
+20-Mar-2025
+0.05
+*** Stamp Duty ***
+NAV on 31-Mar-2025: INR 156.4350
+Market Value on 31-Mar-2025: INR 32,242.50
+"Entry Load : N.A.; Exit Load - W.e.f. 08-AUG-2011: 1% - if the units are redeemed/switched-out within 1 Year from the date of allotment; Nil - if the units are
+redeemed/switched-out after 1 year from the date of allotment. STT @ 0.001% is applicable at the time of redemption / switch. For applicability of exit load
+structure, please refer to Addendum issued from time to time. **Scheme name of """""""""""""""""SBI Small & Midcap Fund"""""""""""""""""  has been changed to
+"""""""""""""""""SBI Small Cap Fund"""""""""""""""""  with effect from 16th May 2018."  W.e.f. 1st July 2020, Stamp Duty @ 0.005% is applicable on allotment of units.  As per
+SEBI guidelines, w.e.f. February 01, 2021, applicable NAV for allotment of units shall be based on time of receipt of transaction and funds available for utilization
+upto the cut-off time. TDS shall be deducted (wherever applicable) as per rates under New Tax Regime. Differential tax if any, should be evaluated by investor(s),
+basis relevant tax provisions.
+Closing Unit Balance: 206.108
+Total Cost Value: 29,000.00
