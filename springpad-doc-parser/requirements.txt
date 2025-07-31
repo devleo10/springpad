@@ -11,3 +11,4 @@ google-generativeai
 python-dotenv
 beautifulsoup4
 requests
+fitz
