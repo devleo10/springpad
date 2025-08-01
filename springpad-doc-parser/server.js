@@ -5,10 +5,12 @@ const multer = require('multer');
 const { spawn } = require('child_process');
 const path = require('path');
 const fs = require('fs');
-
+const cors = require('cors');
 const app = express();
 const morgan = require('morgan');
 const Joi = require('joi');
+
+app.use(cors());
 // Parse URL-encoded form fields (for password)
 app.use(express.urlencoded({ extended: true }));
 // Security headers
