@@ -55,33 +55,30 @@ const formatCurrency = (amount: number): string => {
   }).format(amount);
 };
 
+// SIP Maturity Formula: M = P × (([1 + i]^n – 1) / i) × (1 + i)
 const calculateSipValue = (
   monthlyAmount: number,
   annualReturn: number,
   years: number
 ): number => {
-  const monthlyRate = annualReturn / 100 / 12;
-  const totalMonths = years * 12;
+  const i = annualReturn / 100 / 12; // periodic monthly rate
+  const n = years * 12; // total number of payments
 
-  if (monthlyRate === 0) {
-    return monthlyAmount * totalMonths;
+  if (i === 0) {
+    return monthlyAmount * n;
   }
 
   // Prevent overflow for extreme values
   const maxReasonableValue = 1e15; // 1000 trillion
 
-  const compoundFactor = Math.pow(1 + monthlyRate, totalMonths);
-
-  // Check for overflow or unrealistic values
+  const compoundFactor = Math.pow(1 + i, n);
   if (!isFinite(compoundFactor) || compoundFactor > 1e10) {
     return maxReasonableValue;
   }
 
-  const futureValue =
-    monthlyAmount * ((compoundFactor - 1) / monthlyRate) * (1 + monthlyRate);
-
-  // Cap at reasonable maximum to prevent display issues
-  return Math.min(futureValue, maxReasonableValue);
+  // M = P × (([1 + i]^n – 1) / i) × (1 + i)
+  const maturity = monthlyAmount * ((compoundFactor - 1) / i) * (1 + i);
+  return Math.min(maturity, maxReasonableValue);
 };
 
 const isValidInput = (value: number | ""): boolean => {
@@ -175,9 +172,9 @@ export default function SipCalculator() {
     const totalReturns = futureValue - totalInvestment;
 
     setResult({
-      futureValue: Math.round(futureValue).toString(),
-      totalInvestment: Math.round(totalInvestment).toString(),
-      totalReturns: Math.round(totalReturns).toString(),
+      futureValue: futureValue.toString(),
+      totalInvestment: totalInvestment.toString(),
+      totalReturns: totalReturns.toString(),
     });
   }, [monthlyInvestment, expectedReturn, timePeriod, inputsValid]);
 
@@ -197,9 +194,9 @@ export default function SipCalculator() {
 
       data.push({
         year,
-        totalInvestment: Math.round(totalInvestment),
-        totalReturns: Math.round(totalReturns),
-        futureValue: Math.round(futureValue),
+        totalInvestment: totalInvestment,
+        totalReturns: totalReturns,
+        futureValue: futureValue,
       });
     }
 
