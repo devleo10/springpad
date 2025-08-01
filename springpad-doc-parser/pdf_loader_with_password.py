@@ -89,7 +89,12 @@ def extract_structured_data(text):
     portfolio_summary = {}
     total_cost = total_market = None
     # Find the block containing the summary table
-    summary_block = re.search(r'(?:Portfolio Summary|Mutual Fund\s+Cost Value.*?)([\s\S]+?)(?:Total\s+[\d.,]+\s+[\d.,]+)', text, re.IGNORECASE)
+    # Try headers for portfolio summary or generic scheme table (using 'Scheme Name')
+    summary_block = re.search(
+        r'(?:Portfolio Summary|Mutual Fund\s+Cost Value.*?|Folio No\.\s+Market Value\s*\(INR\)\s+Scheme Name)([\s\S]+?)(?:Total\s+[\d.,]+\s+[\d.,]+)',
+        text,
+        re.IGNORECASE
+    )
     if summary_block:
         block = summary_block.group(1)
         # Find all fund rows: FundName  cost  market
@@ -117,6 +122,31 @@ def extract_structured_data(text):
                 "cost_value": navimf_cost,
                 "market_value": navimf_market
             }
+    # Fallback for generic scheme table rows (header 'Folio No.')
+    if not portfolio_summary and 'Folio No.' in text:
+        block_text = summary_block.group(1)
+        for line in block_text.splitlines():
+            line = line.strip()
+            # Data rows often start with folio number
+            if re.match(r'^\d+[\d/]*', line):
+                parts = line.split(None, 1)
+                if len(parts) < 2:
+                    continue
+                _, rest = parts
+                # extract all decimals
+                nums = re.findall(r'[\d.,]+', rest)
+                # ensure at least two numbers: market and cost
+                if len(nums) >= 2:
+                    market = float(nums[0].replace(',', ''))
+                    cost = float(nums[-1].replace(',', ''))
+                else:
+                    continue
+                # scheme name is text before first numeric
+                scheme_name = rest.split(nums[0], 1)[0].strip()
+                portfolio_summary[scheme_name] = {
+                    'cost_value': cost,
+                    'market_value': market
+                }
 
 
     # Mutual Fund Details: extract for each fund in portfolio_summary (except 'total')
