@@ -1,8 +1,6 @@
 import fitz  # PyMuPDF
 import re
 import json
-import tkinter as tk
-from tkinter import filedialog
 import sys
 import os
 
@@ -292,16 +290,16 @@ def extract_pdf_text(pdf_path, password=None):
 # --- Main script to handle user input and process PDF ---
 if __name__ == "__main__":
     try:
-        # Only process if a file path is provided as a command-line argument
+        # Only process if a file path is provided as a command-line argument (from upload handler)
         if len(sys.argv) > 1:
             pdf_path = sys.argv[1]
             pdf_password = sys.argv[2] if len(sys.argv) > 2 else ""
-            
-            # Check if file exists
             if not os.path.exists(pdf_path):
                 print(json.dumps({"error": f"File not found: {pdf_path}"}))
                 sys.exit(0)
-            
+            if pdf_password is None:
+                print(json.dumps({"error": "No password provided for password-protected PDF (use empty string if not needed)."}))
+                sys.exit(0)
             result = extract_pdf_text(pdf_path, pdf_password)
             if result:
                 for page_data in result:
@@ -309,9 +307,9 @@ if __name__ == "__main__":
                     print(json.dumps(structured_data, ensure_ascii=False))
                     break
             else:
-                print(json.dumps({"error": "Failed to extract text from the PDF. File may be corrupted or password protected."}))
+                print(json.dumps({"error": "Failed to extract text from the PDF. File may be corrupted, password protected, or password is incorrect."}))
         else:
-            print(json.dumps({"error": "No PDF file path provided."}))
+            print(json.dumps({"error": "No PDF file path provided. Please upload via the /upload API endpoint."}))
     except Exception as e:
         print(json.dumps({"error": f"Script error: {str(e)}"}))
     sys.exit(0)
