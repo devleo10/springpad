@@ -20,11 +20,12 @@ app.post('/upload', upload.single('pdf'), (req, res) => {
 
   python.on('close', () => {
     fs.unlinkSync(pdfPath); // Clean up
+    console.log('PYTHON OUTPUT:', data); // Log the raw output for debugging
     try {
       lastJson = JSON.parse(data);
       res.json({ success: true, data: lastJson });
     } catch {
-      res.status(500).json({ success: false, error: 'Failed to parse PDF output.' });
+      res.status(500).json({ success: false, error: 'Failed to parse PDF output.', raw: data });
     }
   });
 });

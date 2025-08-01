@@ -4,6 +4,7 @@ import json
 import tkinter as tk
 from tkinter import filedialog
 import sys
+import os
 
 # --- Personal Info Extraction (Provided by you) ---
 def extract_personal_info(text):
@@ -120,13 +121,55 @@ def extract_structured_data(text):
             }
 
 
-    # Mutual Fund Details (generic extraction, not hardcoded to Navi)
-    mfd = re.search(r"([A-Za-z0-9 \-]+)\s*ISIN: ([A-Z0-9]+).*Advisor: ([A-Za-z ]+).*Registrar ?: ([A-Za-z ]+).*Folio No: ([0-9/]+)", text, re.DOTALL)
-    fund_name = mfd.group(1).strip() if mfd else None
-    isin = mfd.group(2) if mfd else None
-    advisor = mfd.group(3) if mfd else None
-    registrar = mfd.group(4) if mfd else None
-    folio_number = mfd.group(5) if mfd else None
+    # Mutual Fund Details: extract for each fund in portfolio_summary (except 'total')
+    mutual_fund_details = []
+    for fund_name, values in portfolio_summary.items():
+        if fund_name.lower() == 'total':
+            continue
+        # Try to find the block for this fund (from fund name to next fund name or end)
+        fund_block_pattern = re.compile(re.escape(fund_name) + r"[\s\S]*?(?=(?:\n[A-Za-z0-9 &\-]+\s+[\d.,]+\s+[\d.,]+|Total\s+[\d.,]+\s+[\d.,]+|$))", re.MULTILINE)
+        fund_block_match = fund_block_pattern.search(text)
+        fund_block = fund_block_match.group(0) if fund_block_match else ""
+        # Extract details from the block
+        isin = None
+        isin_match = re.search(r"ISIN: ([A-Z0-9]+)", fund_block)
+        if isin_match:
+            isin = isin_match.group(1)
+        advisor = None
+        advisor_match = re.search(r"Advisor: ([A-Za-z ]+)", fund_block)
+        if advisor_match:
+            advisor = advisor_match.group(1).strip()
+        registrar = None
+        registrar_match = re.search(r"Registrar ?: ([A-Za-z ]+)", fund_block)
+        if registrar_match:
+            registrar = registrar_match.group(1).strip()
+        folio_number = None
+        folio_match = re.search(r"Folio No: ([0-9/]+)", fund_block)
+        if folio_match:
+            folio_number = folio_match.group(1)
+        pan = kyc = pan_status = None
+        panblock = re.search(r"PAN:\s*([A-Z0-9]+)\s+KYC:\s*([A-Z]+)\s+PAN:\s*([A-Z]+)", fund_block)
+        if panblock:
+            pan, kyc, pan_status = panblock.groups()
+        else:
+            pan_match = re.search(r"PAN:\s*([A-Z0-9]+)", fund_block)
+            kyc_match = re.search(r"KYC:\s*([A-Z]+)", fund_block)
+            pan_status_match = re.search(r"PAN Status:\s*([A-Z]+)", fund_block)
+            if pan_match: pan = pan_match.group(1)
+            if kyc_match: kyc = kyc_match.group(1)
+            if pan_status_match: pan_status = pan_status_match.group(1)
+        mutual_fund_details.append({
+            "fund_name": fund_name,
+            "cost_value": values.get('cost_value'),
+            "market_value": values.get('market_value'),
+            "isin": isin,
+            "advisor": advisor,
+            "registrar": registrar,
+            "folio_number": folio_number,
+            "pan": pan,
+            "kyc": kyc,
+            "pan_status": pan_status
+        })
 
     # PAN, KYC, PAN Status
     pan = kyc = pan_status = None
@@ -201,16 +244,7 @@ def extract_structured_data(text):
                 "market_value": total_market
             }
         },
-        "mutual_fund_details": {
-            "fund_name": fund_name,
-            "isin": isin,
-            "advisor": advisor,
-            "registrar": registrar,
-            "folio_number": folio_number,
-            "pan": pan,
-            "kyc": kyc,
-            "pan_status": pan_status
-        },
+        "mutual_fund_details": mutual_fund_details,
         "transaction_details": {
             "date": txn_date,
             "amount": amount,
@@ -253,23 +287,33 @@ def extract_pdf_text(pdf_path, password=None):
         doc.close()
         return all_text
     except Exception as e:
-        print(f"Error extracting PDF: {e}")
         return None
 
 # --- Main script to handle user input and process PDF ---
 if __name__ == "__main__":
-
-    # Only process if a file path is provided as a command-line argument
-    if len(sys.argv) > 1:
-        pdf_path = sys.argv[1]
-        pdf_password = sys.argv[2] if len(sys.argv) > 2 else ""
-        result = extract_pdf_text(pdf_path, pdf_password)
-        if result:
-            for page_data in result:
-                structured_data = extract_structured_data(page_data['text'])
-                print(json.dumps(structured_data, ensure_ascii=False))
-                break
+    try:
+        # Only process if a file path is provided as a command-line argument
+        if len(sys.argv) > 1:
+            pdf_path = sys.argv[1]
+            pdf_password = sys.argv[2] if len(sys.argv) > 2 else ""
+            
+            # Check if file exists
+            if not os.path.exists(pdf_path):
+                print(json.dumps({"error": f"File not found: {pdf_path}"}))
+                sys.exit(0)
+            
+            result = extract_pdf_text(pdf_path, pdf_password)
+            if result:
+                for page_data in result:
+                    structured_data = extract_structured_data(page_data['text'])
+                    print(json.dumps(structured_data, ensure_ascii=False))
+                    break
+            else:
+                print(json.dumps({"error": "Failed to extract text from the PDF. File may be corrupted or password protected."}))
         else:
-            print(json.dumps({"error": "Failed to extract text from the PDF."}))
-    else:
-        print(json.dumps({"error": "No PDF file path provided."}))
+            print(json.dumps({"error": "No PDF file path provided."}))
+    except Exception as e:
+        print(json.dumps({"error": f"Script error: {str(e)}"}))
+    sys.exit(0)
+
+
