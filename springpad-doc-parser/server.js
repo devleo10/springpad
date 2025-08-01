@@ -28,20 +28,20 @@ app.post('/upload', (req, res) => {
     // Spawn Python script with password arg
     const python = spawn('python', [pythonScript, pdfPath, password]);
 
-  let data = '';
-  python.stdout.on('data', chunk => { data += chunk; });
-  python.stderr.on('data', err => { console.error(err.toString()); });
+    let data = '';
+    python.stdout.on('data', chunk => { data += chunk; });
+    python.stderr.on('data', err => { console.error(err.toString()); });
 
-  python.on('close', () => {
-    fs.unlinkSync(pdfPath); // Clean up
-    console.log('PYTHON OUTPUT:', data); // Log the raw output for debugging
-    try {
-      lastJson = JSON.parse(data);
-      res.json({ success: true, data: lastJson });
-    } catch {
-      res.status(500).json({ success: false, error: 'Failed to parse PDF output.', raw: data });
-    }
-  });
+    python.on('close', () => {
+      fs.unlinkSync(pdfPath); // Clean up
+      console.log('PYTHON OUTPUT:', data); // Log the raw output for debugging
+      try {
+        lastJson = JSON.parse(data);
+        res.json({ success: true, data: lastJson });
+      } catch {
+        res.status(500).json({ success: false, error: 'Failed to parse PDF output.', raw: data });
+      }
+    });
   }); // end upload.single callback
 }); // end app.post callback
 
