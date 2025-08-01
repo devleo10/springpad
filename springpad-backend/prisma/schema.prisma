@@ -14,6 +14,27 @@ enum KycStatus {
   rejected
 }
 
+enum AuthProvider {
+  google
+  facebook
+  apple
+  email_password
+  phone
+}
+
+enum UserRole {
+  user
+  admin
+  moderator
+}
+
+enum UserStatus {
+  active
+  inactive
+  suspended
+  pending_verification
+}
+
 enum HoldingType {
   mutual_fund
   stock
@@ -54,17 +75,52 @@ model User {
   id                 String           @id @map("uid")
   email              String?          @unique
   emailVerified      Boolean          @default(false)
+  displayName        String?
+  photoURL           String?
+  phoneNumber        String?
+  authProviders      AuthProvider[]   @default([email_password])
+  role               UserRole         @default(user)
+  status             UserStatus       @default(pending_verification)
+  lastLoginAt        DateTime?
+  isOnboardingComplete Boolean        @default(false)
   createdAt          DateTime         @default(now())
   updatedAt          DateTime         @updatedAt
 
+  // Relations
   investorProfile    InvestorProfile?
+  sessions          UserSession[]
+  activities        UserActivity[]
 
-  // UserActivity UserActivity[]
-  // PortfolioSnapshot PortfolioSnapshot[]
-  // GoldBond GoldBond[]
-  // ExternalImport ExternalImport[]
-  // Transaction Transaction[] @relation("UserTransactions")
-  // Holding Holding[] @relation("UserHoldings")
+  @@map("users")
+}
+
+model UserSession {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sessionToken  String   @unique
+  deviceInfo    String?
+  ipAddress     String?
+  userAgent     String?
+  isActive      Boolean  @default(true)
+  expiresAt     DateTime
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("user_sessions")
+}
+
+model UserActivity {
+  id          String       @id @default(cuid())
+  userId      String
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  action      String       // login, logout, profile_update, etc.
+  details     Json?
+  ipAddress   String?
+  userAgent   String?
+  createdAt   DateTime     @default(now())
+
+  @@map("user_activities")
 }
 
 model InvestorProfile {

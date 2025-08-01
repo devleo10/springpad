@@ -2,17 +2,53 @@
 
 import React, { useState } from "react";
 import axios from "axios";
-// ...existing code...
 
 const DashboardPage: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
   const [password, setPassword] = useState<string>("");
   const [uploading, setUploading] = useState(false);
   const [response, setResponse] = useState<string | null>(null);
+  const [testing, setTesting] = useState(false);
+
+  const testConnection = async () => {
+    setTesting(true);
+    try {
+      const res = await axios.get("https://springpad.onrender.com/health");
+      setResponse(
+        `Connection test successful: ${JSON.stringify(res.data, null, 2)}`
+      );
+    } catch (err: unknown) {
+      let errorMessage = "Connection test failed: ";
+      if (axios.isAxiosError(err)) {
+        errorMessage += err.message;
+      } else if (err instanceof Error) {
+        errorMessage += err.message;
+      } else {
+        errorMessage += "Unknown error";
+      }
+      setResponse(errorMessage);
+    } finally {
+      setTesting(false);
+    }
+  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0]);
+      const selectedFile = e.target.files[0];
+
+      // Validate file type
+      if (selectedFile.type !== "application/pdf") {
+        setResponse("Error: Please select a PDF file.");
+        return;
+      }
+
+      // Validate file size (5MB limit)
+      if (selectedFile.size > 5 * 1024 * 1024) {
+        setResponse("Error: File size must be less than 5MB.");
+        return;
+      }
+
+      setFile(selectedFile);
       setResponse(null);
     }
   };
@@ -31,14 +67,29 @@ const DashboardPage: React.FC = () => {
         "https://springpad.onrender.com/upload",
         formData,
         {
-          headers: { "Content-Type": "multipart/form-data" },
+          timeout: 30000, // 30 seconds timeout
         }
       );
-      setResponse(JSON.stringify(res.data, null, 2));
+
+      // Check if the response has the expected structure
+      if (res.data && res.data.success) {
+        setResponse(JSON.stringify(res.data, null, 2));
+      } else {
+        setResponse(`Success: ${JSON.stringify(res.data, null, 2)}`);
+      }
     } catch (err: unknown) {
       let errorMessage = "Upload failed: ";
       if (axios.isAxiosError(err)) {
-        errorMessage += err.response?.data?.error || err.message;
+        if (err.response?.data) {
+          // If we have response data, show it
+          if (typeof err.response.data === "string") {
+            errorMessage += err.response.data;
+          } else {
+            errorMessage += JSON.stringify(err.response.data, null, 2);
+          }
+        } else {
+          errorMessage += err.message;
+        }
       } else if (err instanceof Error) {
         errorMessage += err.message;
       } else {
@@ -86,6 +137,21 @@ const DashboardPage: React.FC = () => {
         style={{ marginTop: 10 }}
       >
         {uploading ? "Uploading..." : "Submit"}
+      </button>
+      <button
+        onClick={testConnection}
+        disabled={testing}
+        style={{
+          marginTop: 10,
+          marginLeft: 10,
+          backgroundColor: "#007bff",
+          color: "white",
+          border: "none",
+          padding: "8px 16px",
+          borderRadius: "4px",
+        }}
+      >
+        {testing ? "Testing..." : "Test Connection"}
       </button>
       {response && (
         <pre
