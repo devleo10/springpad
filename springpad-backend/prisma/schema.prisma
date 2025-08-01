@@ -1,0 +1,190 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL") 
+}
+
+enum KycStatus {
+  not_started
+  pending
+  verified
+  rejected
+}
+
+enum HoldingType {
+  mutual_fund
+  stock
+  gold_bond
+}
+
+enum TransactionType {
+  buy
+  sell
+  dividend
+  interest
+  redemption
+}
+
+enum MarketDataType {
+  mutual_fund_nav
+  stock_price
+  gold_price
+}
+
+enum ActivityType {
+  login
+  portfolio_update
+  import
+  trade
+  manual_edit
+  link_broker
+}
+
+// enum KycStatus {
+//   not_started
+//   pending
+//   verified
+//   rejected
+// }
+
+model User {
+  id                 String           @id @map("uid")
+  email              String?          @unique
+  emailVerified      Boolean          @default(false)
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+
+  investorProfile    InvestorProfile?
+
+  // UserActivity UserActivity[]
+  // PortfolioSnapshot PortfolioSnapshot[]
+  // GoldBond GoldBond[]
+  // ExternalImport ExternalImport[]
+  // Transaction Transaction[] @relation("UserTransactions")
+  // Holding Holding[] @relation("UserHoldings")
+}
+
+model InvestorProfile {
+  id                    String    @id @default(cuid())
+  user                  User      @relation(fields: [userId], references: [id])
+  userId                String    @unique
+  fullName              String?
+  pan                   String   
+  phone                 String
+  panStatus             KycStatus @default(not_started)
+  phoneVerified         Boolean   @default(false)
+  kycSubmittedAt        DateTime?
+  kycVerifiedAt         DateTime?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+  investorOnboarded     Boolean   @default(false)
+  phoneOtpCodeHash      String?   
+  phoneOtpSentAt        DateTime? 
+  phoneOtpAttempts      Int       @default(0)
+}
+
+
+// model Holding {
+//   id                 String      @id @default(cuid())
+//   user               User        @relation("UserHoldings", fields: [userId], references: [id])
+//   userId             String
+//   type               HoldingType
+//   symbol             String
+//   displayName        String
+//   quantity           Float
+//   averageCost        Float
+//   currency           String
+//   linkedSource       String?     // e.g., externalImport id
+//   metadata           Json?      // folioNumber, ISIN, etc.
+//   createdAt          DateTime    @default(now())
+//   updatedAt          DateTime    @updatedAt
+
+//   transactions       Transaction[] @relation("HoldingTransactions")
+// }
+
+// model Transaction {
+//   id           String          @id @default(cuid())
+//   holding      Holding         @relation("HoldingTransactions", fields: [holdingId], references: [id])
+//   holdingId    String
+//   user         User            @relation("UserTransactions", fields: [userId], references: [id])
+//   userId       String
+//   date         DateTime
+//   type         TransactionType
+//   quantity     Float
+//   pricePerUnit Float
+//   fees         Float
+//   totalAmount  Float
+//   currency     String
+//   source       String          // e.g., "manual", "cams_import"
+//   createdAt    DateTime        @default(now())
+// }
+
+// model ExternalImport {
+//   id               String    @id @default(cuid())
+//   user             User      @relation(fields: [userId], references: [id])
+//   userId           String
+//   type             String    // 'cams_statement' | 'broker_statement' | 'gold_bond_upload'
+//   originalFilename String
+//   status           String    // 'pending' | 'processing' | 'processed' | 'failed'
+//   parsedAt         DateTime?
+//   summary          Json?
+//   rawDataRef       String?   // e.g., S3/Cloud storage path
+//   errors           Json?
+//   createdAt        DateTime  @default(now())
+//   updatedAt        DateTime  @updatedAt
+// }
+
+// model GoldBond {
+//   id                    String   @id @default(cuid())
+//   user                  User     @relation(fields: [userId], references: [id])
+//   userId                String
+//   issueName             String
+//   quantityGrams         Float
+//   issueDate             DateTime
+//   purchasePricePerGram  Float
+//   annualInterestPercent Float
+//   redemptionDate        DateTime
+//   currency              String
+//   metadata              Json?
+//   createdAt             DateTime @default(now())
+//   updatedAt             DateTime @updatedAt
+// }
+
+// model MarketDataCache {
+//   id        String          @id @default(cuid())
+//   type      MarketDataType
+//   symbol    String
+//   timestamp DateTime
+//   price     Float
+//   currency  String
+//   rawSource Json?
+//   // Optional composite uniqueness if desired:
+//   @@unique([type, symbol, timestamp])
+//   @@index([type, symbol])
+// }
+
+// model UserActivity {
+//   id        String       @id @default(cuid())
+//   user      User         @relation(fields: [userId], references: [id])
+//   userId    String
+//   type      ActivityType
+//   details   Json?
+//   createdAt DateTime     @default(now())
+// }
+
+// model PortfolioSnapshot {
+//   id                  String   @id @default(cuid())
+//   user                User     @relation(fields: [userId], references: [id])
+//   userId              String
+//   snapshotAt          DateTime
+//   totalInvested       Float
+//   currentValue        Float
+//   unrealizedPnL       Float
+//   realizedPnL         Float
+//   assetAllocation     Json    // symbol -> percentage
+//   holdingsSummary     Json?
+//   createdAt           DateTime @default(now())
+// }
