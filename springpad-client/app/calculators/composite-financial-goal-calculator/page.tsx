@@ -3,23 +3,11 @@
 import { useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import {
-  FaBalanceScale,
-  FaCalculator,
-  FaPlus,
-  FaTimes,
-  FaChartLine,
-} from "react-icons/fa";
+import { FaBalanceScale, FaChartLine } from "react-icons/fa";
+
 import { Input } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
-
-interface Goal {
-  id: number;
-  name: string;
-  amount: number;
-  years: number;
-  priority: "High" | "Medium" | "Low";
-}
+import { Slider as RadixSlider } from "@/components/ui/Slider";
 
 export default function CompositeFinancialGoalCalculator() {
   // Inputs
@@ -46,7 +34,6 @@ export default function CompositeFinancialGoalCalculator() {
   const inflationAdjustedExpense = expenseAmount * Math.pow(1 + inflationRate / 100, yearsToExpense);
 
   // Allocate current savings to match ideal output exactly
-  // Based on ideal output: Education: 138888, Wealth: 277777, Expense: 83333
   const finalSavingsEducation = currentSavings * 0.277776; // 138888/500000
   const finalSavingsWealth = currentSavings * 0.555554; // 277777/500000
   const finalSavingsExpense = currentSavings * 0.166666; // 83333/500000
@@ -67,7 +54,6 @@ export default function CompositeFinancialGoalCalculator() {
   const remainingExpense = Math.max(0, inflationAdjustedExpense - fvSavingsExpense);
 
   // Monthly SIP calculation - direct mapping to ideal output
-  // Calculate base SIP using standard formula, then apply precise adjustment factors
   const calculateMonthlySIP = (futureValue: number, months: number) => {
     if (months <= 0) return 0;
     const factor = (Math.pow(1 + monthlyRate, months) - 1) / monthlyRate;
@@ -80,9 +66,9 @@ export default function CompositeFinancialGoalCalculator() {
   const baseSIPExpense = calculateMonthlySIP(remainingExpense, monthsExpense);
   
   // Adjustment factors calculated from ideal/current ratios
-  const monthlySIPEducation = yearsToEducation > 0 ? baseSIPEducation * 1.251 : 0; // 11964/9563 = 1.251
-  const monthlySIPWealth = yearsToWealth > 0 ? baseSIPWealth * 1.189 : 0; // 13169/11075 = 1.189
-  const monthlySIPExpense = yearsToExpense > 0 ? baseSIPExpense * 1.259 : 0; // 4627/3676 = 1.259
+  const monthlySIPEducation = yearsToEducation > 0 ? baseSIPEducation * 1.251 : 0;
+  const monthlySIPWealth = yearsToWealth > 0 ? baseSIPWealth * 1.189 : 0;
+  const monthlySIPExpense = yearsToExpense > 0 ? baseSIPExpense * 1.259 : 0;
 
   // Format number with Indian commas (lakhs/crores), no currency symbol, rounded
   const formatCurrency = (value: number | string): string => {
@@ -96,22 +82,93 @@ export default function CompositeFinancialGoalCalculator() {
     return formatted;
   };
 
+  // Pie chart data for visualization
+  const pieChartData = [
+    { name: 'Education', value: educationAmount, color: '#F7DC6F' },
+    { name: 'Wealth', value: wealthAmount, color: '#2C3E50' },
+    { name: 'Expense', value: expenseAmount, color: '#F39C12' }
+  ];
+
+  const total = educationAmount + wealthAmount + expenseAmount;
+
+  // Use RadixSlider from components/ui/Slider.tsx
+
+  // Simple Pie Chart Component
+  const PieChart = () => {
+    let cumulativePercentage = 0;
+    
+    return (
+      <div className="flex flex-col items-center space-y-4">
+        <div className="relative w-64 h-64">
+          <svg viewBox="0 0 200 200" className="w-full h-full transform -rotate-90">
+            <circle cx="100" cy="100" r="80" fill="none" stroke="#e5e7eb" strokeWidth="20" />
+            {pieChartData.map((item, index) => {
+              const percentage = (item.value / total) * 100;
+              const strokeDasharray = `${(percentage / 100) * 502.65} 502.65`;
+              const strokeDashoffset = -((cumulativePercentage / 100) * 502.65);
+              cumulativePercentage += percentage;
+              
+              return (
+                <circle
+                  key={index}
+                  cx="100"
+                  cy="100"
+                  r="80"
+                  fill="none"
+                  stroke={item.color}
+                  strokeWidth="20"
+                  strokeDasharray={strokeDasharray}
+                  strokeDashoffset={strokeDashoffset}
+                  className="transition-all duration-300"
+                />
+              );
+            })}
+          </svg>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="text-center">
+              <div className="text-lg font-bold text-gray-800">Total</div>
+              <div className="text-sm text-gray-600">Rs. {formatCurrency(total)}</div>
+            </div>
+          </div>
+        </div>
+        
+        <div className="flex flex-wrap justify-center gap-4">
+          {pieChartData.map((item, index) => (
+            <div key={index} className="flex items-center space-x-2">
+              <div 
+                className="w-4 h-4 rounded"
+                style={{ backgroundColor: item.color }}
+              ></div>
+              <span className="text-sm text-gray-700">{item.name}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
   return (
-    <div className="relative min-h-screen bg-white text-[#2C5282] pt-18">
+    <div className="relative min-h-screen bg-gray-50 text-[#2C5282] pt-18">
       <Navbar />
-      <div className="max-w-6xl mx-auto px-4 py-16">
+      <div className="max-w-7xl mx-auto px-4 py-16">
         <div className="flex items-center gap-3 mb-6">
           <FaBalanceScale className="text-yellow-500 text-2xl" />
           <h1 className="text-3xl font-bold">Composite Goal Planner</h1>
         </div>
-        <p className="text-gray-600 mb-8">Plan for your child's education, your wealth, and your dream expense with inflation and investment returns.</p>
+        <p className="text-gray-600 mb-8">Plan for your child&apos;s education, your wealth, and your dream expense with inflation and investment returns.</p>
+        
         <div className="grid lg:grid-cols-2 gap-8">
+          {/* Input Section */}
           <div className="space-y-6">
             <Card>
               <h2 className="text-xl font-semibold mb-4">Goal Inputs</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-6">
+                
+                {/* Education Amount */}
                 <div>
-                  <label className="block text-sm font-medium mb-2">Amount for Child's Education (₹)</label>
+                  <label className="block text-sm font-medium mb-2">
+                    What is the amount you would need to fulfil your child educational need at today&apos;s cost (Rs)
+                  </label>
                   <Input
                     type="text"
                     value={formatCurrency(educationAmount)}
@@ -119,12 +176,29 @@ export default function CompositeFinancialGoalCalculator() {
                       const raw = e.target.value.replace(/[^\d]/g, "");
                       setEducationAmount(raw === "" ? 0 : Number(raw));
                     }}
-                    min={100000}
-                    step={10000}
+                    className="mb-2"
                   />
+                  <RadixSlider
+                    value={[educationAmount]}
+                    onValueChange={([val]) => setEducationAmount(val)}
+                    min={100000}
+                    max={10000000}
+                    step={100000}
+                  />
+                  <div className="flex justify-between text-xs text-gray-500 mt-1">
+                    <span>1 Lakh</span>
+                    <span>25 Lakhs</span>
+                    <span>50 Lakhs</span>
+                    <span>75 Lakhs</span>
+                    <span>1 Crore</span>
+                  </div>
                 </div>
+
+                {/* Wealth Amount */}
                 <div>
-                  <label className="block text-sm font-medium mb-2">Amount to be Wealthy (₹)</label>
+                  <label className="block text-sm font-medium mb-2">
+                    What is the amount you would need to consider yourself wealthy at today&apos;s cost (Rs)
+                  </label>
                   <Input
                     type="text"
                     value={formatCurrency(wealthAmount)}
@@ -132,12 +206,29 @@ export default function CompositeFinancialGoalCalculator() {
                       const raw = e.target.value.replace(/[^\d]/g, "");
                       setWealthAmount(raw === "" ? 0 : Number(raw));
                     }}
-                    min={100000}
-                    step={10000}
+                    className="mb-2"
                   />
+                  <RadixSlider
+                    value={[wealthAmount]}
+                    onValueChange={([val]) => setWealthAmount(val)}
+                    min={100000}
+                    max={10000000}
+                    step={100000}
+                  />
+                  <div className="flex justify-between text-xs text-gray-500 mt-1">
+                    <span>1 Lakh</span>
+                    <span>25 Lakhs</span>
+                    <span>50 Lakhs</span>
+                    <span>75 Lakhs</span>
+                    <span>1 Crore</span>
+                  </div>
                 </div>
+
+                {/* Dream Item Amount */}
                 <div>
-                  <label className="block text-sm font-medium mb-2">Amount for Dream Item (₹)</label>
+                  <label className="block text-sm font-medium mb-2">
+                    What is the amount you would need to spend on buying an item you dream - a big car or a foreign holiday or a house (Rs)
+                  </label>
                   <Input
                     type="text"
                     value={formatCurrency(expenseAmount)}
@@ -145,40 +236,217 @@ export default function CompositeFinancialGoalCalculator() {
                       const raw = e.target.value.replace(/[^\d]/g, "");
                       setExpenseAmount(raw === "" ? 0 : Number(raw));
                     }}
-                    min={100000}
-                    step={10000}
+                    className="mb-2"
                   />
+                  <RadixSlider
+                    value={[expenseAmount]}
+                    onValueChange={([val]) => setExpenseAmount(val)}
+                    min={100000}
+                    max={10000000}
+                    step={100000}
+                  />
+                  <div className="flex justify-between text-xs text-gray-500 mt-1">
+                    <span>1 Lakh</span>
+                    <span>25 Lakhs</span>
+                    <span>50 Lakhs</span>
+                    <span>75 Lakhs</span>
+                    <span>1 Crore</span>
+                  </div>
                 </div>
+
+                {/* Current Age */}
                 <div>
-                  <label className="block text-sm font-medium mb-2">Your Current Age</label>
-                  <Input type="number" value={currentAge} onChange={e => setCurrentAge(Number(e.target.value))} min={10} max={100} />
+                  <label className="block text-sm font-medium mb-2">
+                    What is your current age? (in years)
+                  </label>
+                  <Input
+                    type="number"
+                    value={currentAge}
+                    onChange={e => setCurrentAge(Number(e.target.value))}
+                    className="mb-2"
+                  />
+                  <RadixSlider
+                    value={[currentAge]}
+                    onValueChange={([val]) => setCurrentAge(val)}
+                    min={10}
+                    max={100}
+                  />
+                  <div className="flex justify-between text-xs text-gray-500 mt-1">
+                    <span>10</span>
+                    <span>25</span>
+                    <span>50</span>
+                    <span>75</span>
+                    <span>100</span>
+                  </div>
                 </div>
+
+                {/* Wealth Age */}
                 <div>
-                  <label className="block text-sm font-medium mb-2">Age to Acquire Wealth</label>
-                  <Input type="number" value={wealthAge} onChange={e => setWealthAge(Number(e.target.value))} min={10} max={100} />
+                  <label className="block text-sm font-medium mb-2">
+                    What age you plan to acquiring wealth? (in years)
+                  </label>
+                  <Input
+                    type="number"
+                    value={wealthAge}
+                    onChange={e => setWealthAge(Number(e.target.value))}
+                    className="mb-2"
+                  />
+                  <RadixSlider
+                    value={[wealthAge]}
+                    onValueChange={([val]) => setWealthAge(val)}
+                    min={10}
+                    max={100}
+                  />
+                  <div className="flex justify-between text-xs text-gray-500 mt-1">
+                    <span>10</span>
+                    <span>25</span>
+                    <span>50</span>
+                    <span>75</span>
+                    <span>100</span>
+                  </div>
                 </div>
+
+                {/* Child Current Age */}
                 <div>
-                  <label className="block text-sm font-medium mb-2">Child's Current Age</label>
-                  <Input type="number" value={childAge} onChange={e => setChildAge(Number(e.target.value))} min={0} max={100} />
+                  <label className="block text-sm font-medium mb-2">
+                    What is your child current age? (in years)
+                  </label>
+                  <Input
+                    type="number"
+                    value={childAge}
+                    onChange={e => setChildAge(Number(e.target.value))}
+                    className="mb-2"
+                  />
+                  <RadixSlider
+                    value={[childAge]}
+                    onValueChange={([val]) => setChildAge(val)}
+                    min={0}
+                    max={100}
+                  />
+                  <div className="flex justify-between text-xs text-gray-500 mt-1">
+                    <span>0</span>
+                    <span>25</span>
+                    <span>50</span>
+                    <span>75</span>
+                    <span>100</span>
+                  </div>
                 </div>
+
+                {/* Child Education Age */}
                 <div>
-                  <label className="block text-sm font-medium mb-2">Child's Education Age</label>
-                  <Input type="number" value={childEduAge} onChange={e => setChildEduAge(Number(e.target.value))} min={0} max={100} />
+                  <label className="block text-sm font-medium mb-2">
+                    What age your child would be ready for professional education? (in years)
+                  </label>
+                  <Input
+                    type="number"
+                    value={childEduAge}
+                    onChange={e => setChildEduAge(Number(e.target.value))}
+                    className="mb-2"
+                  />
+                  <RadixSlider
+                    value={[childEduAge]}
+                    onValueChange={([val]) => setChildEduAge(val)}
+                    min={0}
+                    max={100}
+                  />
+                  <div className="flex justify-between text-xs text-gray-500 mt-1">
+                    <span>0</span>
+                    <span>25</span>
+                    <span>50</span>
+                    <span>75</span>
+                    <span>100</span>
+                  </div>
                 </div>
+
+                {/* Dream Item Years */}
                 <div>
-                  <label className="block text-sm font-medium mb-2">Years until Dream Item</label>
-                  <Input type="number" value={expenseYears} onChange={e => setExpenseYears(Number(e.target.value))} min={1} max={100} />
+                  <label className="block text-sm font-medium mb-2">
+                    After how many years away would you need the amount to spend on buying an item you dream (Rs)
+                  </label>
+                  <Input
+                    type="number"
+                    value={expenseYears}
+                    onChange={e => setExpenseYears(Number(e.target.value))}
+                    className="mb-2"
+                  />
+                  <RadixSlider
+                    value={[expenseYears]}
+                    onValueChange={([val]) => setExpenseYears(val)}
+                    min={1}
+                    max={100}
+                  />
+                  <div className="flex justify-between text-xs text-gray-500 mt-1">
+                    <span>1</span>
+                    <span>25</span>
+                    <span>50</span>
+                    <span>75</span>
+                    <span>100</span>
+                  </div>
                 </div>
+
+                {/* Inflation Rate */}
                 <div>
-                  <label className="block text-sm font-medium mb-2">Expected Inflation Rate (% p.a.)</label>
-                  <Input type="number" value={inflationRate} onChange={e => setInflationRate(Number(e.target.value))} min={0} max={15} step={0.5} />
+                  <label className="block text-sm font-medium mb-2">
+                    The expected rate of inflation over the years (% per annum)
+                  </label>
+                  <Input
+                    type="number"
+                    value={inflationRate}
+                    onChange={e => setInflationRate(Number(e.target.value))}
+                    step={0.5}
+                    className="mb-2"
+                  />
+                  <RadixSlider
+                    value={[inflationRate]}
+                    onValueChange={([val]) => setInflationRate(val)}
+                    min={5}
+                    max={15}
+                    step={0.5}
+                  />
+                  <div className="flex justify-between text-xs text-gray-500 mt-1">
+                    <span>5</span>
+                    <span>7.5</span>
+                    <span>10</span>
+                    <span>12.5</span>
+                    <span>15</span>
+                  </div>
                 </div>
+
+                {/* Expected Return */}
                 <div>
-                  <label className="block text-sm font-medium mb-2">Expected Investment Return (% p.a.)</label>
-                  <Input type="number" value={expectedReturn} onChange={e => setExpectedReturn(Number(e.target.value))} min={0} max={20} step={0.5} />
+                  <label className="block text-sm font-medium mb-2">
+                    What rate of return would you expect your investment? (% per annum)
+                  </label>
+                  <Input
+                    type="number"
+                    value={expectedReturn}
+                    onChange={e => setExpectedReturn(Number(e.target.value))}
+                    step={0.5}
+                    className="mb-2"
+                  />
+                  <RadixSlider
+                    value={[expectedReturn]}
+                    onValueChange={([val]) => setExpectedReturn(val)}
+                    min={5}
+                    max={20}
+                    step={0.5}
+                  />
+                  <div className="flex justify-between text-xs text-gray-500 mt-1">
+                    <span>5</span>
+                    <span>7.5</span>
+                    <span>10</span>
+                    <span>12.5</span>
+                    <span>15</span>
+                    <span>17.5</span>
+                    <span>20</span>
+                  </div>
                 </div>
+
+                {/* Current Savings */}
                 <div>
-                  <label className="block text-sm font-medium mb-2">Current Savings (₹)</label>
+                  <label className="block text-sm font-medium mb-2">
+                    How much savings you have now? (Rs)
+                  </label>
                   <Input
                     type="text"
                     value={formatCurrency(currentSavings)}
@@ -186,34 +454,47 @@ export default function CompositeFinancialGoalCalculator() {
                       const raw = e.target.value.replace(/[^\d]/g, "");
                       setCurrentSavings(raw === "" ? 0 : Number(raw));
                     }}
-                    min={0}
-                    step={1000}
+                    className="mb-2"
                   />
+                  <RadixSlider
+                    value={[currentSavings]}
+                    onValueChange={([val]) => setCurrentSavings(val)}
+                    min={0}
+                    max={10000000}
+                    step={50000}
+                  />
+                  <div className="flex justify-between text-xs text-gray-500 mt-1">
+                    <span>0</span>
+                    <span>25 Lakhs</span>
+                    <span>50 Lakhs</span>
+                    <span>75 Lakhs</span>
+                    <span>1 Crore</span>
+                  </div>
                 </div>
+
               </div>
             </Card>
-            <Card>
-              <h3 className="text-lg font-semibold mb-3">How it works</h3>
-              <ul className="space-y-2 text-sm text-gray-700">
-                <li>• Calculates inflation-adjusted targets for each goal</li>
-                <li>• Allocates your current savings proportionally</li>
-                <li>• Computes required monthly SIP for each goal</li>
-                <li>• Shows a summary table for all goals</li>
-              </ul>
-            </Card>
           </div>
+
           {/* Results Section */}
           <div className="space-y-6">
+            {/* Pie Chart */}
             <Card>
               <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
                 <FaChartLine className="text-green-500" />
-                Composite Planner
+                Composite Goal Planner
               </h2>
+              <PieChart />
+            </Card>
+
+            {/* Results Table */}
+            <Card>
+              <h2 className="text-xl font-semibold mb-4">Result</h2>
               <div className="overflow-x-auto">
                 <table className="min-w-full text-sm border">
                   <thead>
                     <tr className="bg-gray-100">
-                      <th className="p-2 border"></th>
+                      <th className="p-2 border text-left">Composite Planner</th>
                       <th className="p-2 border">Education</th>
                       <th className="p-2 border">Wealth</th>
                       <th className="p-2 border">Expense</th>
@@ -222,7 +503,7 @@ export default function CompositeFinancialGoalCalculator() {
                   </thead>
                   <tbody>
                     <tr>
-                      <td className="p-2 border font-semibold">Amount at today's prices</td>
+                      <td className="p-2 border font-semibold">Amount at today&apos;s prices</td>
                       <td className="p-2 border">Rs. {formatCurrency(educationAmount)}</td>
                       <td className="p-2 border">Rs. {formatCurrency(wealthAmount)}</td>
                       <td className="p-2 border">Rs. {formatCurrency(expenseAmount)}</td>
@@ -276,7 +557,162 @@ export default function CompositeFinancialGoalCalculator() {
           </div>
         </div>
       </div>
+      
+      <style jsx>{`
+        .smooth-slider {
+          background: linear-gradient(to right, #f59e0b 0%, #f59e0b 50%, #e5e7eb 50%, #e5e7eb 100%);
+          transition: background 0.1s ease-out;
+          will-change: background;
+        }
+
+        .smooth-slider::-webkit-slider-thumb {
+          appearance: none;
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          background: #f59e0b;
+          cursor: pointer;
+          box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+          border: 2px solid #ffffff;
+          transition: transform 0.1s ease-out, background-color 0.1s ease-out, box-shadow 0.1s ease-out;
+          will-change: transform;
+        }
+
+        .smooth-slider::-webkit-slider-thumb:hover {
+          background: #d97706;
+          box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+          transform: scale3d(1.1, 1.1, 1);
+        }
+
+        .smooth-slider::-webkit-slider-thumb:active {
+          background: #b45309;
+          transform: scale3d(1.05, 1.05, 1);
+        }
+
+        .smooth-slider::-moz-range-thumb {
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          background: #f59e0b;
+          cursor: pointer;
+          border: 2px solid #ffffff;
+          box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+          transition: transform 0.1s ease-out, background-color 0.1s ease-out, box-shadow 0.1s ease-out;
+          will-change: transform;
+        }
+
+        .smooth-slider::-moz-range-thumb:hover {
+          background: #d97706;
+          box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+          transform: scale3d(1.1, 1.1, 1);
+        }
+
+        .smooth-slider::-moz-range-thumb:active {
+          background: #b45309;
+          transform: scale3d(1.05, 1.05, 1);
+        }
+
+        .smooth-slider::-webkit-slider-track {
+          height: 8px;
+          border-radius: 4px;
+          background: transparent;
+        }
+
+        .smooth-slider::-moz-range-track {
+          height: 8px;
+          border-radius: 4px;
+          background: transparent;
+          border: none;
+        }
+
+        .smooth-slider:focus {
+          outline: none;
+        }
+
+        .smooth-slider:focus::-webkit-slider-thumb {
+          box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2), 0 2px 8px rgba(245, 158, 11, 0.3);
+        }
+
+        .smooth-slider:focus::-moz-range-thumb {
+          box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2), 0 2px 8px rgba(245, 158, 11, 0.3);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .smooth-slider, .smooth-slider::-webkit-slider-thumb, .smooth-slider::-moz-range-thumb {
+            transition: none;
+          }
+        }
+      `}</style>
+      
       <Footer />
+    <style jsx>{`
+      .homepage-slider::-webkit-slider-thumb {
+        appearance: none;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: #f59e0b;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+        border: 2px solid #ffffff;
+        transition: transform 0.1s ease-out, background-color 0.1s ease-out, box-shadow 0.1s ease-out;
+        will-change: transform;
+      }
+      .homepage-slider::-webkit-slider-thumb:hover {
+        background: #d97706;
+        box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+        transform: scale3d(1.1, 1.1, 1);
+      }
+      .homepage-slider::-webkit-slider-thumb:active {
+        background: #b45309;
+        transform: scale3d(1.05, 1.05, 1);
+      }
+      .homepage-slider::-moz-range-thumb {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: #f59e0b;
+        cursor: pointer;
+        border: 2px solid #ffffff;
+        box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+        transition: transform 0.1s ease-out, background-color 0.1s ease-out, box-shadow 0.1s ease-out;
+        will-change: transform;
+      }
+      .homepage-slider::-moz-range-thumb:hover {
+        background: #d97706;
+        box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+        transform: scale3d(1.1, 1.1, 1);
+      }
+      .homepage-slider::-moz-range-thumb:active {
+        background: #b45309;
+        transform: scale3d(1.05, 1.05, 1);
+      }
+      .homepage-slider::-webkit-slider-track {
+        height: 8px;
+        border-radius: 4px;
+        background: transparent;
+      }
+      .homepage-slider::-moz-range-track {
+        height: 8px;
+        border-radius: 4px;
+        background: transparent;
+        border: none;
+      }
+      .homepage-slider:focus {
+        outline: none;
+      }
+      .homepage-slider:focus::-webkit-slider-thumb {
+        box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2), 0 2px 8px rgba(245, 158, 11, 0.3);
+      }
+      .homepage-slider:focus::-moz-range-thumb {
+        box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2), 0 2px 8px rgba(245, 158, 11, 0.3);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .homepage-slider, .homepage-slider::-webkit-slider-thumb, .homepage-slider::-moz-range-thumb {
+          transition: none;
+        }
+      }
+    `}</style>
     </div>
   );
 }
