@@ -50,6 +50,8 @@ const MAX_YEARS = 40;
 const MIN_TARGET = 100000;
 const MAX_TARGET = 100000000;
 
+
+
 // Helper functions
 const formatCurrency = (amount: number): string => {
   return new Intl.NumberFormat("en-IN", {
@@ -210,7 +212,7 @@ export default function GoalBasedSIPCalculatorPage() {
     return data;
   }, [result, expectedReturn, timePeriod, targetAmount, inputsValid]);
 
-  // Enhanced input handlers with validation
+  // Enhanced input handlers with comma formatting for large numbers
   const handleInputChange = useCallback(
     (
       setter: (value: number | "") => void,
@@ -218,14 +220,16 @@ export default function GoalBasedSIPCalculatorPage() {
       fieldName: string
     ) =>
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      const rawValue = e.target.value;
+      const rawValue = e.target.value.replace(/,/g, ""); // Remove commas for processing
       if (rawValue === "") {
         setter("");
+        e.target.value = "";
         return;
       }
       const sanitizedValue = sanitizeInput(rawValue);
       const numericValue = Number(sanitizedValue);
       if (isNaN(numericValue) || numericValue < 0) {
+        e.target.value = "";
         return;
       }
       if (!validator(numericValue)) {
@@ -234,6 +238,10 @@ export default function GoalBasedSIPCalculatorPage() {
         );
       }
       setter(numericValue);
+      // Format with commas for display (only for Target Amount)
+      if (fieldName === "Target Amount") {
+        e.target.value = formatNumberWithCommas(sanitizedValue);
+      }
     },
     []
   );
@@ -334,8 +342,9 @@ export default function GoalBasedSIPCalculatorPage() {
                   Target Amount (₹)
                 </label>
                 <Input
-                  type="number"
-                  value={targetAmount}
+                  type="text"
+                  inputMode="numeric"
+                  value={formatNumberWithCommas(targetAmount)}
                   onChange={handleInputChange(
                     setTargetAmount,
                     validateTargetAmount,
@@ -348,7 +357,7 @@ export default function GoalBasedSIPCalculatorPage() {
                   min={MIN_TARGET}
                   max={MAX_TARGET}
                   step={10000}
-                  placeholder="1000000"
+                  placeholder="10,00,000"
                 />
                 <p className="text-xs text-gray-500 mt-1">
                   Range: ₹{MIN_TARGET.toLocaleString()} - ₹
