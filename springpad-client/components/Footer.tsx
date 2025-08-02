@@ -68,16 +68,16 @@ export function Footer() {
             </h3>
             <div className="space-y-4">
               <Link
-                href="/blog"
-                className="block text-gray-600 hover:text-yellow-500 transition-colors duration-200"
-              >
-                Blog
-              </Link>
-              <Link
                 href="/news"
                 className="block text-gray-600 hover:text-yellow-500 transition-colors duration-200"
               >
                 News
+              </Link>
+              <Link
+                href="/calculators"
+                className="block text-gray-600 hover:text-yellow-500 transition-colors duration-200"
+              >
+                Calculators
               </Link>
               <Link
                 href="/nri-corner"

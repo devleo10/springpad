@@ -311,7 +311,7 @@ export function Navbar() {
                     className={`flex items-center gap-2 text-sm px-4 py-2.5 rounded-xl font-medium transition-all duration-200 ${
                       isActive
                         ? "bg-yellow-200 text-[#2C5282] shadow-sm"
-                        : "text-gray-700 hover:text-[#2C5282] hover:bg-yellow-100"
+                        : "text-gray-700 hover:text-[#2C5282] hover:bg-yellow-100/80"
                     }`}
                     aria-haspopup="true"
                     aria-expanded={openDropdown === item.name}
@@ -341,7 +341,7 @@ export function Navbar() {
                   className={`text-sm px-4 py-2.5 rounded-xl font-medium transition-all duration-200 ${
                     isActive
                       ? "bg-yellow-200 text-[#2C5282] shadow-sm"
-                      : "text-gray-700 hover:text-[#2C5282] hover:bg-yellow-100"
+                      : "text-gray-700 hover:text-[#2C5282] hover:bg-yellow-100/80"
                   }`}
                 >
                   {item.name}
@@ -367,7 +367,7 @@ export function Navbar() {
           <div className="lg:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 rounded-lg hover:bg-gray-100/80 transition-colors text-gray-700"
+              className="p-2 rounded-lg hover:bg-yellow-100/80 transition-colors text-gray-700"
               aria-label="Toggle mobile menu"
             >
               {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -392,7 +392,7 @@ export function Navbar() {
                 <div key={`mobile-${idx}`} className="space-y-1">
                   <button
                     onClick={() => toggleMobileDropdown(item.name)}
-                    className="flex items-center justify-between w-full py-3 px-4 text-sm font-medium text-gray-700 hover:text-[#2C5282] hover:bg-gray-50 rounded-xl transition-all duration-200"
+                    className="flex items-center justify-between w-full py-3 px-4 text-sm font-medium text-gray-700 hover:text-[#2C5282] hover:bg-yellow-100/80 rounded-xl transition-all duration-200"
                   >
                     <div className="flex items-center gap-2">
                       {item.icon}

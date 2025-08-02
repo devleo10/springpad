@@ -22,7 +22,7 @@ function RefundPolicyPage() {
           </p>
 
           <div className="space-y-4">
-            <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+            <div className="bg-blue-50 border-l-4 border-blue-400  rounded-lg p-6 mt-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
                 Active Enrollment & Commitment
               </h3>
@@ -33,7 +33,7 @@ function RefundPolicyPage() {
               </p>
             </div>
 
-            <div className="bg-green-50 border-l-4 border-green-400 p-4">
+            <div className="bg-green-50 border-l-4 border-green-400  rounded-lg p-6 mt-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
                 Course Completion
               </h3>
@@ -44,7 +44,7 @@ function RefundPolicyPage() {
               </p>
             </div>
 
-            <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+            <div className="bg-yellow-50 border-l-4 border-yellow-400  rounded-lg p-6 mt-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
                 Career Engagement
               </h3>
@@ -54,7 +54,7 @@ function RefundPolicyPage() {
               </p>
             </div>
 
-            <div className="bg-red-50 border-l-4 border-red-400 p-4">
+            <div className="bg-red-50 border-l-4 border-red-400  rounded-lg p-6 mt-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
                 No Interruptions
               </h3>
@@ -65,7 +65,7 @@ function RefundPolicyPage() {
             </div>
           </div>
 
-          <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 mt-6">
+          <div className="bg-blue-50 border-l-4 border-blue-400 rounded-lg p-6 mt-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-3">
               Refund Eligibility
             </h3>
@@ -75,7 +75,7 @@ function RefundPolicyPage() {
             </p>
           </div>
 
-          <div className="bg-orange-50 border-l-4 border-orange-400 p-4 mt-6">
+          <div className="bg-orange-50 border-l-4 border-orange-400  rounded-lg p-6 mt-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-2">
               Subscription Payments
             </h3>
