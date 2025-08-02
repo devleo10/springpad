@@ -358,7 +358,7 @@ export default function SpendingLessCalculator() {
                 </div>
                 <button
                   onClick={addExpense}
-                  className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors flex items-center gap-2"
+                  className="bg-yellow-400 hover:bg-yellow-400 text-white py-2 px-4 rounded-md transition-colors flex items-center gap-2"
                 >
                   <FaPlus />
                   Add Expense

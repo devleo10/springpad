@@ -1,82 +1,207 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import {
   FaUserShield,
   FaCalculator,
-  FaHeartbeat,
   FaChartLine,
+  FaHeartbeat,
 } from "react-icons/fa";
 import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 
-export default function HumanLifeValueCalculator() {
-  const [currentAge, setCurrentAge] = useState<number>(30);
-  const [retirementAge, setRetirementAge] = useState<number>(60);
-  const [currentIncome, setCurrentIncome] = useState<number>(1000000);
-  const [incomeGrowthRate, setIncomeGrowthRate] = useState<number>(6);
-  const [discountRate, setDiscountRate] = useState<number>(8);
-  const [personalExpenses, setPersonalExpenses] = useState<number>(30);
-  const [existingLifeInsurance, setExistingLifeInsurance] =
-    useState<number>(500000);
-  const [result, setResult] = useState<{
-    humanLifeValue: string;
-    insuranceNeeded: string;
-    totalEarnings: string;
-    netContribution: string;
-    yearsOfIncome: number;
-  } | null>(null);
+const MAX_INCOME = 100000000;
+const MAX_GROWTH = 200;
+const MAX_YEARS = 50;
+const DEBOUNCE_DELAY = 400;
 
-  const calculateHumanLifeValue = () => {
-    const yearsOfIncome = retirementAge - currentAge;
-    const netIncomePercentage = (100 - personalExpenses) / 100;
+type HLValueResult = {
+  humanLifeValue: string;
+  projectedIncome: string;
+  outstandingLoan: string;
+  growthPercent: string;
+  years: string;
+};
 
-    let totalEarnings = 0;
-    let totalNetContribution = 0;
+const formatCurrency = (amount: number) => {
+  return new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+    maximumFractionDigits: 0,
+  }).format(amount);
+};
 
-    // Calculate year by year income and present value
-    for (let year = 1; year <= yearsOfIncome; year++) {
-      const futureIncome =
-        currentIncome * Math.pow(1 + incomeGrowthRate / 100, year);
-      const netContribution = futureIncome * netIncomePercentage;
-      const presentValue =
-        netContribution / Math.pow(1 + discountRate / 100, year);
+const formatLakhs = (amount: number) => {
+  if (amount >= 10000000) {
+    return `₹${(amount / 10000000).toFixed(1)} Cr`;
+  } else if (amount >= 100000) {
+    return `₹${(amount / 100000).toFixed(1)} L`;
+  } else {
+    return formatCurrency(amount);
+  }
+};
 
-      totalEarnings += futureIncome;
-      totalNetContribution += presentValue;
+const sanitizeNumeric = (value: string) => {
+  return value.replace(/[^0-9.]/g, "");
+};
+
+export default function HumanLifeValueCalculatorSimple() {
+  const [currentAnnualIncome, setCurrentAnnualIncome] = useState<number>(2500000);
+  const [currentAnnualIncomeDisplay, setCurrentAnnualIncomeDisplay] =
+    useState<string>("25,00,000");
+
+  const [expectedIncreasePercent, setExpectedIncreasePercent] = useState<number>(10);
+  const [outstandingLoan, setOutstandingLoan] = useState<number>(0);
+  const [outstandingLoanDisplay, setOutstandingLoanDisplay] =
+    useState<string>("0");
+  const [years, setYears] = useState<number>(10);
+
+  const [result, setResult] = useState<HLValueResult | null>(null);
+  const [touched, setTouched] = useState<boolean>(false);
+
+  const inputsValid = useMemo(() => {
+    return (
+      currentAnnualIncome >= 0 &&
+      currentAnnualIncome <= MAX_INCOME &&
+      expectedIncreasePercent >= 0 &&
+      expectedIncreasePercent <= MAX_GROWTH &&
+      outstandingLoan >= 0 &&
+      years >= 1 &&
+      years <= MAX_YEARS &&
+      Number.isInteger(years)
+    );
+  }, [currentAnnualIncome, expectedIncreasePercent, outstandingLoan, years]);
+
+  const validationMessages = useMemo(() => {
+    const msgs: string[] = [];
+    if (currentAnnualIncome < 0 || currentAnnualIncome > MAX_INCOME) {
+      msgs.push(
+        `Current annual income must be between ₹0 and ₹${MAX_INCOME.toLocaleString()}`
+      );
     }
+    if (expectedIncreasePercent < 0 || expectedIncreasePercent > MAX_GROWTH) {
+      msgs.push(`Expected increase must be between 0% and ${MAX_GROWTH}%`);
+    }
+    if (outstandingLoan < 0) {
+      msgs.push(`Outstanding loan cannot be negative`);
+    }
+    if (!Number.isInteger(years) || years < 1 || years > MAX_YEARS) {
+      msgs.push(`Number of years must be an integer between 1 and ${MAX_YEARS}`);
+    }
+    return msgs;
+  }, [currentAnnualIncome, expectedIncreasePercent, outstandingLoan, years]);
 
-    const humanLifeValue = totalNetContribution;
-    const insuranceNeeded = Math.max(0, humanLifeValue - existingLifeInsurance);
-
+  const computeHumanLifeValue = useCallback(() => {
+    if (!inputsValid) {
+      setResult(null);
+      return;
+    }
+    const I = currentAnnualIncome;
+    const g = expectedIncreasePercent / 100;
+    const N = years;
+    let projectedIncome = 0;
+    for (let year = 1; year <= N; year++) {
+      projectedIncome += I * Math.pow(1 + g, year);
+    }
+    const humanLifeValue = Math.max(0, projectedIncome - outstandingLoan);
     setResult({
       humanLifeValue: humanLifeValue.toFixed(0),
-      insuranceNeeded: insuranceNeeded.toFixed(0),
-      totalEarnings: totalEarnings.toFixed(0),
-      netContribution: totalNetContribution.toFixed(0),
-      yearsOfIncome: yearsOfIncome,
+      projectedIncome: projectedIncome.toFixed(0),
+      outstandingLoan: outstandingLoan.toFixed(0),
+      growthPercent: expectedIncreasePercent.toString(),
+      years: years.toString(),
     });
-  };
+  }, [currentAnnualIncome, expectedIncreasePercent, outstandingLoan, years, inputsValid]);
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("en-IN", {
-      style: "currency",
-      currency: "INR",
-      maximumFractionDigits: 0,
-    }).format(amount);
-  };
+  useEffect(() => {
+    if (!touched) return;
+    const timer = setTimeout(() => {
+      computeHumanLifeValue();
+    }, DEBOUNCE_DELAY);
+    return () => clearTimeout(timer);
+  }, [currentAnnualIncome, expectedIncreasePercent, outstandingLoan, years, computeHumanLifeValue, touched]);
 
-  const formatLakhs = (amount: number) => {
-    if (amount >= 10000000) {
-      return `₹${(amount / 10000000).toFixed(1)} Cr`;
-    } else if (amount >= 100000) {
-      return `₹${(amount / 100000).toFixed(1)} L`;
-    } else {
-      return formatCurrency(amount);
-    }
-  };
+  const handleIncomeChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setTouched(true);
+      const raw = e.target.value.replace(/,/g, "");
+      if (raw === "") {
+        setCurrentAnnualIncome(0);
+        setCurrentAnnualIncomeDisplay("");
+        return;
+      }
+      const sanitized = sanitizeNumeric(raw);
+      const num = Number(sanitized);
+      if (isNaN(num) || num < 0) return;
+      setCurrentAnnualIncome(num);
+      setCurrentAnnualIncomeDisplay(num.toLocaleString("en-IN"));
+    },
+    []
+  );
+
+  const handleLoanChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setTouched(true);
+      const raw = e.target.value.replace(/,/g, "");
+      if (raw === "") {
+        setOutstandingLoan(0);
+        setOutstandingLoanDisplay("");
+        return;
+      }
+      const sanitized = sanitizeNumeric(raw);
+      const num = Number(sanitized);
+      if (isNaN(num) || num < 0) return;
+      setOutstandingLoan(num);
+      setOutstandingLoanDisplay(num.toLocaleString("en-IN"));
+    },
+    []
+  );
+
+  const handleGrowthChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setTouched(true);
+      const raw = e.target.value;
+      if (raw === "") {
+        setExpectedIncreasePercent(0);
+        return;
+      }
+      const sanitized = sanitizeNumeric(raw);
+      const num = Number(sanitized);
+      if (isNaN(num) || num < 0 || num > MAX_GROWTH) return;
+      setExpectedIncreasePercent(num);
+    },
+    []
+  );
+
+  const handleYearsChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setTouched(true);
+      const raw = e.target.value;
+      if (raw === "") {
+        setYears(0);
+        return;
+      }
+      const num = Number(raw);
+      if (
+        isNaN(num) ||
+        num < 1 ||
+        num > MAX_YEARS ||
+        !Number.isInteger(Number(num))
+      )
+        return;
+      setYears(num);
+    },
+    []
+  );
+
+  const handleKeyPress = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Enter") computeHumanLifeValue();
+    },
+    [computeHumanLifeValue]
+  );
 
   return (
     <div className="relative min-h-screen bg-white text-[#2C5282] pt-18">
@@ -89,8 +214,8 @@ export default function HumanLifeValueCalculator() {
         </div>
 
         <p className="text-gray-600 mb-8">
-          Calculate the economic value of your life to determine adequate life
-          insurance coverage for your family.
+          Estimate the economic value of your life based on future income growth
+          and existing liabilities.
         </p>
 
         <div className="grid lg:grid-cols-3 gap-8">
@@ -99,128 +224,114 @@ export default function HumanLifeValueCalculator() {
             <Card>
               <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
                 <FaHeartbeat className="text-red-500" />
-                Personal Information
+                Income & Liability Details
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Current Annual Income */}
                 <div>
                   <label className="block text-sm font-medium mb-2">
-                    Current Age
+                    Your Current Annual Income (Rs)
                   </label>
                   <Input
-                    type="number"
-                    value={currentAge}
-                    onChange={(e) => setCurrentAge(Number(e.target.value))}
-                    min={18}
-                    max={65}
+                    type="text"
+                    inputMode="numeric"
+                    value={currentAnnualIncomeDisplay}
+                    onChange={handleIncomeChange}
+                    onKeyDown={handleKeyPress}
+                    placeholder="25,00,000"
                   />
+                  <p className="text-xs text-gray-500 mt-1">
+                    Enter your gross yearly income.
+                  </p>
                 </div>
 
+                {/* Expected increase */}
                 <div>
                   <label className="block text-sm font-medium mb-2">
-                    Retirement Age
+                    Expected increase in income (% per annum)
                   </label>
                   <Input
                     type="number"
-                    value={retirementAge}
-                    onChange={(e) => setRetirementAge(Number(e.target.value))}
-                    min={currentAge + 1}
-                    max={75}
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    Current Annual Income (₹)
-                  </label>
-                  <Input
-                    type="number"
-                    value={currentIncome}
-                    onChange={(e) => setCurrentIncome(Number(e.target.value))}
-                    min={100000}
-                    step={50000}
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    Expected Income Growth Rate (% per year)
-                  </label>
-                  <Input
-                    type="number"
-                    value={incomeGrowthRate}
-                    onChange={(e) =>
-                      setIncomeGrowthRate(Number(e.target.value))
-                    }
+                    value={expectedIncreasePercent}
+                    onChange={handleGrowthChange}
+                    onKeyDown={handleKeyPress}
                     min={0}
-                    max={20}
+                    max={MAX_GROWTH}
                     step={0.5}
+                    placeholder="10"
                   />
                   <p className="text-xs text-gray-500 mt-1">
-                    Typically 5-8% considering inflation and promotions
+                    Growth rate per year (e.g., promotions/inflation)
                   </p>
                 </div>
 
+                {/* Outstanding loan */}
                 <div>
                   <label className="block text-sm font-medium mb-2">
-                    Discount Rate (% per year)
+                    Outstanding loan amount (Rs)
                   </label>
                   <Input
-                    type="number"
-                    value={discountRate}
-                    onChange={(e) => setDiscountRate(Number(e.target.value))}
-                    min={3}
-                    max={15}
-                    step={0.5}
+                    type="text"
+                    inputMode="numeric"
+                    value={outstandingLoanDisplay}
+                    onChange={handleLoanChange}
+                    onKeyDown={handleKeyPress}
+                    placeholder="0"
                   />
                   <p className="text-xs text-gray-500 mt-1">
-                    Rate to discount future earnings to present value
+                    Existing liabilities to subtract from value.
                   </p>
                 </div>
 
+                {/* Number of Years */}
                 <div>
                   <label className="block text-sm font-medium mb-2">
-                    Personal Expenses (% of income)
+                    Number of Years
                   </label>
                   <Input
                     type="number"
-                    value={personalExpenses}
-                    onChange={(e) =>
-                      setPersonalExpenses(Number(e.target.value))
-                    }
-                    min={10}
-                    max={60}
+                    value={years}
+                    onChange={handleYearsChange}
+                    onKeyDown={handleKeyPress}
+                    min={1}
+                    max={MAX_YEARS}
+                    placeholder="10"
                   />
                   <p className="text-xs text-gray-500 mt-1">
-                    Expenses that benefit only you (not family)
+                    Projection horizon (1 - {MAX_YEARS} years)
                   </p>
-                </div>
-
-                <div className="md:col-span-2">
-                  <label className="block text-sm font-medium mb-2">
-                    Existing Life Insurance Coverage (₹)
-                  </label>
-                  <Input
-                    type="number"
-                    value={existingLifeInsurance}
-                    onChange={(e) =>
-                      setExistingLifeInsurance(Number(e.target.value))
-                    }
-                    min={0}
-                    step={100000}
-                  />
                 </div>
               </div>
 
               <button
-                onClick={calculateHumanLifeValue}
+                onClick={() => {
+                  setTouched(true);
+                  computeHumanLifeValue();
+                }}
                 className="w-full mt-4 bg-yellow-500 text-white py-2 px-4 rounded-md hover:bg-yellow-600 transition-colors flex items-center justify-center gap-2"
               >
                 <FaCalculator />
                 Calculate Life Value
               </button>
+
+              {validationMessages.length > 0 && touched && (
+                <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                  <h4 className="text-sm font-medium text-red-800 mb-2">
+                    Please fix:
+                  </h4>
+                  <ul className="text-sm text-red-700 space-y-1">
+                    {validationMessages.map((m, i) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <span className="text-red-500 mt-0.5">•</span>
+                        <span>{m}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </Card>
 
-            {/* Information Section */}
+            {/* Info Section */}
             <Card>
               <h3 className="text-lg font-semibold mb-3">
                 Understanding Human Life Value
@@ -231,24 +342,29 @@ export default function HumanLifeValueCalculator() {
                     What is Human Life Value?
                   </h4>
                   <ul className="space-y-1 text-sm text-gray-700">
-                    <li>• Present value of your future earning capacity</li>
                     <li>
-                      • Economic loss your family would face without your income
+                      • Present value of your future income growth over chosen
+                      years
                     </li>
-                    <li>• Foundation for determining life insurance needs</li>
-                    <li>• Excludes personal expenses that benefit only you</li>
+                    <li>
+                      • Reflects economic support your dependents would lose
+                    </li>
+                    <li>
+                      • Outstanding loans reduce the net value available to
+                      family
+                    </li>
+                    <li>
+                      • Helps decide how much life insurance is appropriate
+                    </li>
                   </ul>
                 </div>
                 <div>
-                  <h4 className="font-medium mb-2">Key Considerations</h4>
+                  <h4 className="font-medium mb-2">Key Notes</h4>
                   <ul className="space-y-1 text-sm text-gray-700">
-                    <li>• Review annually as income and age change</li>
-                    <li>• Consider inflation and career growth prospects</li>
-                    <li>• Factor in spouse&apos;s earning capacity</li>
-                    <li>• Include other financial obligations and debts</li>
-                    <li>
-                      • Consider children&apos;s education and marriage costs
-                    </li>
+                    <li>• Income increases are compounded annually</li>
+                    <li>• No discounting is applied in this version</li>
+                    <li>• Review periodically as income and obligations change</li>
+                    <li>• Use conservative growth assumptions if uncertain</li>
                   </ul>
                 </div>
               </div>
@@ -268,43 +384,37 @@ export default function HumanLifeValueCalculator() {
                   <div className="space-y-4">
                     <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-4 rounded-lg border-l-4 border-blue-500">
                       <h3 className="text-sm font-medium text-gray-600 mb-1">
-                        Human Life Value (Present Value)
+                        Human Life Value
                       </h3>
                       <p className="text-2xl font-bold text-blue-600">
                         {formatLakhs(Number(result.humanLifeValue))}
                       </p>
                       <p className="text-xs text-gray-500">
-                        Economic value of your future earnings
+                        Total projected income minus outstanding loan
+                      </p>
+                    </div>
+
+                    <div className="bg-gradient-to-r from-purple-50 to-purple-100 p-4 rounded-lg border-l-4 border-purple-500">
+                      <h3 className="text-sm font-medium text-gray-600 mb-1">
+                        Projected Income (Growth Applied)
+                      </h3>
+                      <p className="text-2xl font-bold text-purple-600">
+                        {formatLakhs(Number(result.projectedIncome))}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        Based on {result.growthPercent}% increase over {result.years} years
                       </p>
                     </div>
 
                     <div className="bg-gradient-to-r from-red-50 to-red-100 p-4 rounded-lg border-l-4 border-red-500">
                       <h3 className="text-sm font-medium text-gray-600 mb-1">
-                        Additional Insurance Needed
+                        Outstanding Loan Deducted
                       </h3>
                       <p className="text-2xl font-bold text-red-600">
-                        {formatLakhs(Number(result.insuranceNeeded))}
+                        {formatLakhs(Number(result.outstandingLoan))}
                       </p>
                       <p className="text-xs text-gray-500">
-                        Gap in your current coverage
-                      </p>
-                    </div>
-
-                    <div className="bg-gradient-to-r from-purple-50 to-purple-100 p-4 rounded-lg">
-                      <h3 className="text-sm font-medium text-gray-600 mb-1">
-                        Working Years Remaining
-                      </h3>
-                      <p className="text-xl font-bold text-purple-600">
-                        {result.yearsOfIncome} Years
-                      </p>
-                    </div>
-
-                    <div className="bg-gradient-to-r from-green-50 to-green-100 p-4 rounded-lg">
-                      <h3 className="text-sm font-medium text-gray-600 mb-1">
-                        Existing Insurance Coverage
-                      </h3>
-                      <p className="text-xl font-bold text-green-600">
-                        {formatLakhs(existingLifeInsurance)}
+                        Liability reducing the human life value
                       </p>
                     </div>
                   </div>
@@ -317,157 +427,55 @@ export default function HumanLifeValueCalculator() {
                   <div className="space-y-3">
                     <div className="flex justify-between items-center">
                       <span className="text-sm text-gray-600">
-                        Current Age:
-                      </span>
-                      <span className="font-semibold">{currentAge} years</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-600">
-                        Retirement Age:
+                        Current Annual Income:
                       </span>
                       <span className="font-semibold">
-                        {retirementAge} years
+                        {formatLakhs(currentAnnualIncome)}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-sm text-gray-600">
-                        Working Years:
+                        Expected Increase:
                       </span>
                       <span className="font-semibold">
-                        {result.yearsOfIncome} years
+                        {expectedIncreasePercent}% p.a.
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-sm text-gray-600">
-                        Annual Income:
+                        Projection Horizon:
                       </span>
-                      <span className="font-semibold">
-                        {formatLakhs(currentIncome)}
-                      </span>
+                      <span className="font-semibold">{years} years</span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-sm text-gray-600">
-                        Income Growth:
+                        Outstanding Loan:
                       </span>
                       <span className="font-semibold">
-                        {incomeGrowthRate}% p.a.
+                        {formatLakhs(outstandingLoan)}
                       </span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-600">
-                        Discount Rate:
-                      </span>
-                      <span className="font-semibold">
-                        {discountRate}% p.a.
-                      </span>
-                    </div>
-                    <div className="border-t pt-3 mt-3">
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm text-gray-600">
-                          Total Future Earnings:
-                        </span>
-                        <span className="font-bold text-gray-700">
-                          {formatLakhs(Number(result.totalEarnings))}
-                        </span>
-                      </div>
                     </div>
                   </div>
                 </Card>
 
                 <Card>
                   <h3 className="text-lg font-semibold mb-3">
-                    Insurance Recommendation
+                    Coverage Recommendation
                   </h3>
-                  {Number(result.insuranceNeeded) > 0 ? (
-                    <div className="bg-orange-50 p-4 rounded-lg border border-orange-200">
-                      <div className="flex items-start gap-3">
-                        <div className="text-orange-500 text-lg">💡</div>
-                        <div>
-                          <p className="text-sm text-orange-800 mb-2">
-                            <strong>Additional Coverage Needed:</strong>
-                          </p>
-                          <p className="text-xl font-bold text-orange-700 mb-2">
-                            {formatLakhs(Number(result.insuranceNeeded))}
-                          </p>
-                          <p className="text-xs text-orange-700">
-                            This will ensure your family can maintain their
-                            current lifestyle even without your income.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="bg-green-50 p-4 rounded-lg border border-green-200">
-                      <div className="flex items-start gap-3">
-                        <div className="text-green-500 text-lg">✅</div>
-                        <div>
-                          <p className="text-sm text-green-800 mb-2">
-                            <strong>Coverage Appears Adequate</strong>
-                          </p>
-                          <p className="text-xs text-green-700">
-                            Your current insurance coverage appears adequate
-                            based on your Human Life Value. Consider reviewing
-                            this calculation annually as your income and
-                            circumstances change.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </Card>
-
-                <Card>
-                  <h3 className="text-lg font-semibold mb-3">
-                    Coverage Breakdown
-                  </h3>
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-600">
-                        Human Life Value:
-                      </span>
-                      <span className="font-semibold text-blue-600">
-                        {formatLakhs(Number(result.humanLifeValue))}
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-600">
-                        Existing Coverage:
-                      </span>
-                      <span className="font-semibold text-green-600">
-                        {formatLakhs(existingLifeInsurance)}
-                      </span>
-                    </div>
-                    <div className="border-t pt-3 mt-3">
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm text-gray-600">
-                          Coverage Gap:
-                        </span>
-                        <span
-                          className={`font-bold ${
-                            Number(result.insuranceNeeded) > 0
-                              ? "text-red-600"
-                              : "text-green-600"
-                          }`}
-                        >
-                          {Number(result.insuranceNeeded) > 0
-                            ? formatLakhs(Number(result.insuranceNeeded))
-                            : "Fully Covered"}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm text-blue-700">
-                          Coverage Ratio:
-                        </span>
-                        <span className="font-bold text-blue-700">
-                          {(
-                            (existingLifeInsurance /
-                              Number(result.humanLifeValue)) *
-                            100
-                          ).toFixed(1)}
-                          %
-                        </span>
+                  <div className="bg-orange-50 p-4 rounded-lg border border-orange-200">
+                    <div className="flex items-start gap-3">
+                      <div className="text-orange-500 text-lg">💡</div>
+                      <div>
+                        <p className="text-sm text-orange-800 mb-1">
+                          <strong>Suggested Life Cover:</strong>
+                        </p>
+                        <p className="text-xl font-bold text-orange-700 mb-1">
+                          {formatLakhs(Number(result.humanLifeValue))}
+                        </p>
+                        <p className="text-xs text-orange-700">
+                          Ensure your dependents can replace your projected
+                          income after accounting for existing liabilities.
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -478,8 +486,8 @@ export default function HumanLifeValueCalculator() {
                 <div className="text-center py-8 text-gray-500">
                   <FaChartLine className="mx-auto text-4xl mb-4 text-gray-300" />
                   <p>
-                    Enter your personal information and click &quot;Calculate
-                    Life Value&quot; to see your life value analysis.
+                    Fill in the income, growth, loan and years above and click
+                    “Calculate Life Value” to see your analysis.
                   </p>
                 </div>
               </Card>
