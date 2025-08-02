@@ -14,12 +14,12 @@ interface AssetClass {
 }
 
 export default function AssetAllocationCalculator() {
-  const [age, setAge] = useState<number>(30);
+  const [age, setAge] = useState<string>("30");
   const [riskTolerance, setRiskTolerance] = useState<
     "Conservative" | "Moderate" | "Aggressive"
   >("Moderate");
-  const [investmentAmount, setInvestmentAmount] = useState<number>(1000000);
-  const [timeHorizon, setTimeHorizon] = useState<number>(10);
+  const [investmentAmount, setInvestmentAmount] = useState<string>("1000000");
+  const [timeHorizon, setTimeHorizon] = useState<string>("10");
   const [customAllocation, setCustomAllocation] = useState<boolean>(false);
   const [assetClasses, setAssetClasses] = useState<AssetClass[]>([
     { name: "Equity", allocation: 60, color: "#3B82F6" },
@@ -39,7 +39,9 @@ export default function AssetAllocationCalculator() {
     const goldPercent = 5;
     const realEstatePercent = 5;
 
-    const baseEquity = Math.max(30, Math.min(80, 100 - age));
+    const ageNum = Number(age) || 0;
+    const timeHorizonNum = Number(timeHorizon) || 0;
+    const baseEquity = Math.max(30, Math.min(80, 100 - ageNum));
 
     switch (riskTolerance) {
       case "Conservative":
@@ -56,10 +58,10 @@ export default function AssetAllocationCalculator() {
         break;
     }
 
-    if (timeHorizon < 3) {
+    if (timeHorizonNum < 3) {
       equityPercent = Math.max(20, equityPercent - 20);
       debtPercent = 90 - goldPercent - realEstatePercent - equityPercent;
-    } else if (timeHorizon > 15) {
+    } else if (timeHorizonNum > 15) {
       equityPercent = Math.min(80, equityPercent + 10);
       debtPercent = 90 - goldPercent - realEstatePercent - equityPercent;
     }
@@ -81,9 +83,10 @@ export default function AssetAllocationCalculator() {
       0
     );
 
+    const investmentAmountNum = Number(investmentAmount) || 0;
     const allocationByAmount = allocations.map((asset) => ({
       name: asset.name,
-      amount: ((asset.allocation / 100) * investmentAmount).toFixed(0),
+      amount: ((asset.allocation / 100) * investmentAmountNum).toFixed(0),
       color: asset.color,
     }));
 
@@ -100,12 +103,18 @@ export default function AssetAllocationCalculator() {
     setAssetClasses(newAssets);
   };
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("en-IN", {
-      style: "currency",
-      currency: "INR",
-      maximumFractionDigits: 0,
-    }).format(amount);
+  // Format number with commas for lakhs and crores (Indian system)
+  const formatNumberWithCommas = (amount: number | string) => {
+    const num = typeof amount === "string" ? Number(amount) : amount;
+    if (!num) return "";
+    return num.toLocaleString("en-IN");
+  };
+
+  // Format currency with INR symbol and commas
+  const formatCurrency = (amount: number | string) => {
+    const num = typeof amount === "string" ? Number(amount) : amount;
+    if (!num) return "";
+    return `₹${formatNumberWithCommas(num)}`;
   };
 
   return (
@@ -132,10 +141,11 @@ export default function AssetAllocationCalculator() {
                   <label className="block text-sm font-medium mb-2">Age</label>
                   <Input
                     type="number"
-                    value={age}
-                    onChange={(e) => setAge(Number(e.target.value))}
+                    value={age === "0" ? "" : age}
+                    onChange={(e) => setAge(e.target.value.replace(/^0+/, ""))}
                     min={18}
                     max={80}
+                    placeholder="Age"
                   />
                 </div>
                 <div>
@@ -143,13 +153,20 @@ export default function AssetAllocationCalculator() {
                     Investment Amount (₹)
                   </label>
                   <Input
-                    type="number"
-                    value={investmentAmount}
-                    onChange={(e) =>
-                      setInvestmentAmount(Number(e.target.value))
+                    type="text"
+                    value={
+                      investmentAmount === "0"
+                        ? ""
+                        : formatNumberWithCommas(investmentAmount)
                     }
-                    min={10000}
-                    step={10000}
+                    onChange={(e) => {
+                      // Remove all non-digit characters
+                      const raw = e.target.value.replace(/[^\d]/g, "");
+                      setInvestmentAmount(raw.replace(/^0+/, ""));
+                    }}
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    placeholder="Investment Amount"
                   />
                 </div>
                 <div>
@@ -179,10 +196,13 @@ export default function AssetAllocationCalculator() {
                   </label>
                   <Input
                     type="number"
-                    value={timeHorizon}
-                    onChange={(e) => setTimeHorizon(Number(e.target.value))}
+                    value={timeHorizon === "0" ? "" : timeHorizon}
+                    onChange={(e) =>
+                      setTimeHorizon(e.target.value.replace(/^0+/, ""))
+                    }
                     min={1}
                     max={40}
+                    placeholder="Time Horizon"
                   />
                 </div>
               </div>
@@ -215,13 +235,18 @@ export default function AssetAllocationCalculator() {
                       </span>
                       <Input
                         type="number"
-                        value={asset.allocation}
-                        onChange={(e) =>
-                          updateAssetAllocation(index, Number(e.target.value))
-                        }
+                        value={asset.allocation === 0 ? "" : asset.allocation}
+                        onChange={(e) => {
+                          const val = e.target.value.replace(/^0+/, "");
+                          updateAssetAllocation(
+                            index,
+                            val === "" ? 0 : Number(val)
+                          );
+                        }}
                         min={0}
                         max={100}
                         className="w-20 text-sm"
+                        placeholder="%"
                       />
                       <span className="text-sm text-gray-500">%</span>
                     </div>
