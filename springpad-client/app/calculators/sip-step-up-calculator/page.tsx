@@ -27,11 +27,11 @@ import {
 
 // Types
 interface StepUpSipResult {
-  regularSipValue: string;
-  stepUpSipValue: string;
-  additionalWealth: string;
-  totalInvestment: string;
-  regularSipInvestment: string;
+  regularSipValue: number;
+  stepUpSipValue: number;
+  additionalWealth: number;
+  totalInvestment: number;
+  regularSipInvestment: number;
 }
 
 interface ChartDataPoint {
@@ -208,14 +208,14 @@ export default function SipStepUpCalculator() {
     }
 
     const regularSipInvestment = Number(initialSip) * totalMonths;
-    const additionalWealth = stepUpFutureValue - regularSipFutureValue;
+    const additionalWealth = stepUpFutureValue - stepUpTotalInvestment;
 
     setResult({
-      regularSipValue: regularSipFutureValue.toFixed(0),
-      stepUpSipValue: stepUpFutureValue.toFixed(0),
-      additionalWealth: additionalWealth.toFixed(0),
-      totalInvestment: stepUpTotalInvestment.toFixed(0),
-      regularSipInvestment: regularSipInvestment.toFixed(0),
+      regularSipValue: regularSipFutureValue,
+      stepUpSipValue: stepUpFutureValue,
+      additionalWealth: additionalWealth,
+      totalInvestment: stepUpTotalInvestment,
+      regularSipInvestment: regularSipInvestment,
     });
   }, [initialSip, stepUpPercentage, expectedReturn, timePeriod, inputsValid]);
 
