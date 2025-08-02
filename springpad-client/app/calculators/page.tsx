@@ -47,10 +47,8 @@ const calculatorSections = [
       "Calculate returns from systematic investment plans and lumpsum investments",
     items: [
       { label: "SIP Calculator", icon: <FaChartLine /> },
-      { label: "SIP TopUp Calculator", icon: <FaChartPie /> },
       { label: "SIP Step-up Calculator", icon: <FaChartPie /> },
-      { label: "Goal Based SIP Calculator", icon: <FaClipboardList /> },
-      { label: "Goal Based Topup SIP Calculator", icon: <FaArrowUp /> },
+      { label: "Goal Based SIP Calculator", icon: <FaClipboardList /> },    
       { label: "Lumpsum Calculator", icon: <FaCoins /> },
       { label: "Lumpsum Target Calculator", icon: <FaBalanceScale /> },
       { label: "SWP Calculator", icon: <FaMoneyCheckAlt /> },

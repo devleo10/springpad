@@ -27,11 +27,11 @@ import {
 
 // Types
 interface StepUpSipResult {
-  regularSipValue: string;
-  stepUpSipValue: string;
-  additionalWealth: string;
-  totalInvestment: string;
-  regularSipInvestment: string;
+  regularSipValue: number;
+  stepUpSipValue: number;
+  additionalWealth: number;
+  totalInvestment: number;
+  regularSipInvestment: number;
 }
 
 interface ChartDataPoint {
@@ -57,6 +57,13 @@ const MIN_STEP_UP = 1;
 const MAX_STEP_UP = 30;
 
 // Helper functions
+// Format number with commas for input display
+const formatNumberWithCommas = (value: string | number): string => {
+  if (value === "" || isNaN(Number(value))) return "";
+  const [integer, decimal] = String(value).split(".");
+  const formattedInt = integer.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return decimal ? `${formattedInt}.${decimal}` : formattedInt;
+};
 const formatCurrency = (amount: number): string => {
   return new Intl.NumberFormat("en-IN", {
     style: "currency",
@@ -208,14 +215,14 @@ export default function SipStepUpCalculator() {
     }
 
     const regularSipInvestment = Number(initialSip) * totalMonths;
-    const additionalWealth = stepUpFutureValue - regularSipFutureValue;
+    const additionalWealth = stepUpFutureValue - stepUpTotalInvestment;
 
     setResult({
-      regularSipValue: regularSipFutureValue.toFixed(0),
-      stepUpSipValue: stepUpFutureValue.toFixed(0),
-      additionalWealth: additionalWealth.toFixed(0),
-      totalInvestment: stepUpTotalInvestment.toFixed(0),
-      regularSipInvestment: regularSipInvestment.toFixed(0),
+      regularSipValue: regularSipFutureValue,
+      stepUpSipValue: stepUpFutureValue,
+      additionalWealth: additionalWealth,
+      totalInvestment: stepUpTotalInvestment,
+      regularSipInvestment: regularSipInvestment,
     });
   }, [initialSip, stepUpPercentage, expectedReturn, timePeriod, inputsValid]);
 
@@ -480,8 +487,9 @@ export default function SipStepUpCalculator() {
                   Initial Monthly SIP (₹)
                 </label>
                 <Input
-                  type="number"
-                  value={initialSip}
+                  type="text"
+                  inputMode="numeric"
+                  value={formatNumberWithCommas(initialSip)}
                   onChange={handleInputChange(
                     setInitialSip,
                     validateMonthlyInvestment,

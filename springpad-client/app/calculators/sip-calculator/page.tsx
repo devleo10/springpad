@@ -47,6 +47,13 @@ const MIN_YEARS = 1;
 const MAX_YEARS = 40;
 
 // Helper functions
+// Format number with commas for input display
+const formatNumberWithCommas = (value: string | number): string => {
+  if (value === "" || isNaN(Number(value))) return "";
+  const [integer, decimal] = String(value).split(".");
+  const formattedInt = integer.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return decimal ? `${formattedInt}.${decimal}` : formattedInt;
+};
 const formatCurrency = (amount: number): string => {
   return new Intl.NumberFormat("en-IN", {
     style: "currency",
@@ -366,8 +373,9 @@ export default function SipCalculator() {
                   Monthly Investment Amount (₹)
                 </label>
                 <Input
-                  type="number"
-                  value={monthlyInvestment}
+                  type="text"
+                  inputMode="numeric"
+                  value={formatNumberWithCommas(monthlyInvestment)}
                   onChange={handleInputChange(
                     setMonthlyInvestment,
                     validateMonthlyInvestment,

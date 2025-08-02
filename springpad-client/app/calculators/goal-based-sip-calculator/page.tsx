@@ -90,6 +90,13 @@ const sanitizeInput = (value: string, maxLength: number = 10): string => {
 
 export default function GoalBasedSIPCalculatorPage() {
   const [targetAmount, setTargetAmount] = useState<number | "">(1000000);
+  // Format number with commas for input display
+  const formatNumberWithCommas = (value: string | number): string => {
+    if (value === "" || isNaN(Number(value))) return "";
+    const [integer, decimal] = String(value).split(".");
+    const formattedInt = integer.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return decimal ? `${formattedInt}.${decimal}` : formattedInt;
+  };
   const [timePeriod, setTimePeriod] = useState<number | "">(10);
   const [expectedReturn, setExpectedReturn] = useState<number | "">(12);
   const [result, setResult] = useState<GoalBasedSipResult | null>(null);
@@ -206,49 +213,34 @@ export default function GoalBasedSIPCalculatorPage() {
   // Enhanced input handlers with validation
   const handleInputChange = useCallback(
     (
-        setter: (value: number | "") => void,
-        validator: (value: number) => boolean,
-        fieldName: string
-      ) =>
-      (e: React.ChangeEvent<HTMLInputElement>) => {
-        const rawValue = e.target.value;
-
-        // Allow empty string for clearing
-        if (rawValue === "") {
-          setter("");
-          return;
-        }
-
-        // Sanitize input to prevent invalid characters and extremely large numbers
-        const sanitizedValue = sanitizeInput(rawValue);
-
-        // Update the input field display
-        e.target.value = sanitizedValue;
-
-        const numericValue = Number(sanitizedValue);
-
-        // Basic numeric validation
-        if (isNaN(numericValue) || numericValue < 0) {
-          return;
-        }
-
-        // Field-specific validation
-        if (!validator(numericValue)) {
-          // You could show a warning here, but still allow the input
-          console.warn(
-            `${fieldName} value ${numericValue} is outside recommended range`
-          );
-        }
-
-        setter(numericValue);
-      },
+      setter: (value: number | "") => void,
+      validator: (value: number) => boolean,
+      fieldName: string
+    ) =>
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const rawValue = e.target.value;
+      if (rawValue === "") {
+        setter("");
+        return;
+      }
+      const sanitizedValue = sanitizeInput(rawValue);
+      const numericValue = Number(sanitizedValue);
+      if (isNaN(numericValue) || numericValue < 0) {
+        return;
+      }
+      if (!validator(numericValue)) {
+        console.warn(
+          `${fieldName} value ${numericValue} is outside recommended range`
+        );
+      }
+      setter(numericValue);
+    },
     []
   );
 
   // Handle focus to select all text for better UX
   const handleInputFocus = useCallback(
     (e: React.FocusEvent<HTMLInputElement>) => {
-      // Select all text when input is focused
       e.target.select();
     },
     []
@@ -257,7 +249,6 @@ export default function GoalBasedSIPCalculatorPage() {
   // Handle input click to allow text selection within the field
   const handleInputClick = useCallback(
     (e: React.MouseEvent<HTMLInputElement>) => {
-      // Allow normal text selection behavior
       e.stopPropagation();
     },
     []
@@ -268,11 +259,8 @@ export default function GoalBasedSIPCalculatorPage() {
     (e: React.ClipboardEvent<HTMLInputElement>) => {
       const pastedText = e.clipboardData.getData("text");
       const sanitized = sanitizeInput(pastedText);
-
-      // If the sanitized text is different from pasted text, prevent the paste
       if (sanitized !== pastedText) {
         e.preventDefault();
-        // Set the sanitized value manually
         const target = e.target as HTMLInputElement;
         target.value = sanitized;
         target.dispatchEvent(new Event("input", { bubbles: true }));
@@ -289,33 +277,14 @@ export default function GoalBasedSIPCalculatorPage() {
     },
     [calculateGoalBasedSIP]
   );
-
-  // Auto-calculate with debounce
-  useEffect(() => {
-    if (!inputsValid) return;
-
-    const timer = setTimeout(() => {
-      calculateGoalBasedSIP();
-    }, DEBOUNCE_DELAY);
-
-    return () => clearTimeout(timer);
-  }, [
-    targetAmount,
-    expectedReturn,
-    timePeriod,
-    calculateGoalBasedSIP,
-    inputsValid,
-  ]);
+  // ...existing code...
 
   // Memoized computed values for summary
   const summaryData = useMemo(() => {
     if (!result) return null;
-
     const requiredSIP = Number(result.requiredSIP);
     const totalInvestment = Number(result.totalInvestment);
-    const targetAmount = Number(result.targetAmount);
-
-    // Prevent division by zero and handle edge cases
+    const tgtAmount = Number(result.targetAmount);
     if (totalInvestment === 0) {
       return {
         wealthMultiplier: "1.0",
@@ -323,21 +292,12 @@ export default function GoalBasedSIPCalculatorPage() {
         achievabilityScore: "Low",
       };
     }
-
-    const wealthMultiplier = (targetAmount / totalInvestment).toFixed(1);
-
-    // Assume average monthly income for calculation (this is estimation)
-    const estimatedMonthlyIncome = 50000; // You can make this configurable
-    const monthlySavingsPercent = (
-      (requiredSIP / estimatedMonthlyIncome) *
-      100
-    ).toFixed(1);
-
-    // Simple achievability score based on SIP amount
+    const wealthMultiplier = (tgtAmount / totalInvestment).toFixed(1);
+    const estimatedMonthlyIncome = 50000;
+    const monthlySavingsPercent = ((requiredSIP / estimatedMonthlyIncome) * 100).toFixed(1);
     let achievabilityScore = "High";
     if (requiredSIP > 20000) achievabilityScore = "Moderate";
     if (requiredSIP > 50000) achievabilityScore = "Challenging";
-
     return {
       wealthMultiplier,
       monthlySavingsPercent,

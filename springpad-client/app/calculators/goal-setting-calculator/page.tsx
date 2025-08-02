@@ -8,10 +8,17 @@ import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 
 export default function GoalSettingCalculator() {
-  const [goalAmount, setGoalAmount] = useState<number>(1000000);
-  const [timeHorizon, setTimeHorizon] = useState<number>(10);
-  const [expectedReturn, setExpectedReturn] = useState<number>(12);
-  const [currentSavings, setCurrentSavings] = useState<number>(0);
+  const [goalAmount, setGoalAmount] = useState<number | "">(1000000);
+  const [timeHorizon, setTimeHorizon] = useState<number | "">(10);
+  const [expectedReturn, setExpectedReturn] = useState<number | "">(12);
+  const [currentSavings, setCurrentSavings] = useState<number | "">(0);
+  // Format number with commas for input display
+  const formatNumberWithCommas = (value: string | number): string => {
+    if (value === "" || isNaN(Number(value))) return "";
+    const [integer, decimal] = String(value).split(".");
+    const formattedInt = integer.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return decimal ? `${formattedInt}.${decimal}` : formattedInt;
+  };
   const [result, setResult] = useState<{
     monthlyInvestment: string;
     totalInvestment: string;
@@ -20,21 +27,27 @@ export default function GoalSettingCalculator() {
   } | null>(null);
 
   const calculateGoal = () => {
-    const monthlyRate = expectedReturn / 100 / 12;
-    const totalMonths = timeHorizon * 12;
+    // Type guards for empty string values
+    const goalAmt = goalAmount === "" ? 0 : Number(goalAmount);
+    const timeH = timeHorizon === "" ? 0 : Number(timeHorizon);
+    const expReturn = expectedReturn === "" ? 0 : Number(expectedReturn);
+    const currSavings = currentSavings === "" ? 0 : Number(currentSavings);
+
+    const monthlyRate = expReturn / 100 / 12;
+    const totalMonths = timeH * 12;
 
     // Future value of current savings
     const futureValueOfCurrentSavings =
-      currentSavings * Math.pow(1 + monthlyRate, totalMonths);
+      currSavings * Math.pow(1 + monthlyRate, totalMonths);
 
     // Remaining amount needed from SIP
-    const remainingAmount = goalAmount - futureValueOfCurrentSavings;
+    const remainingAmount = goalAmt - futureValueOfCurrentSavings;
 
     if (remainingAmount <= 0) {
       setResult({
         monthlyInvestment: "0",
         totalInvestment: "0",
-        totalReturns: (futureValueOfCurrentSavings - currentSavings).toFixed(0),
+        totalReturns: (futureValueOfCurrentSavings - currSavings).toFixed(0),
         futureValueOfCurrentSavings: futureValueOfCurrentSavings.toFixed(0),
       });
     } else {
@@ -48,7 +61,7 @@ export default function GoalSettingCalculator() {
       const totalReturns =
         remainingAmount -
         totalInvestment +
-        (futureValueOfCurrentSavings - currentSavings);
+        (futureValueOfCurrentSavings - currSavings);
 
       setResult({
         monthlyInvestment: monthlyInvestment.toFixed(0),
@@ -93,9 +106,14 @@ export default function GoalSettingCalculator() {
                     Goal Amount (₹)
                   </label>
                   <Input
-                    type="number"
-                    value={goalAmount}
-                    onChange={(e) => setGoalAmount(Number(e.target.value))}
+                    type="text"
+                    inputMode="numeric"
+                    value={formatNumberWithCommas(goalAmount)}
+                    onChange={(e) => {
+                      const rawValue = e.target.value;
+                      const cleaned = rawValue.replace(/[^0-9.]/g, "");
+                      setGoalAmount(cleaned === "" ? "" : Number(cleaned));
+                    }}
                     min={10000}
                     step={10000}
                   />
@@ -133,9 +151,14 @@ export default function GoalSettingCalculator() {
                     Current Savings (₹)
                   </label>
                   <Input
-                    type="number"
-                    value={currentSavings}
-                    onChange={(e) => setCurrentSavings(Number(e.target.value))}
+                    type="text"
+                    inputMode="numeric"
+                    value={formatNumberWithCommas(currentSavings)}
+                    onChange={(e) => {
+                      const rawValue = e.target.value;
+                      const cleaned = rawValue.replace(/[^0-9.]/g, "");
+                      setCurrentSavings(cleaned === "" ? "" : Number(cleaned));
+                    }}
                     min={0}
                     step={1000}
                   />
@@ -233,7 +256,7 @@ export default function GoalSettingCalculator() {
                         Goal Amount
                       </h3>
                       <p className="text-xl font-bold text-orange-600">
-                        {formatCurrency(goalAmount)}
+                        {formatCurrency(goalAmount === "" ? 0 : Number(goalAmount))}
                       </p>
                     </div>
                   </div>
@@ -249,7 +272,7 @@ export default function GoalSettingCalculator() {
                         Goal Amount:
                       </span>
                       <span className="font-semibold">
-                        {formatCurrency(goalAmount)}
+                        {formatCurrency(goalAmount === "" ? 0 : Number(goalAmount))}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
@@ -271,7 +294,7 @@ export default function GoalSettingCalculator() {
                         Current Savings:
                       </span>
                       <span className="font-semibold">
-                        {formatCurrency(currentSavings)}
+                        {formatCurrency(currentSavings === "" ? 0 : Number(currentSavings))}
                       </span>
                     </div>
                     <div className="border-t pt-3 mt-3">
@@ -306,7 +329,7 @@ export default function GoalSettingCalculator() {
                       </span>
                       <span className="font-semibold text-blue-600">
                         {formatCurrency(
-                          goalAmount -
+                          (goalAmount === "" ? 0 : Number(goalAmount)) -
                             Number(result.futureValueOfCurrentSavings)
                         )}
                       </span>
@@ -317,7 +340,7 @@ export default function GoalSettingCalculator() {
                       </span>
                       <span className="font-semibold text-blue-600">
                         {formatCurrency(
-                          currentSavings + Number(result.totalInvestment)
+                          (currentSavings === "" ? 0 : Number(currentSavings)) + Number(result.totalInvestment)
                         )}
                       </span>
                     </div>
@@ -339,7 +362,7 @@ export default function GoalSettingCalculator() {
                         <span className="font-bold text-green-700">
                           {(
                             (Number(result.totalReturns) /
-                              (currentSavings +
+                              ((currentSavings === "" ? 0 : Number(currentSavings)) +
                                 Number(result.totalInvestment))) *
                             100
                           ).toFixed(1)}
