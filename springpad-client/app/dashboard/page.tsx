@@ -1,172 +1,57 @@
-"use client";
+import { AppSidebar } from "@/components/app-sidebar";
+import { ChartAreaInteractive } from "@/components/chart-area-interactive";
+import { DataTable } from "@/components/data-table";
+import { SectionCards } from "@/components/section-cards";
+import { SiteHeader } from "@/components/site-header";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
-import React, { useState } from "react";
-import axios from "axios";
+import data from "./data.json";
+import { ChartBarMultiple } from "@/components/chart-bar-multiple";
+import { ChartLineDots } from "@/components/chart-line-dots";
+import { ChartPieSimple } from "@/components/chart-pie-simple";
+import { ChartBarLabelCustom } from "@/components/chart-bar-label-custom";
+import { ChartBarInteractive } from "@/components/chart-bar-interactive";
 
-const DashboardPage: React.FC = () => {
-  const [file, setFile] = useState<File | null>(null);
-  const [password, setPassword] = useState<string>("");
-  const [uploading, setUploading] = useState(false);
-  const [response, setResponse] = useState<string | null>(null);
-  const [testing, setTesting] = useState(false);
-
-  const testConnection = async () => {
-    setTesting(true);
-    try {
-      const res = await axios.get("https://springpad.onrender.com/health");
-      setResponse(
-        `Connection test successful: ${JSON.stringify(res.data, null, 2)}`
-      );
-    } catch (err: unknown) {
-      let errorMessage = "Connection test failed: ";
-      if (axios.isAxiosError(err)) {
-        errorMessage += err.message;
-      } else if (err instanceof Error) {
-        errorMessage += err.message;
-      } else {
-        errorMessage += "Unknown error";
-      }
-      setResponse(errorMessage);
-    } finally {
-      setTesting(false);
-    }
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const selectedFile = e.target.files[0];
-
-      // Validate file type
-      if (selectedFile.type !== "application/pdf") {
-        setResponse("Error: Please select a PDF file.");
-        return;
-      }
-
-      // Validate file size (5MB limit)
-      if (selectedFile.size > 5 * 1024 * 1024) {
-        setResponse("Error: File size must be less than 5MB.");
-        return;
-      }
-
-      setFile(selectedFile);
-      setResponse(null);
-    }
-  };
-
-  const handleUpload = async () => {
-    if (!file) return;
-    setUploading(true);
-    const formData = new FormData();
-    formData.append("pdf", file);
-    if (password) {
-      formData.append("password", password);
-    }
-
-    try {
-      const res = await axios.post(
-        "https://springpad.onrender.com/upload",
-        formData,
-        {
-          timeout: 30000, // 30 seconds timeout
-        }
-      );
-
-      // Check if the response has the expected structure
-      if (res.data && res.data.success) {
-        setResponse(JSON.stringify(res.data, null, 2));
-      } else {
-        setResponse(`Success: ${JSON.stringify(res.data, null, 2)}`);
-      }
-    } catch (err: unknown) {
-      let errorMessage = "Upload failed: ";
-      if (axios.isAxiosError(err)) {
-        if (err.response?.data) {
-          // If we have response data, show it
-          if (typeof err.response.data === "string") {
-            errorMessage += err.response.data;
-          } else {
-            errorMessage += JSON.stringify(err.response.data, null, 2);
-          }
-        } else {
-          errorMessage += err.message;
-        }
-      } else if (err instanceof Error) {
-        errorMessage += err.message;
-      } else {
-        errorMessage += "An unknown error occurred.";
-      }
-      setResponse(errorMessage);
-    } finally {
-      setUploading(false);
-    }
-  };
-
+export default function Page() {
   return (
-    <div
-      style={{
-        maxWidth: 400,
-        margin: "40px auto",
-        padding: 20,
-        border: "1px solid #ccc",
-        borderRadius: 8,
-      }}
+    <SidebarProvider
+      style={
+        {
+          "--sidebar-width": "calc(var(--spacing) * 72)",
+          "--header-height": "calc(var(--spacing) * 12)",
+        } as React.CSSProperties
+      }
     >
-      <h2>Upload PDF</h2>
-      <input type="file" accept="application/pdf" onChange={handleFileChange} />
-      <div style={{ marginTop: 10 }}>
-        <label htmlFor="password">Password (optional):</label>
-        <input
-          id="password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          style={{
-            width: "100%",
-            marginTop: 4,
-            marginBottom: 10,
-            padding: 6,
-            borderRadius: 4,
-            border: "1px solid #ccc",
-          }}
-          placeholder="Enter password if PDF is protected"
-        />
-      </div>
-      <button
-        onClick={handleUpload}
-        disabled={!file || uploading}
-        style={{ marginTop: 10 }}
-      >
-        {uploading ? "Uploading..." : "Submit"}
-      </button>
-      <button
-        onClick={testConnection}
-        disabled={testing}
-        style={{
-          marginTop: 10,
-          marginLeft: 10,
-          backgroundColor: "#007bff",
-          color: "white",
-          border: "none",
-          padding: "8px 16px",
-          borderRadius: "4px",
-        }}
-      >
-        {testing ? "Testing..." : "Test Connection"}
-      </button>
-      {response && (
-        <pre
-          style={{
-            marginTop: 20,
-            background: "#f6f8fa",
-            padding: 10,
-            borderRadius: 4,
-          }}
-        >
-          {response}
-        </pre>
-      )}
-    </div>
+      <AppSidebar variant="inset" />
+      <SidebarInset>
+        <SiteHeader />
+        <div className="flex flex-1 flex-col">
+          <div className="@container/main flex flex-1 flex-col gap-2">
+            <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+              <SectionCards />
+              <div className="px-4 lg:px-6">
+                <ChartAreaInteractive />
+              </div>
+              <div className="px-4 lg:px-6">
+                <ChartBarMultiple />
+              </div>
+              <div className="px-4 lg:px-6">
+                <ChartPieSimple />
+              </div>
+              <div className="px-4 lg:px-6">
+                <ChartBarLabelCustom />
+              </div>
+              <div className="px-4 lg:px-6">
+                <ChartBarInteractive />
+              </div>
+              <div className="px-4 lg:px-6">
+                <ChartLineDots />
+              </div>
+              <DataTable data={data} />
+            </div>
+          </div>
+        </div>
+      </SidebarInset>
+    </SidebarProvider>
   );
-};
-
-export default DashboardPage;
+}
