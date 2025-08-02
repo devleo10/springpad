@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { FaClipboardList, FaCalculator, FaChartLine } from "react-icons/fa";
+import { FaClipboardList, FaChartLine } from "react-icons/fa";
 import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 
@@ -85,7 +85,7 @@ export default function GoalSettingCalculator() {
       <div className="max-w-6xl mx-auto px-4 py-16">
         <div className="flex items-center gap-3 mb-6">
           <FaClipboardList className="text-yellow-500 text-2xl" />
-          <h1 className="text-3xl font-bold">Dream Goal Calculator</h1>
+        <h1 className="text-3xl font-bold">Dream Goal Calculator</h1>
         </div>
 
         <p className="text-gray-600 mb-8">
@@ -219,7 +219,7 @@ export default function GoalSettingCalculator() {
               <Card>
                 <div className="text-center py-8 text-gray-500">
                   <FaChartLine className="mx-auto text-4xl mb-4 text-gray-300" />
-                  <p>Enter your dream goal details and click "Calculate" to see your investment plan.</p>
+                  <p>Enter your dream goal details and click &quot;Calculate&quot; to see your investment plan.</p>
                 </div>
               </Card>
             )}
