@@ -98,6 +98,14 @@ const validateTimePeriod = (value: number): boolean => {
   return value >= MIN_YEARS && value <= MAX_YEARS;
 };
 
+// Format number with commas for input display
+const formatNumberWithCommas = (value: string | number): string => {
+  if (value === "" || isNaN(Number(value))) return "";
+  const [integer, decimal] = String(value).split(".");
+  const formattedInt = integer.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return decimal ? `${formattedInt}.${decimal}` : formattedInt;
+};
+
 const sanitizeInput = (value: string, maxLength: number = 12): string => {
   // Remove any non-numeric characters except decimal point
   const cleaned = value.replace(/[^0-9.]/g, "");
@@ -201,7 +209,7 @@ export default function LumpsumCalculator() {
     return data;
   }, [result, investmentAmount, expectedReturn, timePeriod, inputsValid]);
 
-  // Enhanced input handlers with validation
+  // Enhanced input handlers with comma formatting for large numbers
   const handleInputChange = useCallback(
     (
         setter: (value: number | "") => void,
@@ -209,24 +217,22 @@ export default function LumpsumCalculator() {
         fieldName: string
       ) =>
       (e: React.ChangeEvent<HTMLInputElement>) => {
-        const rawValue = e.target.value;
+        const rawValue = e.target.value.replace(/,/g, ""); // Remove commas for processing
 
         // Allow empty string for clearing
         if (rawValue === "") {
           setter("");
+          e.target.value = "";
           return;
         }
 
         // Sanitize input to prevent invalid characters and extremely large numbers
         const sanitizedValue = sanitizeInput(rawValue);
-
-        // Update the input field display
-        e.target.value = sanitizedValue;
-
         const numericValue = Number(sanitizedValue);
 
         // Basic numeric validation
         if (isNaN(numericValue) || numericValue < 0) {
+          e.target.value = "";
           return;
         }
 
@@ -239,6 +245,8 @@ export default function LumpsumCalculator() {
         }
 
         setter(numericValue);
+        // Format with commas for display
+        e.target.value = formatNumberWithCommas(sanitizedValue);
       },
     []
   );
@@ -364,8 +372,9 @@ export default function LumpsumCalculator() {
                   Investment Amount (₹)
                 </label>
                 <Input
-                  type="number"
-                  value={investmentAmount}
+                  type="text"
+                  inputMode="numeric"
+                  value={formatNumberWithCommas(investmentAmount)}
                   onChange={handleInputChange(
                     setInvestmentAmount,
                     validateInvestmentAmount,
@@ -378,7 +387,7 @@ export default function LumpsumCalculator() {
                   min={MIN_INVESTMENT}
                   max={MAX_INVESTMENT}
                   step={1000}
-                  placeholder="100000"
+                  placeholder="1,00,000"
                 />
                 <p className="text-xs text-gray-500 mt-1">
                   Range: ₹{MIN_INVESTMENT.toLocaleString()} - ₹

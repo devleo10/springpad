@@ -125,12 +125,31 @@ const sanitizeInput = (value: string, maxLength: number = 10): string => {
   return cleaned.substring(0, maxLength);
 };
 
+// Format number with commas for Indian number system (lakhs/crores)
+const formatNumberWithCommas = (value: string | number): string => {
+  if (value === "" || isNaN(Number(value))) return "";
+  const [integerInit, decimal] = String(value).split(".");
+  // Indian system: first 3 digits, then every 2 digits
+  const lastThree =
+    integerInit.length > 3 ? integerInit.slice(-3) : integerInit;
+  let formattedInteger = "";
+  if (integerInit.length > 3) {
+    const otherNumbers = integerInit.slice(0, -3);
+    formattedInteger =
+      otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + "," + lastThree;
+  } else {
+    formattedInteger = lastThree;
+  }
+  return decimal ? `${formattedInteger}.${decimal}` : formattedInteger;
+};
+
 export default function GoalBasedTopupSIPCalculatorPage() {
   const [targetAmount, setTargetAmount] = useState<number | "">(5000000);
   const [timePeriod, setTimePeriod] = useState<number | "">(15);
   const [expectedReturn, setExpectedReturn] = useState<number | "">(12);
   const [initialSIP, setInitialSIP] = useState<number | "">(5000);
   const [topupRate, setTopupRate] = useState<number | "">(10);
+  const [inflationRate, setInflationRate] = useState<number | "">(6);
   const [result, setResult] = useState<GoalBasedTopupSipResult | null>(null);
 
   // Validation messages for better UX
@@ -186,7 +205,7 @@ export default function GoalBasedTopupSIPCalculatorPage() {
     );
   }, [targetAmount, expectedReturn, timePeriod, initialSIP, topupRate]);
 
-  // Optimized calculation function
+  // Optimized calculation function with inflation adjustment
   const calculateGoalBasedTopupSIP = useCallback(() => {
     if (!inputsValid) {
       setResult(null);
@@ -197,6 +216,11 @@ export default function GoalBasedTopupSIPCalculatorPage() {
     const years = Number(timePeriod);
     const initialMonthlySIP = Number(initialSIP);
     const annualTopupRate = Number(topupRate) / 100;
+    const inflation = Number(inflationRate) / 100;
+
+    // Adjust target amount for inflation
+    const inflationAdjustedTarget =
+      Number(targetAmount) * Math.pow(1 + inflation, years);
 
     let totalInvestment = 0;
     let maturityValue = 0;
@@ -231,12 +255,20 @@ export default function GoalBasedTopupSIPCalculatorPage() {
       initialSIP: initialMonthlySIP.toFixed(0),
       finalSIP: finalSIP.toFixed(0),
       totalInvestment: totalInvestment.toFixed(0),
-      targetAmount: maturityValue.toFixed(0),
+      targetAmount: inflationAdjustedTarget.toFixed(0),
       totalReturns: totalReturns.toFixed(0),
       returnOnInvestment: returnOnInvestment.toFixed(1),
       averageSIP: averageSIP.toFixed(0),
     });
-  }, [expectedReturn, timePeriod, initialSIP, topupRate, inputsValid]);
+  }, [
+    expectedReturn,
+    timePeriod,
+    initialSIP,
+    topupRate,
+    inflationRate,
+    targetAmount,
+    inputsValid,
+  ]);
 
   // Memoized chart data generation
   const chartData = useMemo((): ChartDataPoint[] => {
@@ -308,24 +340,22 @@ export default function GoalBasedTopupSIPCalculatorPage() {
         fieldName: string
       ) =>
       (e: React.ChangeEvent<HTMLInputElement>) => {
-        const rawValue = e.target.value;
+        const rawValue = e.target.value.replace(/,/g, ""); // Remove commas for processing
 
         // Allow empty string for clearing
         if (rawValue === "") {
           setter("");
+          e.target.value = "";
           return;
         }
 
         // Sanitize input to prevent invalid characters and extremely large numbers
         const sanitizedValue = sanitizeInput(rawValue);
-
-        // Update the input field display
-        e.target.value = sanitizedValue;
-
         const numericValue = Number(sanitizedValue);
 
         // Basic numeric validation
         if (isNaN(numericValue) || numericValue < 0) {
+          e.target.value = "";
           return;
         }
 
@@ -338,6 +368,8 @@ export default function GoalBasedTopupSIPCalculatorPage() {
         }
 
         setter(numericValue);
+        // Format with commas for display
+        e.target.value = formatNumberWithCommas(sanitizedValue);
       },
     []
   );
@@ -465,14 +497,15 @@ export default function GoalBasedTopupSIPCalculatorPage() {
               <FaPiggyBank className="text-green-500" />
               Goal Planning Details
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div>
                 <label className="block text-sm font-medium mb-2">
                   Target Amount (₹)
                 </label>
                 <Input
-                  type="number"
-                  value={targetAmount}
+                  type="text"
+                  inputMode="numeric"
+                  value={formatNumberWithCommas(targetAmount)}
                   onChange={handleInputChange(
                     setTargetAmount,
                     validateTargetAmount,
@@ -485,7 +518,7 @@ export default function GoalBasedTopupSIPCalculatorPage() {
                   min={MIN_TARGET}
                   max={MAX_TARGET}
                   step={100000}
-                  placeholder="5000000"
+                  placeholder="50,00,000"
                 />
                 <p className="text-xs text-gray-500 mt-1">
                   Range: ₹{MIN_TARGET.toLocaleString()} - ₹
@@ -545,6 +578,32 @@ export default function GoalBasedTopupSIPCalculatorPage() {
                   10-15%)
                 </p>
               </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2">
+                  Inflation Rate (% p.a.)
+                </label>
+                <Input
+                  type="number"
+                  value={inflationRate}
+                  onChange={handleInputChange(
+                    setInflationRate,
+                    (v) => v >= 0 && v <= 20,
+                    "Inflation Rate"
+                  )}
+                  onKeyDown={handleKeyPress}
+                  onFocus={handleInputFocus}
+                  onClick={handleInputClick}
+                  onPaste={handleInputPaste}
+                  min={0}
+                  max={20}
+                  step={0.1}
+                  placeholder="6"
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  Typical: 5-7% (India average)
+                </p>
+              </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
@@ -553,8 +612,9 @@ export default function GoalBasedTopupSIPCalculatorPage() {
                   Initial Monthly SIP (₹)
                 </label>
                 <Input
-                  type="number"
-                  value={initialSIP}
+                  type="text"
+                  inputMode="numeric"
+                  value={formatNumberWithCommas(initialSIP)}
                   onChange={handleInputChange(
                     setInitialSIP,
                     validateInitialSIP,
@@ -567,7 +627,7 @@ export default function GoalBasedTopupSIPCalculatorPage() {
                   min={MIN_INITIAL_SIP}
                   max={MAX_INITIAL_SIP}
                   step={500}
-                  placeholder="5000"
+                  placeholder="5,000"
                 />
                 <p className="text-xs text-gray-500 mt-1">
                   Range: ₹{MIN_INITIAL_SIP.toLocaleString()} - ₹

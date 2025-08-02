@@ -145,6 +145,14 @@ const validateTimePeriod = (value: number): boolean => {
   return value >= MIN_YEARS && value <= MAX_YEARS;
 };
 
+// Format number with commas for input display
+const formatNumberWithCommas = (value: string | number): string => {
+  if (value === "" || isNaN(Number(value))) return "";
+  const [integer, decimal] = String(value).split(".");
+  const formattedInt = integer.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return decimal ? `${formattedInt}.${decimal}` : formattedInt;
+};
+
 const sanitizeInput = (value: string, maxLength: number = 12): string => {
   // Remove any non-numeric characters except decimal point
   const cleaned = value.replace(/[^0-9.]/g, "");
@@ -319,7 +327,7 @@ export default function SwpCalculator() {
     inputsValid,
   ]);
 
-  // Enhanced input handlers with validation
+  // Enhanced input handlers with comma formatting for large numbers
   const handleInputChange = useCallback(
     (
         setter: (value: number | "") => void,
@@ -327,24 +335,22 @@ export default function SwpCalculator() {
         fieldName: string
       ) =>
       (e: React.ChangeEvent<HTMLInputElement>) => {
-        const rawValue = e.target.value;
+        const rawValue = e.target.value.replace(/,/g, ""); // Remove commas for processing
 
         // Allow empty string for clearing
         if (rawValue === "") {
           setter("");
+          e.target.value = "";
           return;
         }
 
         // Sanitize input to prevent invalid characters and extremely large numbers
         const sanitizedValue = sanitizeInput(rawValue);
-
-        // Update the input field display
-        e.target.value = sanitizedValue;
-
         const numericValue = Number(sanitizedValue);
 
         // Basic numeric validation
         if (isNaN(numericValue) || numericValue < 0) {
+          e.target.value = "";
           return;
         }
 
@@ -357,6 +363,8 @@ export default function SwpCalculator() {
         }
 
         setter(numericValue);
+        // Format with commas for display
+        e.target.value = formatNumberWithCommas(sanitizedValue);
       },
     []
   );
@@ -485,8 +493,9 @@ export default function SwpCalculator() {
                   Initial Investment Amount (₹)
                 </label>
                 <Input
-                  type="number"
-                  value={initialInvestment}
+                  type="text"
+                  inputMode="numeric"
+                  value={formatNumberWithCommas(initialInvestment)}
                   onChange={handleInputChange(
                     setInitialInvestment,
                     validateInitialAmount,
@@ -499,7 +508,7 @@ export default function SwpCalculator() {
                   min={MIN_INITIAL}
                   max={MAX_INITIAL}
                   step={50000}
-                  placeholder="1000000"
+                  placeholder="10,00,000"
                 />
                 <p className="text-xs text-gray-500 mt-1">
                   Range: ₹{MIN_INITIAL.toLocaleString()} - ₹
@@ -512,8 +521,9 @@ export default function SwpCalculator() {
                   Monthly Withdrawal Amount (₹)
                 </label>
                 <Input
-                  type="number"
-                  value={monthlyWithdrawal}
+                  type="text"
+                  inputMode="numeric"
+                  value={formatNumberWithCommas(monthlyWithdrawal)}
                   onChange={handleInputChange(
                     setMonthlyWithdrawal,
                     validateWithdrawalAmount,
@@ -526,7 +536,7 @@ export default function SwpCalculator() {
                   min={MIN_WITHDRAWAL}
                   max={MAX_WITHDRAWAL}
                   step={1000}
-                  placeholder="10000"
+                  placeholder="10,000"
                 />
                 <p className="text-xs text-gray-500 mt-1">
                   Range: ₹{MIN_WITHDRAWAL.toLocaleString()} - ₹
