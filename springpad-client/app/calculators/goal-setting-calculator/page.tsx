@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { FaClipboardList, FaCalculator, FaChartLine } from "react-icons/fa";
@@ -8,69 +8,67 @@ import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 
 export default function GoalSettingCalculator() {
-  const [goalAmount, setGoalAmount] = useState<number | "">(1000000);
-  const [timeHorizon, setTimeHorizon] = useState<number | "">(10);
+  const [dreamAmount, setDreamAmount] = useState<number | "">(100000);
+  const [years, setYears] = useState<number | "">(10);
+  const [inflationRate, setInflationRate] = useState<number | "">(8);
   const [expectedReturn, setExpectedReturn] = useState<number | "">(12);
   const [currentSavings, setCurrentSavings] = useState<number | "">(0);
-  // Format number with commas for input display
+  // Format number with Indian commas (lakhs/crores)
   const formatNumberWithCommas = (value: string | number): string => {
     if (value === "" || isNaN(Number(value))) return "";
-    const [integer, decimal] = String(value).split(".");
-    const formattedInt = integer.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    return decimal ? `${formattedInt}.${decimal}` : formattedInt;
+    return Number(value).toLocaleString("en-IN");
   };
   const [result, setResult] = useState<{
-    monthlyInvestment: string;
-    totalInvestment: string;
-    totalReturns: string;
-    futureValueOfCurrentSavings: string;
+    monthlySIP: string;
+    totalInvested: string;
+    totalGrowth: string;
+    inflationAdjustedAmount: string;
+    savingsGrowth: string;
+    finalTargetAmount: string;
   } | null>(null);
 
-  const calculateGoal = () => {
+  useEffect(() => {
     // Type guards for empty string values
-    const goalAmt = goalAmount === "" ? 0 : Number(goalAmount);
-    const timeH = timeHorizon === "" ? 0 : Number(timeHorizon);
+    const dreamAmt = dreamAmount === "" ? 0 : Number(dreamAmount);
+    const yrs = years === "" ? 0 : Number(years);
+    const inflRate = inflationRate === "" ? 0 : Number(inflationRate);
     const expReturn = expectedReturn === "" ? 0 : Number(expectedReturn);
     const currSavings = currentSavings === "" ? 0 : Number(currentSavings);
 
+    // Inflation adjusted dream amount
+    const inflationAdjustedAmount = dreamAmt * Math.pow(1 + inflRate / 100, yrs);
+
+    // Monthly rate and months
     const monthlyRate = expReturn / 100 / 12;
-    const totalMonths = timeH * 12;
+    const totalMonths = yrs * 12;
 
-    // Future value of current savings
-    const futureValueOfCurrentSavings =
-      currSavings * Math.pow(1 + monthlyRate, totalMonths);
+    // Growth of current savings
+    const savingsGrowth = currSavings * Math.pow(1 + monthlyRate, totalMonths);
 
-    // Remaining amount needed from SIP
-    const remainingAmount = goalAmt - futureValueOfCurrentSavings;
+    // Final target amount minus savings growth
+    const finalTargetAmount = inflationAdjustedAmount - savingsGrowth;
 
-    if (remainingAmount <= 0) {
-      setResult({
-        monthlyInvestment: "0",
-        totalInvestment: "0",
-        totalReturns: (futureValueOfCurrentSavings - currSavings).toFixed(0),
-        futureValueOfCurrentSavings: futureValueOfCurrentSavings.toFixed(0),
-      });
-    } else {
-      // Calculate required monthly SIP using future value formula
-      // FV = PMT * [((1 + r)^n - 1) / r]
-      // PMT = FV / [((1 + r)^n - 1) / r]
-      const futureValueFactor =
-        (Math.pow(1 + monthlyRate, totalMonths) - 1) / monthlyRate;
-      const monthlyInvestment = remainingAmount / futureValueFactor;
-      const totalInvestment = monthlyInvestment * totalMonths;
-      const totalReturns =
-        remainingAmount -
-        totalInvestment +
-        (futureValueOfCurrentSavings - currSavings);
-
-      setResult({
-        monthlyInvestment: monthlyInvestment.toFixed(0),
-        totalInvestment: totalInvestment.toFixed(0),
-        totalReturns: totalReturns.toFixed(0),
-        futureValueOfCurrentSavings: futureValueOfCurrentSavings.toFixed(0),
-      });
+    // Calculate required monthly SIP using future value formula
+    // FV = PMT * [((1 + r)^n - 1) / r]
+    // PMT = FV / [((1 + r)^n - 1) / r]
+    let monthlySIP = 0;
+    if (finalTargetAmount > 0 && monthlyRate > 0) {
+      const futureValueFactor = (Math.pow(1 + monthlyRate, totalMonths) - 1) / monthlyRate;
+      monthlySIP = finalTargetAmount / futureValueFactor;
     }
-  };
+
+    const totalInvested = monthlySIP * totalMonths;
+    const totalGrowth = finalTargetAmount - totalInvested;
+
+    setResult({
+      monthlySIP: monthlySIP.toFixed(0),
+      totalInvested: totalInvested.toFixed(0),
+      totalGrowth: totalGrowth.toFixed(0),
+      inflationAdjustedAmount: inflationAdjustedAmount.toFixed(0),
+      savingsGrowth: savingsGrowth.toFixed(0),
+      finalTargetAmount: finalTargetAmount.toFixed(0),
+    });
+  }, [dreamAmount, years, inflationRate, expectedReturn, currentSavings]);
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("en-IN", {
@@ -87,12 +85,11 @@ export default function GoalSettingCalculator() {
       <div className="max-w-6xl mx-auto px-4 py-16">
         <div className="flex items-center gap-3 mb-6">
           <FaClipboardList className="text-yellow-500 text-2xl" />
-          <h1 className="text-3xl font-bold">Goal Setting Calculator</h1>
+          <h1 className="text-3xl font-bold">Dream Goal Calculator</h1>
         </div>
 
         <p className="text-gray-600 mb-8">
-          Plan your financial goals and calculate how much you need to invest
-          monthly to achieve them.
+          Plan for your dream purchase (car, house, holiday) by factoring inflation and investment returns.
         </p>
 
         <div className="grid lg:grid-cols-3 gap-8">
@@ -102,54 +99,54 @@ export default function GoalSettingCalculator() {
               <h2 className="text-xl font-semibold mb-4">Goal Details</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium mb-2">
-                    Goal Amount (₹)
-                  </label>
+                  <label className="block text-sm font-medium mb-2">Dream Amount (₹)</label>
                   <Input
                     type="text"
                     inputMode="numeric"
-                    value={formatNumberWithCommas(goalAmount)}
+                    value={formatNumberWithCommas(dreamAmount)}
                     onChange={(e) => {
                       const rawValue = e.target.value;
                       const cleaned = rawValue.replace(/[^0-9.]/g, "");
-                      setGoalAmount(cleaned === "" ? "" : Number(cleaned));
+                      setDreamAmount(cleaned === "" ? "" : Number(cleaned));
                     }}
-                    min={10000}
+                    min={100000}
                     step={10000}
                   />
                 </div>
-
                 <div>
-                  <label className="block text-sm font-medium mb-2">
-                    Time Horizon (Years)
-                  </label>
+                  <label className="block text-sm font-medium mb-2">Years to Goal</label>
                   <Input
                     type="number"
-                    value={timeHorizon}
-                    onChange={(e) => setTimeHorizon(Number(e.target.value))}
+                    value={years}
+                    onChange={(e) => setYears(Number(e.target.value))}
                     min={1}
-                    max={50}
+                    max={100}
                   />
                 </div>
-
                 <div>
-                  <label className="block text-sm font-medium mb-2">
-                    Expected Annual Return (%)
-                  </label>
+                  <label className="block text-sm font-medium mb-2">Expected Inflation Rate (% p.a.)</label>
+                  <Input
+                    type="number"
+                    value={inflationRate}
+                    onChange={(e) => setInflationRate(Number(e.target.value))}
+                    min={0}
+                    max={15}
+                    step={0.5}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2">Expected Investment Return (% p.a.)</label>
                   <Input
                     type="number"
                     value={expectedReturn}
                     onChange={(e) => setExpectedReturn(Number(e.target.value))}
-                    min={1}
-                    max={30}
+                    min={0}
+                    max={20}
                     step={0.5}
                   />
                 </div>
-
                 <div>
-                  <label className="block text-sm font-medium mb-2">
-                    Current Savings (₹)
-                  </label>
+                  <label className="block text-sm font-medium mb-2">Current Savings (₹)</label>
                   <Input
                     type="text"
                     inputMode="numeric"
@@ -164,44 +161,19 @@ export default function GoalSettingCalculator() {
                   />
                 </div>
               </div>
-
-              <button
-                onClick={calculateGoal}
-                className="w-full mt-4 bg-yellow-500 text-white py-2 px-4 rounded-md hover:bg-yellow-600 transition-colors flex items-center justify-center gap-2"
-              >
-                <FaCalculator />
-                Calculate
-              </button>
+              {/* Calculate button removed, auto-calculation enabled */}
             </Card>
-
             {/* Information Section */}
             <Card>
               <h3 className="text-lg font-semibold mb-3">How it works</h3>
               <ul className="space-y-2 text-sm text-gray-700">
-                <li>
-                  • This calculator helps you determine the monthly investment
-                  needed to achieve your financial goals
-                </li>
-                <li>
-                  • It considers your current savings and their future growth
-                  potential
-                </li>
-                <li>
-                  • The calculation uses compound interest to project future
-                  values
-                </li>
-                <li>
-                  • Adjust the expected return based on your risk appetite and
-                  investment choices
-                </li>
-                <li>
-                  • Review and adjust your goals periodically based on changing
-                  circumstances
-                </li>
+                <li>• Calculates inflation-adjusted dream amount</li>
+                <li>• Factors in growth of your current savings</li>
+                <li>• Computes required monthly SIP to reach your goal</li>
+                <li>• Shows total invested, growth, and final target</li>
               </ul>
             </Card>
           </div>
-
           {/* Results Section */}
           <div className="space-y-6">
             {result ? (
@@ -209,166 +181,36 @@ export default function GoalSettingCalculator() {
                 <Card>
                   <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
                     <FaChartLine className="text-green-500" />
-                    Goal Plan
+                    Your Dream Plan
                   </h2>
-
                   <div className="space-y-4">
                     <div className="bg-gradient-to-r from-green-50 to-green-100 p-4 rounded-lg">
-                      <h3 className="text-sm font-medium text-gray-600 mb-1">
-                        Required Monthly Investment
-                      </h3>
-                      <p className="text-2xl font-bold text-green-600">
-                        {formatCurrency(Number(result.monthlyInvestment))}
-                      </p>
+                      <h3 className="text-sm font-medium text-gray-600 mb-1">Monthly SIP Amount</h3>
+                      <p className="text-2xl font-bold text-green-600">{formatCurrency(Number(result.monthlySIP))}</p>
                     </div>
-
                     <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-4 rounded-lg">
-                      <h3 className="text-sm font-medium text-gray-600 mb-1">
-                        Total Investment Needed
-                      </h3>
-                      <p className="text-xl font-bold text-blue-600">
-                        {formatCurrency(Number(result.totalInvestment))}
-                      </p>
+                      <h3 className="text-sm font-medium text-gray-600 mb-1">Total Amount Invested through SIP</h3>
+                      <p className="text-xl font-bold text-blue-600">{formatCurrency(Number(result.totalInvested))}</p>
                     </div>
-
-                    <div className="bg-gradient-to-r from-purple-50 to-purple-100 p-4 rounded-lg">
-                      <h3 className="text-sm font-medium text-gray-600 mb-1">
-                        Future Value of Current Savings
-                      </h3>
-                      <p className="text-xl font-bold text-purple-600">
-                        {formatCurrency(
-                          Number(result.futureValueOfCurrentSavings)
-                        )}
-                      </p>
-                    </div>
-
                     <div className="bg-gradient-to-r from-yellow-50 to-yellow-100 p-4 rounded-lg">
-                      <h3 className="text-sm font-medium text-gray-600 mb-1">
-                        Total Returns
-                      </h3>
-                      <p className="text-xl font-bold text-yellow-600">
-                        {formatCurrency(Number(result.totalReturns))}
-                      </p>
+                      <h3 className="text-sm font-medium text-gray-600 mb-1">Total Growth Amount</h3>
+                      <p className="text-xl font-bold text-yellow-600">{formatCurrency(Number(result.totalGrowth))}</p>
                     </div>
-
                     <div className="bg-gradient-to-r from-orange-50 to-orange-100 p-4 rounded-lg">
-                      <h3 className="text-sm font-medium text-gray-600 mb-1">
-                        Goal Amount
-                      </h3>
-                      <p className="text-xl font-bold text-orange-600">
-                        {formatCurrency(goalAmount === "" ? 0 : Number(goalAmount))}
-                      </p>
+                      <h3 className="text-sm font-medium text-gray-600 mb-1">Targeted Dream Amount (Inflation adjusted)</h3>
+                      <p className="text-xl font-bold text-orange-600">{formatCurrency(Number(result.inflationAdjustedAmount))}</p>
                     </div>
-                  </div>
-                </Card>
-
-                <Card>
-                  <h3 className="text-lg font-semibold mb-3">
-                    Investment Summary
-                  </h3>
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-600">
-                        Goal Amount:
-                      </span>
-                      <span className="font-semibold">
-                        {formatCurrency(goalAmount === "" ? 0 : Number(goalAmount))}
-                      </span>
+                    <div className="bg-gradient-to-r from-purple-50 to-purple-100 p-4 rounded-lg">
+                      <h3 className="text-sm font-medium text-gray-600 mb-1">Growth of your Savings Amount</h3>
+                      <p className="text-xl font-bold text-purple-600">{formatCurrency(Number(result.savingsGrowth))}</p>
                     </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-600">
-                        Time Horizon:
-                      </span>
-                      <span className="font-semibold">{timeHorizon} years</span>
+                    <div className="bg-gradient-to-r from-red-50 to-red-100 p-4 rounded-lg">
+                      <h3 className="text-sm font-medium text-gray-600 mb-1">Final Targeted Amount (Minus growth of savings)</h3>
+                      <p className="text-xl font-bold text-red-600">{formatCurrency(Number(result.finalTargetAmount))}</p>
                     </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-600">
-                        Expected Returns:
-                      </span>
-                      <span className="font-semibold">
-                        {expectedReturn}% p.a.
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-600">
-                        Current Savings:
-                      </span>
-                      <span className="font-semibold">
-                        {formatCurrency(currentSavings === "" ? 0 : Number(currentSavings))}
-                      </span>
-                    </div>
-                    <div className="border-t pt-3 mt-3">
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm text-gray-600">
-                          Monthly SIP Required:
-                        </span>
-                        <span className="font-bold text-green-600">
-                          {formatCurrency(Number(result.monthlyInvestment))}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </Card>
-
-                <Card>
-                  <h3 className="text-lg font-semibold mb-3">Goal Breakdown</h3>
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-600">
-                        From Current Savings:
-                      </span>
-                      <span className="font-semibold text-purple-600">
-                        {formatCurrency(
-                          Number(result.futureValueOfCurrentSavings)
-                        )}
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-600">
-                        From Monthly SIPs:
-                      </span>
-                      <span className="font-semibold text-blue-600">
-                        {formatCurrency(
-                          (goalAmount === "" ? 0 : Number(goalAmount)) -
-                            Number(result.futureValueOfCurrentSavings)
-                        )}
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-600">
-                        Total Investment:
-                      </span>
-                      <span className="font-semibold text-blue-600">
-                        {formatCurrency(
-                          (currentSavings === "" ? 0 : Number(currentSavings)) + Number(result.totalInvestment)
-                        )}
-                      </span>
-                    </div>
-                    <div className="border-t pt-3 mt-3">
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm text-gray-600">
-                          Total Returns Earned:
-                        </span>
-                        <span className="font-bold text-yellow-600">
-                          {formatCurrency(Number(result.totalReturns))}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="bg-green-50 p-3 rounded-lg border border-green-200">
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm text-green-700">
-                          Returns as % of Investment:
-                        </span>
-                        <span className="font-bold text-green-700">
-                          {(
-                            (Number(result.totalReturns) /
-                              ((currentSavings === "" ? 0 : Number(currentSavings)) +
-                                Number(result.totalInvestment))) *
-                            100
-                          ).toFixed(1)}
-                          %
-                        </span>
-                      </div>
+                    <div className="bg-gray-50 p-4 rounded-lg">
+                      <h3 className="text-sm font-medium text-gray-600 mb-1">Number of years to achieve your goal</h3>
+                      <p className="text-xl font-bold text-gray-800">{years} Years</p>
                     </div>
                   </div>
                 </Card>
@@ -377,10 +219,7 @@ export default function GoalSettingCalculator() {
               <Card>
                 <div className="text-center py-8 text-gray-500">
                   <FaChartLine className="mx-auto text-4xl mb-4 text-gray-300" />
-                  <p>
-                    Enter your goal details and click &quot;Calculate&quot; to
-                    see your investment plan.
-                  </p>
+                  <p>Enter your dream goal details and click "Calculate" to see your investment plan.</p>
                 </div>
               </Card>
             )}
