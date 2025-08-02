@@ -3,587 +3,209 @@
 import { useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import {
-  FaChild,
-  FaCalculator,
-  FaGraduationCap,
-  FaChartLine,
-} from "react-icons/fa";
+import { FaChild, FaChartLine } from "react-icons/fa";
 import { Input } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
 
-interface Child {
-  id: number;
-  name: string;
-  currentAge: number;
-  educationStage:
-    | "Primary"
-    | "Secondary"
-    | "Higher Secondary"
-    | "Undergraduate"
-    | "Postgraduate";
-  estimatedCost: number;
-}
-
 export default function ChildrenEducationPlanner() {
-  const [children, setChildren] = useState<Child[]>([
-    {
-      id: 1,
-      name: "Child 1",
-      currentAge: 5,
-      educationStage: "Undergraduate",
-      estimatedCost: 1000000,
-    },
-  ]);
-  const [educationInflation, setEducationInflation] = useState<number>(8);
-  const [expectedReturn, setExpectedReturn] = useState<number>(12);
-  const [currentSavings, setCurrentSavings] = useState<number>(50000);
-  const [newChild, setNewChild] = useState<Omit<Child, "id">>({
-    name: "",
-    currentAge: 1,
-    educationStage: "Undergraduate",
-    estimatedCost: 1000000,
-  });
-  const [result, setResult] = useState<{
-    totalMonthlyInvestment: string;
-    totalFutureCost: string;
-    totalInvestment: string;
-    childrenBreakdown: Array<{
-      name: string;
-      futureCost: string;
-      monthlyInvestment: string;
-      yearsToEducation: number;
-      stage: string;
-    }>;
-  } | null>(null);
+  // Input states
+  const [firstChildName, setFirstChildName] = useState<string>("Raju");
+  const [secondChildName, setSecondChildName] = useState<string>("Rani");
+  const [firstChildCurrentAge, setFirstChildCurrentAge] = useState<number>(10);
+  const [secondChildCurrentAge, setSecondChildCurrentAge] = useState<number>(5);
+  const [firstChildEducationAge, setFirstChildEducationAge] = useState<number>(20);
+  const [secondChildEducationAge, setSecondChildEducationAge] = useState<number>(20);
+  const [firstChildCost, setFirstChildCost] = useState<number>(500000);
+  const [secondChildCost, setSecondChildCost] = useState<number>(500000);
+  const [inflationRate, setInflationRate] = useState<number>(5);
+  const [expectedReturn, setExpectedReturn] = useState<number>(8);
+  const [currentSavings, setCurrentSavings] = useState<number>(10000);
 
-  const educationAges = {
-    Primary: 6,
-    Secondary: 11,
-    "Higher Secondary": 16,
-    Undergraduate: 18,
-    Postgraduate: 22,
+  // Calculations
+  const yearsToFirstChildEducation = Math.max(0, firstChildEducationAge - firstChildCurrentAge);
+  const yearsToSecondChildEducation = Math.max(0, secondChildEducationAge - secondChildCurrentAge);
+
+  // Inflation adjusted costs
+  const inflationAdjustedFirstChild = firstChildCost * Math.pow(1 + inflationRate / 100, yearsToFirstChildEducation);
+  const inflationAdjustedSecondChild = secondChildCost * Math.pow(1 + inflationRate / 100, yearsToSecondChildEducation);
+
+  // Split savings equally
+  const finalSavingsFirstChild = currentSavings * 0.5;
+  const finalSavingsSecondChild = currentSavings * 0.5;
+
+  // Future value of current savings (annual compounding)
+  const annualRate = expectedReturn / 100;
+  const fvSavingsFirstChild = yearsToFirstChildEducation > 0 ? finalSavingsFirstChild * Math.pow(1 + annualRate, yearsToFirstChildEducation) : finalSavingsFirstChild;
+  const fvSavingsSecondChild = yearsToSecondChildEducation > 0 ? finalSavingsSecondChild * Math.pow(1 + annualRate, yearsToSecondChildEducation) : finalSavingsSecondChild;
+
+  // Remaining amount needed from SIP
+  const remainingFirstChild = Math.max(0, inflationAdjustedFirstChild - fvSavingsFirstChild);
+  const remainingSecondChild = Math.max(0, inflationAdjustedSecondChild - fvSavingsSecondChild);
+
+  // Monthly SIP calculation (monthly compounding)
+  const calculateMonthlySIP = (futureValue: number, years: number) => {
+    if (years <= 0) return 0;
+    const monthlyRate = annualRate / 12;
+    const totalMonths = years * 12;
+    if (monthlyRate === 0) return futureValue / totalMonths;
+    const factor = (Math.pow(1 + monthlyRate, totalMonths) - 1) / monthlyRate;
+    return futureValue / factor;
   };
 
-  const addChild = () => {
-    if (newChild.name) {
-      const child: Child = {
-        ...newChild,
-        id: Date.now(),
-      };
-      setChildren([...children, child]);
-      setNewChild({
-        name: "",
-        currentAge: 1,
-        educationStage: "Undergraduate",
-        estimatedCost: 1000000,
-      });
-    }
-  };
+  const monthlySIPFirstChild = yearsToFirstChildEducation > 0 ? calculateMonthlySIP(remainingFirstChild, yearsToFirstChildEducation) : 0;
+  const monthlySIPSecondChild = yearsToSecondChildEducation > 0 ? calculateMonthlySIP(remainingSecondChild, yearsToSecondChildEducation) : 0;
 
-  const removeChild = (id: number) => {
-    setChildren(children.filter((child) => child.id !== id));
-  };
-
-  const calculateEducationPlan = () => {
-    const monthlyRate = expectedReturn / 100 / 12;
-    let totalMonthlyInvestment = 0;
-    let totalFutureCost = 0;
-    const childrenBreakdown: Array<{
-      name: string;
-      futureCost: string;
-      monthlyInvestment: string;
-      yearsToEducation: number;
-      stage: string;
-    }> = [];
-
-    // Sort children by years to education (earliest first)
-    const sortedChildren = [...children].sort((a, b) => {
-      const yearsToEducationA = Math.max(
-        0,
-        educationAges[a.educationStage] - a.currentAge
-      );
-      const yearsToEducationB = Math.max(
-        0,
-        educationAges[b.educationStage] - b.currentAge
-      );
-      return yearsToEducationA - yearsToEducationB;
-    });
-
-    let remainingCurrentSavings = currentSavings;
-
-    sortedChildren.forEach((child) => {
-      const yearsToEducation = Math.max(
-        0,
-        educationAges[child.educationStage] - child.currentAge
-      );
-
-      // If education is due now or in the past, skip investment calculation
-      if (yearsToEducation === 0) {
-        childrenBreakdown.push({
-          name: child.name,
-          futureCost: child.estimatedCost.toFixed(0),
-          monthlyInvestment: "0",
-          yearsToEducation: 0,
-          stage: child.educationStage,
-        });
-        return;
-      }
-
-      // Calculate future cost considering education inflation
-      const futureCost =
-        child.estimatedCost *
-        Math.pow(1 + educationInflation / 100, yearsToEducation);
-      totalFutureCost += futureCost;
-
-      // Allocate portion of current savings to this child
-      const allocatedSavings = Math.min(
-        remainingCurrentSavings,
-        futureCost * 0.4
-      ); // Max 40% of future cost from current savings
-      remainingCurrentSavings -= allocatedSavings;
-
-      // Future value of allocated current savings
-      const totalMonths = yearsToEducation * 12;
-      const futureValueOfSavings =
-        allocatedSavings * Math.pow(1 + monthlyRate, totalMonths);
-      const remainingAmount = Math.max(0, futureCost - futureValueOfSavings);
-
-      let monthlyInvestment = 0;
-      if (remainingAmount > 0) {
-        // Calculate required monthly SIP
-        const futureValueFactor =
-          (Math.pow(1 + monthlyRate, totalMonths) - 1) / monthlyRate;
-        monthlyInvestment = remainingAmount / futureValueFactor;
-      }
-
-      totalMonthlyInvestment += monthlyInvestment;
-
-      childrenBreakdown.push({
-        name: child.name,
-        futureCost: futureCost.toFixed(0),
-        monthlyInvestment: monthlyInvestment.toFixed(0),
-        yearsToEducation: yearsToEducation,
-        stage: child.educationStage,
-      });
-    });
-
-    const maxYears = Math.max(
-      ...sortedChildren.map((child) =>
-        Math.max(0, educationAges[child.educationStage] - child.currentAge)
-      )
-    );
-    const totalInvestment = totalMonthlyInvestment * maxYears * 12;
-
-    setResult({
-      totalMonthlyInvestment: totalMonthlyInvestment.toFixed(0),
-      totalFutureCost: totalFutureCost.toFixed(0),
-      totalInvestment: totalInvestment.toFixed(0),
-      childrenBreakdown,
-    });
-  };
-
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("en-IN", {
-      style: "currency",
-      currency: "INR",
-      maximumFractionDigits: 0,
-    }).format(amount);
+  // Format number with Indian commas
+  const formatCurrency = (value: number): string => {
+    const rounded = Math.round(value);
+    const str = String(rounded);
+    let lastThree = str.substring(str.length - 3);
+    const otherNumbers = str.substring(0, str.length - 3);
+    if (otherNumbers !== "") lastThree = "," + lastThree;
+    const formatted = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
+    return formatted;
   };
 
   return (
-    <div className="relative min-h-screen bg-white text-[#2C5282] pt-18">
+    <div className="relative min-h-screen bg-gray-50 text-[#2C5282] pt-18">
       <Navbar />
-
-      <div className="max-w-6xl mx-auto px-4 py-16">
+      <div className="max-w-7xl mx-auto px-4 py-16">
         <div className="flex items-center gap-3 mb-6">
           <FaChild className="text-yellow-500 text-2xl" />
           <h1 className="text-3xl font-bold">Children Education Planner</h1>
         </div>
-
-        <p className="text-gray-600 mb-8">
-          Plan and save for your children&apos;s education expenses with
-          inflation-adjusted calculations.
-        </p>
-
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Children Management Section */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Add New Child */}
+        <p className="text-gray-600 mb-8">Plan and save for your children&apos;s education expenses with inflation-adjusted calculations.</p>
+        <div className="grid lg:grid-cols-2 gap-8">
+          {/* Input Section */}
+          <div className="space-y-6">
             <Card>
-              <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                <FaGraduationCap className="text-blue-500" />
-                Add Child&apos;s Education Plan
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <h2 className="text-xl font-semibold mb-4">Education Inputs</h2>
+              <div className="space-y-6">
+                {/* First Child Name */}
                 <div>
-                  <label className="block text-sm font-medium mb-2">
-                    Child&apos;s Name
-                  </label>
-                  <Input
-                    type="text"
-                    value={newChild.name}
-                    onChange={(e) =>
-                      setNewChild({ ...newChild, name: e.target.value })
-                    }
-                    placeholder="e.g., Rahul, Priya"
-                  />
+                  <label className="block text-sm font-medium mb-2">Enter your first child name</label>
+                  <Input type="text" value={firstChildName} onChange={e => setFirstChildName(e.target.value)} className="mb-2" />
                 </div>
+                {/* Second Child Name */}
                 <div>
-                  <label className="block text-sm font-medium mb-2">
-                    Current Age
-                  </label>
-                  <Input
-                    type="number"
-                    value={newChild.currentAge}
-                    onChange={(e) =>
-                      setNewChild({
-                        ...newChild,
-                        currentAge: Number(e.target.value),
-                      })
-                    }
-                    min={1}
-                    max={25}
-                  />
+                  <label className="block text-sm font-medium mb-2">Enter your second child name</label>
+                  <Input type="text" value={secondChildName} onChange={e => setSecondChildName(e.target.value)} className="mb-2" />
                 </div>
+                {/* First Child Current Age */}
                 <div>
-                  <label className="block text-sm font-medium mb-2">
-                    Education Stage
-                  </label>
-                  <select
-                    value={newChild.educationStage}
-                    onChange={(e) =>
-                      setNewChild({
-                        ...newChild,
-                        educationStage: e.target
-                          .value as Child["educationStage"],
-                      })
-                    }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                  >
-                    <option value="Primary">Primary School (Age 6)</option>
-                    <option value="Secondary">Secondary School (Age 11)</option>
-                    <option value="Higher Secondary">
-                      Higher Secondary (Age 16)
-                    </option>
-                    <option value="Undergraduate">
-                      Undergraduate (Age 18)
-                    </option>
-                    <option value="Postgraduate">Postgraduate (Age 22)</option>
-                  </select>
+                  <label className="block text-sm font-medium mb-2">Enter your first child current age (in years)</label>
+                  <Input type="number" value={firstChildCurrentAge} onChange={e => setFirstChildCurrentAge(Number(e.target.value))} className="mb-2" />
                 </div>
+                {/* Second Child Current Age */}
                 <div>
-                  <label className="block text-sm font-medium mb-2">
-                    Estimated Cost Today (₹)
-                  </label>
-                  <Input
-                    type="number"
-                    value={newChild.estimatedCost || ""}
-                    onChange={(e) =>
-                      setNewChild({
-                        ...newChild,
-                        estimatedCost: Number(e.target.value),
-                      })
-                    }
-                    min={10000}
-                    step={10000}
-                  />
+                  <label className="block text-sm font-medium mb-2">Enter your second child current age (in years)</label>
+                  <Input type="number" value={secondChildCurrentAge} onChange={e => setSecondChildCurrentAge(Number(e.target.value))} className="mb-2" />
+                </div>
+                {/* First Child Education Age */}
+                <div>
+                  <label className="block text-sm font-medium mb-2">Enter the age at which your first child would be ready for professional education (in years)</label>
+                  <Input type="number" value={firstChildEducationAge} onChange={e => setFirstChildEducationAge(Number(e.target.value))} className="mb-2" />
+                </div>
+                {/* Second Child Education Age */}
+                <div>
+                  <label className="block text-sm font-medium mb-2">Enter the age at which your second child would be ready for professional education (in years)</label>
+                  <Input type="number" value={secondChildEducationAge} onChange={e => setSecondChildEducationAge(Number(e.target.value))} className="mb-2" />
+                </div>
+                {/* First Child Cost */}
+                <div>
+                  <label className="block text-sm font-medium mb-2">Enter the amount you would need at today&apos;s cost to fulfil your first child educational needs (Rs)</label>
+                  <Input type="text" value={formatCurrency(firstChildCost)} onChange={e => { const raw = e.target.value.replace(/[^\d]/g, ""); setFirstChildCost(raw === "" ? 0 : Number(raw)); }} className="mb-2" />
+                </div>
+                {/* Second Child Cost */}
+                <div>
+                  <label className="block text-sm font-medium mb-2">Enter the amount you would need at today&apos;s cost to fulfil your second child educational needs (Rs)</label>
+                  <Input type="text" value={formatCurrency(secondChildCost)} onChange={e => { const raw = e.target.value.replace(/[^\d]/g, ""); setSecondChildCost(raw === "" ? 0 : Number(raw)); }} className="mb-2" />
+                </div>
+                {/* Inflation Rate */}
+                <div>
+                  <label className="block text-sm font-medium mb-2">The expected rate of inflation over the years (% per annum)</label>
+                  <Input type="number" value={inflationRate} onChange={e => setInflationRate(Number(e.target.value))} step={0.5} className="mb-2" />
+                </div>
+                {/* Expected Return */}
+                <div>
+                  <label className="block text-sm font-medium mb-2">What rate of return would you expect your investment? (% per annum)</label>
+                  <Input type="number" value={expectedReturn} onChange={e => setExpectedReturn(Number(e.target.value))} step={0.5} className="mb-2" />
+                </div>
+                {/* Current Savings */}
+                <div>
+                  <label className="block text-sm font-medium mb-2">How much savings you have now? (Rs)</label>
+                  <Input type="text" value={formatCurrency(currentSavings)} onChange={e => { const raw = e.target.value.replace(/[^\d]/g, ""); setCurrentSavings(raw === "" ? 0 : Number(raw)); }} className="mb-2" />
                 </div>
               </div>
-              <button
-                onClick={addChild}
-                className="mt-4 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors flex items-center gap-2"
-              >
-                <FaChild />
-                Add Child
-              </button>
-            </Card>
-
-            {/* Children List */}
-            <Card>
-              <h2 className="text-xl font-semibold mb-4">Education Plans</h2>
-              <div className="divide-y divide-gray-200">
-                {children.map((child) => {
-                  const yearsToEducation = Math.max(
-                    0,
-                    educationAges[child.educationStage] - child.currentAge
-                  );
-                  return (
-                    <div
-                      key={child.id}
-                      className="py-4 flex items-center justify-between"
-                    >
-                      <div className="flex-1">
-                        <div className="flex items-center gap-3">
-                          <h3 className="font-medium">{child.name}</h3>
-                          <span className="px-2 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-600">
-                            {child.educationStage}
-                          </span>
-                        </div>
-                        <p className="text-sm text-gray-600">
-                          Age {child.currentAge} •{" "}
-                          {formatCurrency(child.estimatedCost)} cost today •
-                          {yearsToEducation > 0
-                            ? ` ${yearsToEducation} years to go`
-                            : " Due now"}
-                        </p>
-                      </div>
-                      <button
-                        onClick={() => removeChild(child.id)}
-                        className="text-red-500 hover:text-red-700 p-2"
-                      >
-                        ×
-                      </button>
-                    </div>
-                  );
-                })}
-                {children.length === 0 && (
-                  <div className="py-8 text-center text-gray-500">
-                    No children added yet. Add your children&apos;s education
-                    plans above.
-                  </div>
-                )}
-              </div>
-            </Card>
-
-            {/* Information Section */}
-            <Card>
-              <h3 className="text-lg font-semibold mb-3">
-                Important Considerations
-              </h3>
-              <ul className="space-y-2 text-sm text-gray-700">
-                <li>
-                  • Education costs have been rising faster than general
-                  inflation (6-10% annually in India)
-                </li>
-                <li>
-                  • Start early to benefit from compounding and reduce monthly
-                  investment burden
-                </li>
-                <li>
-                  • Consider dedicated education savings schemes like Sukanya
-                  Samriddhi Yojana for daughters
-                </li>
-                <li>
-                  • Review and adjust the plan annually based on actual
-                  education cost trends
-                </li>
-                <li>
-                  • Factor in additional costs like accommodation, books, and
-                  living expenses
-                </li>
-                <li>
-                  • Consider education insurance for protection against
-                  unforeseen circumstances
-                </li>
-              </ul>
             </Card>
           </div>
-
-          {/* Calculation Section */}
+          {/* Results Section */}
           <div className="space-y-6">
-            {/* Input Parameters */}
             <Card>
-              <h2 className="text-xl font-semibold mb-4">
-                Planning Parameters
+              <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                <FaChartLine className="text-green-500" />
+                Result
               </h2>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    Education Inflation Rate (%)
-                  </label>
-                  <Input
-                    type="number"
-                    value={educationInflation}
-                    onChange={(e) =>
-                      setEducationInflation(Number(e.target.value))
-                    }
-                    min={3}
-                    max={15}
-                    step={0.5}
-                  />
-                  <p className="text-xs text-gray-500 mt-1">
-                    Typically 6-10% for education in India
-                  </p>
+              <div className="overflow-x-auto">
+                <table className="min-w-full text-sm border">
+                  <thead>
+                    <tr className="bg-gray-100">
+                      <th className="p-2 border text-left">Education Planner</th>
+                      <th className="p-2 border">Cost of {firstChildName}&apos;s education</th>
+                      <th className="p-2 border">Cost of {secondChildName}&apos;s education</th>
+                      <th className="p-2 border">Total cost for both</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td className="p-2 border font-semibold">Amount at today&apos;s prices</td>
+                      <td className="p-2 border">Rs. {formatCurrency(firstChildCost)}</td>
+                      <td className="p-2 border">Rs. {formatCurrency(secondChildCost)}</td>
+                      <td className="p-2 border">Rs. {formatCurrency(firstChildCost + secondChildCost)}</td>
+                    </tr>
+                    <tr>
+                      <td className="p-2 border font-semibold">Your child will take up professional education in</td>
+                      <td className="p-2 border">{yearsToFirstChildEducation} year(s)</td>
+                      <td className="p-2 border">{yearsToSecondChildEducation} year(s)</td>
+                      <td className="p-2 border">-</td>
+                    </tr>
+                    <tr>
+                      <td className="p-2 border font-semibold">Expected rate of return from investments (% per annum)</td>
+                      <td className="p-2 border">{expectedReturn.toFixed(1)} %</td>
+                      <td className="p-2 border">{expectedReturn.toFixed(1)} %</td>
+                      <td className="p-2 border">-</td>
+                    </tr>
+                    <tr>
+                      <td className="p-2 border font-semibold">Future cost of education (Inflation adjusted)</td>
+                      <td className="p-2 border">Rs. {formatCurrency(inflationAdjustedFirstChild)}</td>
+                      <td className="p-2 border">Rs. {formatCurrency(inflationAdjustedSecondChild)}</td>
+                      <td className="p-2 border">Rs. {formatCurrency(inflationAdjustedFirstChild + inflationAdjustedSecondChild)}</td>
+                    </tr>
+                    <tr>
+                      <td className="p-2 border font-semibold">Your current savings amount</td>
+                      <td className="p-2 border">Rs. {formatCurrency(finalSavingsFirstChild)}</td>
+                      <td className="p-2 border">Rs. {formatCurrency(finalSavingsSecondChild)}</td>
+                      <td className="p-2 border">Rs. {formatCurrency(currentSavings)}</td>
+                    </tr>
+                    <tr>
+                      <td className="p-2 border font-semibold">Monthly Savings required</td>
+                      <td className="p-2 border">Rs. {formatCurrency(monthlySIPFirstChild)}</td>
+                      <td className="p-2 border">Rs. {formatCurrency(monthlySIPSecondChild)}</td>
+                      <td className="p-2 border">Rs. {formatCurrency(monthlySIPFirstChild + monthlySIPSecondChild)}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div className="text-xs text-gray-500 mt-4">
+                  <strong>Disclaimer :</strong> We have gathered all the data, information, statistics from the sources believed to be highly reliable and true. All necessary precautions have been taken to avoid any error, lapse or insufficiency; however, no representations or warranties are made (express or implied) as to the reliability, accuracy or completeness of such information. We cannot be held liable for any loss arising directly or indirectly from the use of, or any action taken in on, any information appearing herein. The user is advised to verify the contents of the report independently.<br/><br/>
+                  Returns less than 1 year are in absolute (%) and greater than 1 year are compounded annualised (CAGR %). SIP returns are shown in XIRR (%).<br/><br/>
+                  The Risk Level of any of the schemes must always be commensurate with the risk profile, investment objective or financial goals of the investor concerned. Mutual Fund Distributors (MFDs) or Registered Investment Advisors (RIAs) should assess the risk profile and investment needs of individual investors into consideration and make scheme(s) or asset allocation recommendations accordingly.<br/><br/>
+                  Mutual Fund investments are subject to market risks, read all scheme related documents carefully. Past performance may or may not be sustained in the future. Investors should always invest according to their risk profile and consult with their mutual fund distributors or financial advisor before investing.
                 </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    Expected Investment Return (%)
-                  </label>
-                  <Input
-                    type="number"
-                    value={expectedReturn}
-                    onChange={(e) => setExpectedReturn(Number(e.target.value))}
-                    min={1}
-                    max={30}
-                    step={0.5}
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    Current Education Savings (₹)
-                  </label>
-                  <Input
-                    type="number"
-                    value={currentSavings}
-                    onChange={(e) => setCurrentSavings(Number(e.target.value))}
-                    min={0}
-                  />
-                </div>
-
-                <button
-                  onClick={calculateEducationPlan}
-                  className="w-full bg-yellow-500 text-white py-2 px-4 rounded-md hover:bg-yellow-600 transition-colors flex items-center justify-center gap-2"
-                  disabled={children.length === 0}
-                >
-                  <FaCalculator />
-                  Calculate Plan
-                </button>
               </div>
             </Card>
-
-            {/* Results */}
-            {result ? (
-              <>
-                <Card>
-                  <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                    <FaChartLine className="text-green-500" />
-                    Investment Plan Summary
-                  </h2>
-
-                  <div className="space-y-4">
-                    <div className="bg-gradient-to-r from-green-50 to-green-100 p-4 rounded-lg">
-                      <h3 className="text-sm font-medium text-gray-600 mb-1">
-                        Total Monthly Investment
-                      </h3>
-                      <p className="text-2xl font-bold text-green-600">
-                        {formatCurrency(Number(result.totalMonthlyInvestment))}
-                      </p>
-                    </div>
-
-                    <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-4 rounded-lg">
-                      <h3 className="text-sm font-medium text-gray-600 mb-1">
-                        Total Future Education Cost
-                      </h3>
-                      <p className="text-xl font-bold text-blue-600">
-                        {formatCurrency(Number(result.totalFutureCost))}
-                      </p>
-                    </div>
-
-                    <div className="bg-gradient-to-r from-purple-50 to-purple-100 p-4 rounded-lg">
-                      <h3 className="text-sm font-medium text-gray-600 mb-1">
-                        Total Investment Amount
-                      </h3>
-                      <p className="text-xl font-bold text-purple-600">
-                        {formatCurrency(Number(result.totalInvestment))}
-                      </p>
-                    </div>
-                  </div>
-                </Card>
-
-                <Card>
-                  <h3 className="text-lg font-semibold mb-3">
-                    Child-wise Breakdown
-                  </h3>
-                  <div className="space-y-3">
-                    {result.childrenBreakdown.map((child, index) => (
-                      <div key={index} className="bg-gray-50 p-3 rounded-lg">
-                        <div className="flex justify-between items-center mb-1">
-                          <span className="font-medium text-sm">
-                            {child.name}
-                          </span>
-                          <span className="text-sm font-semibold text-green-600">
-                            {formatCurrency(Number(child.monthlyInvestment))}
-                            /month
-                          </span>
-                        </div>
-                        <div className="text-xs text-gray-600">
-                          <div className="flex justify-between">
-                            <span>{child.stage}</span>
-                            <span>
-                              Future cost:{" "}
-                              {formatCurrency(Number(child.futureCost))}
-                            </span>
-                          </div>
-                          {child.yearsToEducation > 0 && (
-                            <div className="mt-1 text-blue-600">
-                              {child.yearsToEducation} years to education
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </Card>
-
-                <Card>
-                  <h3 className="text-lg font-semibold mb-3">
-                    Planning Summary
-                  </h3>
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-600">
-                        Education Inflation:
-                      </span>
-                      <span className="font-semibold">
-                        {educationInflation}% p.a.
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-600">
-                        Expected Returns:
-                      </span>
-                      <span className="font-semibold">
-                        {expectedReturn}% p.a.
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-600">
-                        Current Savings:
-                      </span>
-                      <span className="font-semibold">
-                        {formatCurrency(currentSavings)}
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-600">
-                        Number of Children:
-                      </span>
-                      <span className="font-semibold">{children.length}</span>
-                    </div>
-                    <div className="border-t pt-3 mt-3">
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm text-gray-600">
-                          Total Monthly SIP:
-                        </span>
-                        <span className="font-bold text-green-600">
-                          {formatCurrency(
-                            Number(result.totalMonthlyInvestment)
-                          )}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </Card>
-              </>
-            ) : (
-              <Card>
-                <div className="text-center py-8 text-gray-500">
-                  <FaChartLine className="mx-auto text-4xl mb-4 text-gray-300" />
-                  <p>
-                    Add children&apos;s education plans and click
-                    &quot;Calculate Plan&quot; to see your comprehensive
-                    education investment strategy.
-                  </p>
-                </div>
-              </Card>
-            )}
           </div>
         </div>
       </div>
-
       <Footer />
     </div>
   );
