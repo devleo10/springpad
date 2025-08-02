@@ -29,7 +29,6 @@ import {
   FaExchangeAlt,
   FaChartBar,
   FaPercentage,
-  FaArrowUp,
 } from "react-icons/fa";
 
 // slugify label to route
